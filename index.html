@@ -264,13 +264,13 @@
             <div class="container max-w-7xl mx-auto px-6 text-center z-10" id="hero-content">
                 </div>
                 
-            <!-- Calendar Embed -->
             <div class="w-full max-w-4xl mx-auto mt-16 z-10 glass-panel p-6 rounded-3xl h-[600px] flex flex-col">
                 <div class="flex items-center justify-center pb-6 border-b border-electric-cyan/20 mb-4 shrink-0">
                     <img src="https://assets.cdn.filesafe.space/NkFUgZER3rrdnofCwAIl/media/648dd017a1f733fa5b51e5e9.png" alt="Advon Media" class="h-10 w-auto drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                 </div>
                 <div style="width:100%;height:100%;overflow:scroll" id="advon-hero-inline-15min" class="grow pr-2"></div>
             </div>
+            
             <script type="text/javascript">
               (function (w, scriptUrl, initCommand) { 
                 let pushToQueue = function (apiObject, args) { apiObject.q.push(args); }; 
@@ -283,24 +283,39 @@
                     advon.loaded = true; 
                   } 
                   if (args[0] === initCommand) { 
+                    const api = function () { pushToQueue(api, arguments); }; 
                     const namespace = args[1]; 
-                    advon.ns[namespace] = advon.ns[namespace] || function () { 
-                      pushToQueue(advon.ns[namespace], arguments); 
-                    }; 
-                    advon.ns[namespace].q = advon.ns[namespace].q || []; 
-                    return advon.ns[namespace]; 
+                    api.q = api.q || []; 
+                    if(typeof namespace === "string"){
+                      advon.ns[namespace] = advon.ns[namespace] || api;
+                      pushToQueue(advon.ns[namespace], args);
+                      pushToQueue(advon, ["initNamespace", namespace]);
+                    } else pushToQueue(advon, args); 
+                    return;
                   } 
-                  pushToQueue(advon, arguments); 
+                  pushToQueue(advon, args); 
                 }; 
-              })(window, "https://app.cal.com/embed/embed.js", "init"); 
+                // CRITICAL FIX: Tell the browser that Advon logic is resolving Cal
+                w.Cal = w.Advon; 
+              })(window, "https://app.cal.com/embed/embed.js", "init");
+
+              Advon("init", "15min", {origin:"https://app.cal.com"});
               
-              Advon("init", {origin:"https://cal.com"}); 
-              Advon("inline", { 
-                elementOrSelector:"#advon-hero-inline-15min", 
-                calLink: "advonmedia/15min", 
-                layout: "month_view" 
-              }); 
-              Advon("ui", {"styles":{"branding":{"brandColor":"#00e5ff"}},"hideEventTypeDetails":false,"layout":"month_view"}); 
+              Advon.ns["15min"]("inline", {
+                elementOrSelector:"#advon-hero-inline-15min",
+                config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true", "theme": "dark"},
+                calLink: "advonmedia/15min",
+              });
+              
+              Advon.ns["15min"]("ui", {
+                "theme": "dark",
+                "cssVarsPerTheme":{
+                    "light":{"cal-brand":"#5ed6e5"},
+                    "dark":{"cal-brand":"#ffffff", "cal-text":"#ffffff"}
+                },
+                "hideEventTypeDetails":true, /* This hides the cal.com header */
+                "layout":"month_view"
+              });
             </script>
         </section>
 
@@ -725,8 +740,8 @@
                     <p class="text-gray-300 mb-8 italic leading-relaxed min-h-[100px] text-sm font-medium">"${review.text}"</p>
                     <div class="flex items-center gap-4">
                         <div class="relative">
-                           <div class="absolute inset-0 bg-electric-cyan blur-md rounded-full opacity-50"></div>
-                           <img src="${review.image}" alt="${review.name}" class="relative w-14 h-14 rounded-full object-cover border-2 border-[#050a0e]">
+                            <div class="absolute inset-0 bg-electric-cyan blur-md rounded-full opacity-50"></div>
+                            <img src="${review.image}" alt="${review.name}" class="relative w-14 h-14 rounded-full object-cover border-2 border-[#050a0e]">
                         </div>
                         <div>
                             <h4 class="font-bold text-md text-white tracking-wide">${review.name}</h4>
@@ -933,8 +948,6 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Optional: unobserve if you only want it to animate once
-                        // observer.unobserve(entry.target); 
                     }
                 });
             }, { threshold: 0.1 });
