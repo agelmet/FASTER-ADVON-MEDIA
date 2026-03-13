@@ -45,12 +45,11 @@
     <style>
       /* Custom Scrollbar */
       ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: #050a0e; }
+      ::-webkit-scrollbar-track { background: transparent; }
       ::-webkit-scrollbar-thumb { background: rgba(71, 200, 245, 0.4); border-radius: 10px; }
       ::-webkit-scrollbar-thumb:hover { background: #47c8f5; box-shadow: 0 0 10px #47c8f5; }
       
       body { background-color: #050a0e; color: white; overflow-x: hidden; }
-      
       main { transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
 
       /* --- Static Grid Background (Optimized) --- */
@@ -88,7 +87,7 @@
         border-color: rgba(71, 200, 245, 0.5); 
         box-shadow: inset 0 0 20px rgba(71,200,245,0.1), 0 15px 40px rgba(71, 200, 245, 0.2); 
       }
-      .tilt-card:hover { transform: translateY(-8px); } /* Replaced heavy JS with pure CSS */
+      .tilt-card:hover { transform: translateY(-8px); }
 
       .service-list-item { transition: transform 0.2s ease-in-out, color 0.2s; }
       .glass-panel:hover .service-list-item:hover { transform: translateX(8px); color: white; }
@@ -144,9 +143,67 @@
     </header>
 
     <main class="relative z-10" id="main-content">
-        <section class="relative min-h-screen flex items-center justify-center pt-20 pb-20 overflow-hidden">
-            <div class="container max-w-7xl mx-auto px-6 text-center z-10" id="hero-content">
+        <section class="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+            <div class="container max-w-7xl mx-auto px-6 z-10 flex flex-col lg:flex-row items-center gap-12">
+                
+                <div class="flex-1 text-center lg:text-left w-full" id="hero-text-content">
+                    </div>
+                
+                <div class="flex-1 w-full max-w-xl reveal active">
+                    <div class="glass-panel p-6 md:p-8 rounded-3xl h-[650px] flex flex-col relative overflow-hidden shadow-[0_0_50px_rgba(71,200,245,0.15)] border border-electric-cyan/30">
+                        
+                        <div class="flex items-center justify-center pb-6 border-b border-electric-cyan/20 mb-4 shrink-0">
+                            <img src="https://assets.cdn.filesafe.space/NkFUgZER3rrdnofCwAIl/media/648dd017a1f733fa5b51e5e9.png" alt="Advon Media" class="h-10 w-auto drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                        </div>
+                        
+                        <div style="width:100%;height:100%;overflow:scroll" id="advon-hero-inline-15min" class="grow pr-2"></div>
+                        
+                        <script type="text/javascript">
+                          (function (w, scriptUrl, initCommand) { 
+                            let pushToQueue = function (apiObject, args) { apiObject.q.push(args); }; 
+                            let doc = w.document; 
+                            w.Advon = w.Advon || function () { 
+                              let advon = w.Advon; let args = arguments; 
+                              if (!advon.loaded) { 
+                                advon.ns = {}; advon.q = advon.q || []; 
+                                doc.head.appendChild(doc.createElement("script")).src = scriptUrl; 
+                                advon.loaded = true; 
+                              } 
+                              if (args[0] === initCommand) { 
+                                const api = function () { pushToQueue(api, arguments); }; 
+                                const namespace = args[1]; 
+                                api.q = api.q || []; 
+                                if(typeof namespace === "string"){
+                                  advon.ns[namespace] = advon.ns[namespace] || api;
+                                  pushToQueue(advon.ns[namespace], args);
+                                  pushToQueue(advon, ["initNamespace", namespace]);
+                                } else pushToQueue(advon, args); 
+                                return;
+                              } 
+                              pushToQueue(advon, args); 
+                            }; 
+                            // Map existing external scripts
+                            w.Cal = w.Advon; 
+                          })(window, "https://bookings.advonmedia.com/embed/embed.js", "init");
+
+                          Advon("init", "15min", {origin:"https://bookings.advonmedia.com"});
+                          
+                          Advon.ns["15min"]("inline", {
+                            elementOrSelector:"#advon-hero-inline-15min",
+                            config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
+                            calLink: "advonmedia/15min",
+                          });
+                          
+                          Advon.ns["15min"]("ui", {
+                            "cssVarsPerTheme":{"light":{"cal-brand":"#5ed6e5"},"dark":{"cal-brand":"#ffffff"}},
+                            "hideEventTypeDetails":true, /* This hides the cal.com header */
+                            "layout":"month_view"
+                          });
+                        </script>
+                    </div>
                 </div>
+
+            </div>
         </section>
 
         <section class="py-20 border-y border-electric-cyan/20 bg-[#0a1418]/60 backdrop-blur-md shadow-[inset_0_0_80px_rgba(0,0,0,0.8)] relative">
@@ -211,68 +268,6 @@
                     </div>
 
                 <div class="space-y-4" id="faq-container">
-                    </div>
-            </div>
-        </section>
-
-        <section id="booking" class="py-24 relative z-10">
-            <div class="max-w-4xl mx-auto px-6 relative z-10">
-                <div class="reveal text-center mb-12">
-                    <span id="booking-badge" class="text-electric-cyan text-xs font-black tracking-[0.4em] uppercase mb-4 block drop-shadow-[0_0_15px_rgba(71,200,245,0.6)]">BOOK A CALL</span>
-                    <h2 id="booking-title" class="text-4xl md:text-5xl font-black font-display mb-4 text-white drop-shadow-xl">Ας Συνεργαστούμε</h2>
-                </div>
-                
-                <div class="reveal glass-panel p-2 md:p-4 rounded-3xl h-[650px] overflow-hidden w-full relative z-20">
-                    
-                    <div style="width:100%;height:100%;overflow:scroll" id="advon-inline-15min"></div>
-                    <script type="text/javascript">
-                      (function (w, scriptUrl, initCommand) { 
-                        let pushToQueue = function (apiObject, args) { apiObject.q.push(args); }; 
-                        let doc = w.document; 
-                        
-                        w.Advon = w.Advon || function () { 
-                          let advon = w.Advon; 
-                          let args = arguments; 
-                          if (!advon.loaded) { 
-                            advon.ns = {}; 
-                            advon.q = advon.q || []; 
-                            doc.head.appendChild(doc.createElement("script")).src = scriptUrl; 
-                            advon.loaded = true; 
-                          } 
-                          if (args[0] === initCommand) { 
-                            const api = function () { pushToQueue(api, arguments); }; 
-                            const namespace = args[1]; 
-                            api.q = api.q || []; 
-                            if(typeof namespace === "string"){
-                              advon.ns[namespace] = advon.ns[namespace] || api;
-                              pushToQueue(advon.ns[namespace], args);
-                              pushToQueue(advon, ["initNamespace", namespace]);
-                            } else pushToQueue(advon, args); 
-                            return;
-                          } 
-                          pushToQueue(advon, args); 
-                        }; 
-                        
-                        w.Cal = w.Advon; 
-                      })(window, "https://app.cal.com/embed/embed.js", "init");
-
-                      Advon("init", "15min", {origin:"https://app.cal.com"});
-
-                      Advon.ns["15min"]("inline", {
-                        elementOrSelector:"#advon-inline-15min",
-                        config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
-                        calLink: "advonmedia/15min",
-                      });
-
-                      Advon.ns["15min"]("ui", {
-                        "cssVarsPerTheme":{
-                          "light":{"cal-brand":"#5ed6e5"},
-                          "dark":{"cal-brand":"#ffffff"}
-                        },
-                        "hideEventTypeDetails":true,
-                        "layout":"month_view"
-                      });
-                    </script>
                     </div>
             </div>
         </section>
@@ -350,9 +345,7 @@
                     contact: 'Επικοινωνία',
                     contactMain: 'Έχετε Απορίες;',
                     contactSub: 'Στείλτε μας email με το τηλέφωνό σας για να συζητήσουμε τι ακριβώς χρειάζεστε.',
-                    viewSite: 'Προβολή Ιστοσελίδας',
-                    bookingBadge: 'ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ',
-                    bookingTitle: 'Ας Συζητήσουμε',
+                    viewSite: 'Προβολή Ιστοσελίδας'
                 },
                 footer: { rights: 'Με επιφύλαξη παντός δικαιώματος.' }
             },
@@ -388,9 +381,7 @@
                     contact: 'Contact',
                     contactMain: "Have Questions?",
                     contactSub: 'Send us an email with your phone number to discuss exactly what you need.',
-                    viewSite: 'Visit Website',
-                    bookingBadge: 'BOOK A CALL',
-                    bookingTitle: "Let's Collaborate"
+                    viewSite: 'Visit Website'
                 },
                 footer: { rights: 'All rights reserved.' }
             }
@@ -398,14 +389,14 @@
 
         const services = {
             el: [
-                { id: 'WEBSITE', icon: 'globe', price: 'ΔΩΡΕΑΝ', priceNote: '(μόνο 10.83€/μήνα hosting)', title: 'Κατασκευή Ιστοσελίδας', shortDesc: 'Επαγγελματική ιστοσελίδα που κατακτά υψηλές θέσεις στη Google.', features: ['Επαγγελματικός σχεδιασμός', 'SEO βελτιστοποίηση', 'Mobile responsive', 'Παράδοση σε 5-10 ημέρες'], cta: 'Δωρεάν Κατασκευή', more: 'Περισσότερες πληροφορίες', modal: { title: 'Δωρεάν Κατασκευή Ιστοσελίδας', body: ['Δεν είναι κάποιο μάρκετινγκ τρικ, όντως η κατασκευή που κοστίζει κανονικά 700-2000€+, είναι εντελώς δωρεάν.', 'Το μόνο κόστος για εσάς που δεν μπορούμε να καλύψουμε έιναι η φιλοξενία της ιστοσελίδας σε σέρβερ στο διαδίκτυο (γνωστό και ως hosting) και το domain name (το www.παράδειγμα.gr). Τα αναλαμβάνουμε και τα 2 σαν διαδικασίες εμείς!', 'Το κάνουμε αυτό γιατί θέλουμε να προσθέσουμε όσες περισσότερες ιστοσελίδες γίνεται στο πορτφόλιο μας για να μπορούμε στο μέλλον και εμείς να έχουμε υψηλές τιμές και κέρδη.', 'Συνολικά είναι μόνο 10.83€/μήνα (που θα πληρώνατε όπως και να έχει, όπου και αν κατασκευάζατε μια ιστοσελίδα, όπως πληρώνουν και όλοι που ήδη έχουν).'] } },
-                { id: 'NFC', icon: 'star', price: '25€', priceNote: 'εφάπαξ', title: 'Ανέπαφη Βάση Αξιολογήσεων', shortDesc: '50+ νέες αξιολογήσεις κάθε μήνα. Ανεβείτε στην κορυφή της Google σε 3 μήνες.', features: ['Αύξηση κριτικών Google', 'Βελτίωση τοπικού SEO', 'Εύκολη χρήση (NFC)', 'Χωρίς μηνιαία συνδρομή'], cta: 'Αγορά Τώρα', more: 'Περισσότερες πληροφορίες', modal: { title: 'Ανέπαφη Βάση Αξιολογήσεων', image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif', body: ['Ανεβείτε στη κορυφή της Google και αποκτήστε 150 νέες αξιολογήσεις σε λιγότερο απο 3 μήνες.', 'Το πρώτο που κάνει κάποιος όταν αναζητεί μια επιχείρηση είναι να δει τις κριτικές της.', 'Αν έχετε ελάχιστες είναι πολύ πιθανό να χάσετε πελάτες από τον ανταγωνισμό.'] } },
-                { id: 'SOCIAL', icon: 'instagram', price: '87€/μήνα', title: 'Διαχείριση Social Media', shortDesc: 'Επαγγελματικά posts, hashtag research, copywriting. 7 ημέρες δωρεάν δοκιμή.', features: ['3 posts/εβδομάδα', 'Hashtag research', 'Copywriting', 'Μηνιαία αναφορά'], cta: 'Δωρεάν Δοκιμή', more: 'Περισσότερες πληροφορίες', modal: { title: 'ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΔΙΑΧΕΙΡΙΣΗ SOCIAL MEDIA', body: ['• Επαγγελματικά Επεξεργασμένα Posts ανά ημέρα', '• Έρευνα Hashtags', '• Επαγγελματική Κειμενογραφία'] } }
+                { id: 'WEBSITE', icon: 'globe', price: 'ΔΩΡΕΑΝ', priceNote: '(μόνο 10.83€/μήνα hosting)', title: 'Κατασκευή Ιστοσελίδας', shortDesc: 'Επαγγελματική ιστοσελίδα που κατακτά υψηλές θέσεις στη Google.', features: ['Επαγγελματικός σχεδιασμός', 'SEO βελτιστοποίηση', 'Mobile responsive', 'Παράδοση σε 5-10 ημέρες'], cta: 'Περισσότερα', more: 'Διαβάστε λεπτομέρειες', modal: { title: 'Δωρεάν Κατασκευή Ιστοσελίδας', body: ['Δεν είναι κάποιο μάρκετινγκ τρικ, όντως η κατασκευή που κοστίζει κανονικά 700-2000€+, είναι εντελώς δωρεάν.', 'Το μόνο κόστος για εσάς που δεν μπορούμε να καλύψουμε έιναι η φιλοξενία της ιστοσελίδας σε σέρβερ στο διαδίκτυο (γνωστό και ως hosting) και το domain name (το www.παράδειγμα.gr). Τα αναλαμβάνουμε και τα 2 σαν διαδικασίες εμείς!', 'Το κάνουμε αυτό γιατί θέλουμε να προσθέσουμε όσες περισσότερες ιστοσελίδες γίνεται στο πορτφόλιο μας για να μπορούμε στο μέλλον και εμείς να έχουμε υψηλές τιμές και κέρδη.', 'Συνολικά είναι μόνο 10.83€/μήνα (που θα πληρώνατε όπως και να έχει, όπου και αν κατασκευάζατε μια ιστοσελίδα, όπως πληρώνουν και όλοι που ήδη έχουν).'] } },
+                { id: 'NFC', icon: 'star', price: '25€', priceNote: 'εφάπαξ', title: 'Ανέπαφη Βάση Αξιολογήσεων', shortDesc: '50+ νέες αξιολογήσεις κάθε μήνα. Ανεβείτε στην κορυφή της Google σε 3 μήνες.', features: ['Αύξηση κριτικών Google', 'Βελτίωση τοπικού SEO', 'Εύκολη χρήση (NFC)', 'Χωρίς μηνιαία συνδρομή'], cta: 'Περισσότερα', more: 'Διαβάστε λεπτομέρειες', modal: { title: 'Ανέπαφη Βάση Αξιολογήσεων', image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif', body: ['Ανεβείτε στη κορυφή της Google και αποκτήστε 150 νέες αξιολογήσεις σε λιγότερο απο 3 μήνες.', 'Το πρώτο που κάνει κάποιος όταν αναζητεί μια επιχείρηση είναι να δει τις κριτικές της.', 'Αν έχετε ελάχιστες είναι πολύ πιθανό να χάσετε πελάτες από τον ανταγωνισμό.'] } },
+                { id: 'SOCIAL', icon: 'instagram', price: '87€/μήνα', title: 'Διαχείριση Social Media', shortDesc: 'Επαγγελματικά posts, hashtag research, copywriting. 7 ημέρες δωρεάν δοκιμή.', features: ['3 posts/εβδομάδα', 'Hashtag research', 'Copywriting', 'Μηνιαία αναφορά'], cta: 'Περισσότερα', more: 'Διαβάστε λεπτομέρειες', modal: { title: 'ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΔΙΑΧΕΙΡΙΣΗ SOCIAL MEDIA', body: ['• Επαγγελματικά Επεξεργασμένα Posts ανά ημέρα', '• Έρευνα Hashtags', '• Επαγγελματική Κειμενογραφία'] } }
             ],
             en: [
-                { id: 'WEBSITE', icon: 'globe', price: 'FREE', priceNote: '(only 10.83€/mo hosting)', title: 'Website Creation', shortDesc: 'Professional website that ranks high on Google.', features: ['Pro Design', 'SEO Optimized', 'Mobile Responsive', '5-10 Days Delivery'], cta: 'Get Started Free', more: 'Learn More', modal: { title: 'Free Website Creation', body: ["It's not a marketing trick, the creation that normally costs 700-2000€+, is completely free."] } },
-                { id: 'NFC', icon: 'star', price: '25€', priceNote: 'one-time', title: 'Contactless Review Stand', shortDesc: '50+ new reviews monthly. Reach the top of Google in 3 months.', features: ['Increase Google Reviews', 'Improve Local SEO', 'Easy to use (NFC)', 'No monthly fee'], cta: 'Buy Now', more: 'Learn More', modal: { title: 'Contactless Review Stand', image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif', body: ['Reach the top of Google and get 150 new reviews in less than 3 months.'] } },
-                { id: 'SOCIAL', icon: 'instagram', price: '87€/mo', title: 'Social Media Management', shortDesc: 'Professional posts, hashtag research, copywriting. 7-day free trial.', features: ['3 posts/week', 'Hashtag research', 'Copywriting', 'Monthly Report'], cta: 'Free Trial', more: 'Learn More', modal: { title: 'PROFESSIONAL SOCIAL MEDIA MANAGEMENT', body: ['• Professionally Edited Posts per day', '• Hashtag Research', '• Professional Copywriting'] } }
+                { id: 'WEBSITE', icon: 'globe', price: 'FREE', priceNote: '(only 10.83€/mo hosting)', title: 'Website Creation', shortDesc: 'Professional website that ranks high on Google.', features: ['Pro Design', 'SEO Optimized', 'Mobile Responsive', '5-10 Days Delivery'], cta: 'Learn More', more: 'Read details', modal: { title: 'Free Website Creation', body: ["It's not a marketing trick, the creation that normally costs 700-2000€+, is completely free."] } },
+                { id: 'NFC', icon: 'star', price: '25€', priceNote: 'one-time', title: 'Contactless Review Stand', shortDesc: '50+ new reviews monthly. Reach the top of Google in 3 months.', features: ['Increase Google Reviews', 'Improve Local SEO', 'Easy to use (NFC)', 'No monthly fee'], cta: 'Learn More', more: 'Read details', modal: { title: 'Contactless Review Stand', image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif', body: ['Reach the top of Google and get 150 new reviews in less than 3 months.'] } },
+                { id: 'SOCIAL', icon: 'instagram', price: '87€/mo', title: 'Social Media Management', shortDesc: 'Professional posts, hashtag research, copywriting. 7-day free trial.', features: ['3 posts/week', 'Hashtag research', 'Copywriting', 'Monthly Report'], cta: 'Learn More', more: 'Read details', modal: { title: 'PROFESSIONAL SOCIAL MEDIA MANAGEMENT', body: ['• Professionally Edited Posts per day', '• Hashtag Research', '• Professional Copywriting'] } }
             ]
         };
 
@@ -466,22 +457,26 @@
             document.getElementById('lang-btn').innerHTML = btnHtml;
             document.getElementById('mobile-lang-btn').innerHTML = btnHtml;
 
-            document.getElementById('hero-content').innerHTML = `
+            // Updated Hero content (Text side only now)
+            document.getElementById('hero-text-content').innerHTML = `
                 <div class="reveal inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-electric-cyan/50 bg-electric-cyan/10 mb-8 shadow-[0_0_30px_rgba(71,200,245,0.2)] backdrop-blur-sm">
                     <span class="w-2.5 h-2.5 rounded-full bg-electric-cyan animate-pulse shadow-[0_0_15px_#47c8f5]"></span>
                     <span class="text-xs font-black tracking-[0.25em] text-white uppercase">${elUpper(t.hero.badge)}</span>
                 </div>
-                <h1 class="reveal text-5xl md:text-7xl lg:text-8xl font-black font-display mb-8 leading-[1.05] tracking-tight drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)]">
+                <h1 class="reveal text-5xl md:text-6xl lg:text-7xl font-black font-display mb-8 leading-[1.05] tracking-tight drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)]">
                     ${t.hero.titlePrefix}<br/>
                     <span class="bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-300 to-gray-600">${t.hero.titleHighlight1}</span> ${t.hero.titleConnector} <span class="text-shimmer drop-shadow-[0_0_40px_rgba(71,200,245,0.7)]">${t.hero.titleHighlight2}</span>
                 </h1>
-                <p class="reveal text-lg md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed drop-shadow-[0_5px_15px_rgba(0,0,0,1)] font-medium">
+                <p class="reveal text-lg md:text-xl text-gray-400 max-w-2xl mx-auto lg:mx-0 mb-12 leading-relaxed drop-shadow-[0_5px_15px_rgba(0,0,0,1)] font-medium">
                     ${t.hero.subtitle}
                 </p>
-                <div class="reveal flex flex-wrap items-center justify-center gap-6">
-                    <a href="#booking" class="group px-10 py-5 bg-electric-cyan text-[#050a0e] font-black text-lg uppercase tracking-[0.1em] rounded-xl shadow-[0_0_30px_rgba(71,200,245,0.5)] hover:scale-105 hover:shadow-[0_0_50px_rgba(71,200,245,0.8)] transition-all flex items-center gap-3">
+                <div class="reveal flex flex-wrap items-center justify-center lg:justify-start gap-6">
+                    <a href="#services" class="group px-8 py-4 bg-electric-cyan text-[#050a0e] font-black text-lg uppercase tracking-[0.1em] rounded-xl shadow-[0_0_30px_rgba(71,200,245,0.5)] hover:scale-105 hover:shadow-[0_0_50px_rgba(71,200,245,0.8)] transition-all flex items-center gap-3">
                         ${elUpper(t.hero.ctaPrimary)}
-                        <i data-lucide="arrow-right" class="w-6 h-6 group-hover:translate-x-2 transition-transform"></i>
+                        <i data-lucide="arrow-down" class="w-6 h-6 group-hover:translate-y-1 transition-transform"></i>
+                    </a>
+                    <a href="#portfolio" class="group px-8 py-4 bg-transparent border-2 border-electric-cyan text-electric-cyan font-black text-lg uppercase tracking-[0.1em] rounded-xl hover:bg-electric-cyan hover:text-[#050a0e] hover:shadow-[0_0_40px_rgba(71,200,245,0.6)] transition-all flex items-center gap-3 backdrop-blur-md">
+                        ${elUpper(t.hero.ctaSecondary)}
                     </a>
                 </div>
             `;
@@ -513,8 +508,7 @@
                         ${service.features.map(f => `<li class="service-list-item flex items-center gap-4 text-sm font-medium text-gray-300"><div class="p-1 rounded-full bg-electric-cyan/10 group-hover:bg-electric-cyan/20"><i data-lucide="check" class="service-check-icon w-4 h-4 text-electric-cyan"></i></div>${f}</li>`).join('')}
                     </ul>
                     <div class="mt-auto space-y-4">
-                        <a href="#booking" class="flex items-center justify-center gap-2 w-full py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl group-hover:bg-electric-cyan group-hover:text-[#050a0e] group-hover:border-electric-cyan transition-all uppercase tracking-widest text-sm shadow-lg">${elUpper(service.cta)} <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>
-                        <button onclick="openModal('${service.id}')" class="w-full py-2 text-sm text-gray-400 hover:text-electric-cyan transition-colors font-medium">${service.more}</button>
+                        <button onclick="openModal('${service.id}')" class="flex items-center justify-center gap-2 w-full py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl group-hover:bg-electric-cyan group-hover:text-[#050a0e] group-hover:border-electric-cyan transition-all uppercase tracking-widest text-sm shadow-lg">${elUpper(service.cta)} <i data-lucide="arrow-up-right" class="w-4 h-4"></i></button>
                     </div>
                 </div>
             `).join('');
@@ -568,9 +562,6 @@
                     </div>
                 </div>
             `).join('');
-
-            document.getElementById('booking-badge').innerText = elUpper(t.sectionTitles.bookingBadge);
-            document.getElementById('booking-title').innerText = t.sectionTitles.bookingTitle;
 
             document.getElementById('contact-container').innerHTML = `
                 <span class="reveal text-electric-cyan text-xs font-black tracking-[0.4em] uppercase mb-4 block drop-shadow-[0_0_15px_rgba(71,200,245,0.6)]">${elUpper(t.sectionTitles.contact)}</span>
