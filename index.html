@@ -38,7 +38,7 @@
       ::-webkit-scrollbar { width: 3px; }
       ::-webkit-scrollbar-track { background: var(--void); }
       ::-webkit-scrollbar-thumb { background: rgba(71,200,245,0.2); border-radius: 10px; }
-      ::selection { background: rgba(71,200,245,0.2); color: #fff; }
+      ::-selection { background: rgba(71,200,245,0.2); color: #fff; }
 
       html { scroll-behavior: smooth; }
       body {
@@ -355,15 +355,12 @@
 </head>
 <body class="antialiased">
 
-<!-- Cursor -->
 <div class="cursor-diamond" id="cur-d"></div>
 <div class="cursor-trail" id="cur-t"></div>
 <div class="cursor-aura" id="cur-a"></div>
 
-<!-- Starlight Canvas (Rolls-Royce) -->
 <canvas id="starlight-canvas"></canvas>
 
-<!-- Laser Beams -->
 <div class="laser-container">
   <div class="laser-beam"></div>
   <div class="laser-beam"></div>
@@ -371,7 +368,6 @@
   <div class="laser-sweep"></div>
 </div>
 
-<!-- Header -->
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-all duration-500" id="main-header">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
     <a href="#" class="flex items-center gap-3 group relative z-10">
@@ -389,10 +385,8 @@
   </div>
 </header>
 
-<!-- Main -->
 <main class="relative z-10" id="main-content">
 
-  <!-- HERO -->
   <section class="relative min-h-screen flex items-center justify-center pt-20 pb-24 overflow-hidden">
     <div class="absolute inset-0 z-0">
       <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full" style="background:radial-gradient(circle,rgba(71,200,245,0.025) 0%,rgba(201,168,76,0.01) 40%,transparent 70%)"></div>
@@ -401,10 +395,8 @@
     <div class="container max-w-6xl mx-auto px-6 lg:px-8 text-center relative z-10" id="hero-content"></div>
   </section>
 
-  <!-- STATS -->
   <section class="py-16 relative z-10"><div class="max-w-5xl mx-auto px-6 lg:px-8" id="stats-grid"></div></section>
 
-  <!-- SERVICES -->
   <section id="services" class="py-32 relative">
     <div class="section-line"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pt-16">
@@ -414,7 +406,6 @@
     </div>
   </section>
 
-  <!-- PORTFOLIO -->
   <section id="portfolio" class="py-32 relative">
     <div class="section-line"></div>
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full pointer-events-none" style="background:radial-gradient(ellipse,rgba(71,200,245,0.015),transparent 60%)"></div>
@@ -429,7 +420,6 @@
     </div>
   </section>
 
-  <!-- REVIEWS -->
   <section id="reviews" class="py-32 relative overflow-hidden">
     <div class="section-line"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pt-16">
@@ -439,7 +429,6 @@
     </div>
   </section>
 
-  <!-- FAQ -->
   <section id="faq" class="py-24 relative">
     <div class="section-line"></div>
     <div class="max-w-3xl mx-auto px-6 lg:px-8 relative z-10 pt-16">
@@ -448,20 +437,17 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact" class="py-32 relative">
     <div class="section-line"></div>
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(201,168,76,0.02),transparent 60%)"></div>
-    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10 pt-16" id="contact-container"></div>
+    <div class="max-w-5xl mx-auto px-6 lg:px-8 text-center relative z-10 pt-16" id="contact-container"></div>
   </section>
 </main>
 
-<!-- Footer -->
 <footer class="py-10 border-t border-white/4 relative z-20">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6" id="footer-content"></div>
 </footer>
 
-<!-- Modal -->
 <div id="modal-overlay" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
   <div class="absolute inset-0 bg-[#020405]/92 backdrop-blur-xl transition-opacity duration-500 opacity-0" id="modal-bg"></div>
   <div id="modal-box" class="relative bg-[#060a0d]/95 backdrop-blur-2xl border border-white/8 w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl shadow-2xl transform scale-95 opacity-0 transition-all duration-500">
@@ -476,6 +462,19 @@
   </div>
 </div>
 
+<div id="booking-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-[#020405]/92 backdrop-blur-xl transition-opacity duration-500 opacity-0" id="booking-modal-bg"></div>
+  <div id="booking-modal-box" class="relative bg-[#060a0d] border border-white/8 w-full max-w-4xl h-[85vh] overflow-hidden rounded-2xl shadow-2xl transform scale-95 opacity-0 transition-all duration-500">
+    <div class="absolute top-4 right-4 z-50">
+      <button onclick="closeBooking()" class="p-2 rounded-full bg-[#020405]/50 hover:bg-white/8 text-white/60 hover:text-white transition-all border border-white/10 backdrop-blur-md"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <div class="w-full h-full overflow-y-auto" style="-webkit-overflow-scrolling: touch;">
+      <div class="embedded-booking" data-url="https://advonmedia.trafft.com" data-query="&t=s&uuid=1003c403-d56e-439b-876a-c563b3127470" data-employee="aggelos-metrides" data-lang="en" data-autoresize="0" data-showsidebar="1" data-showservices="0" style="min-width: 320px; height: 100%; min-height: 768px;"></div>
+      <script type="text/javascript" src="https://advonmedia.trafft.com/embed.js" async></script>
+      </div>
+  </div>
+</div>
+
 <script>
 // ═══════════════════════════════════════════════════════════════
 //  ALL DATA — COMPLETELY PRESERVED
@@ -485,7 +484,40 @@ const DA = 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=';
 
 function elUpper(s){if(typeof s!=='string')return s;return s.toUpperCase().replace(/Ά/g,'Α').replace(/Έ/g,'Ε').replace(/Ή/g,'Η').replace(/Ί/g,'Ι').replace(/Ό/g,'Ο').replace(/Ύ/g,'Υ').replace(/Ώ/g,'Ω').replace(/Ϊ/g,'Ι').replace(/Ϋ/g,'Υ');}
 
-const translations={el:{title:'Advon Media | Ψηφιακές Λύσεις Marketing',nav:{services:'Υπηρεσίες',portfolio:'Πορτφόλιο',reviews:'Αξιολογήσεις',faq:'FAQ',contact:'Επικοινωνία',lang:'EN'},hero:{badge:'ADVON MEDIA',titlePrefix:'Μετατρέπουμε',titleHighlight1:'Επισκέπτες',titleConnector:'σε',titleHighlight2:'Πελάτες',subtitle:'Οι πιο αποτελεσματικές λύσεις marketing για τοπικές επιχειρήσεις και ελεύθερους επαγγελματίες. Ανεβείτε στην κορυφή των αποτελεσμάτων χωρίς ρίσκο.',ctaPrimary:'ΥΠΗΡΕΣΙΕΣ',ctaSecondary:'ΠΟΡΤΦΟΛΙΟ'},stats:[{num:"2+",label:"ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ"},{num:"50+",label:"ΙΚΑΝΟΠΟΙΗΜΕΝΟΙ ΠΕΛΑΤΕΣ"},{num:"100%",label:"ΕΠΙΤΥΧΙΑ"},{num:"30+",label:"5-STAR REVIEWS"}],sectionTitles:{services:'Υπηρεσίες',servicesMain:'Λύσεις που Αποδίδουν',noCommitment:'Χωρίς δεσμεύσεις - Cancel Anytime',portfolio:'Πορτφόλιο',portfolioMain:'Δείτε μερικές από τις Δουλειές μας',reviews:'Αξιολογήσεις',reviewsMain:'Τι λένε οι πελάτες μας',viewAllReviews:'Δείτε Όλες τις Αξιολογήσεις',faq:'Συχνές Ερωτήσεις',contact:'Επικοινωνία',contactMain:'Ας Συνεργαστούμε',contactSub:'Στείλτε μας email με το τηλέφωνό σας για να συζητήσουμε τι ακριβώς χρειάζεστε.',viewSite:'Προβολή Ιστοσελίδας'},footer:{rights:'Με επιφύλαξη παντός δικαιώματος.'}},en:{title:'Advon Media | Digital Marketing Solutions',nav:{services:'Services',portfolio:'Portfolio',reviews:'Reviews',faq:'FAQ',contact:'Contact',lang:'EL'},hero:{badge:'ADVON MEDIA',titlePrefix:'We Turn',titleHighlight1:'Visitors',titleConnector:'into',titleHighlight2:'Customers',subtitle:'The most effective marketing solutions for local businesses and freelancers. Rise to the top of the results without risk.',ctaPrimary:'SERVICES',ctaSecondary:'PORTFOLIO'},stats:[{num:"2+",label:"YEARS OF EXPERIENCE"},{num:"50+",label:"SATISFIED CLIENTS"},{num:"100%",label:"SUCCESS"},{num:"30+",label:"5-STAR REVIEWS"}],sectionTitles:{services:'Services',servicesMain:'Solutions That Deliver',noCommitment:'No commitment - Cancel Anytime',portfolio:'Portfolio',portfolioMain:'See Some of Our Work',reviews:'Reviews',reviewsMain:'What Our Clients Say',viewAllReviews:'See All Reviews',faq:'Frequently Asked Questions',contact:'Contact',contactMain:"Let's Collaborate",contactSub:'Send us an email with your phone number to discuss exactly what you need.',viewSite:'Visit Website'},footer:{rights:'All rights reserved.'}}};
+const translations={
+  el:{
+    title:'Advon Media | Ψηφιακές Λύσεις Marketing',
+    nav:{services:'Υπηρεσίες',portfolio:'Πορτφόλιο',reviews:'Αξιολογήσεις',faq:'FAQ',contact:'Επικοινωνία',lang:'EN'},
+    hero:{badge:'ADVON MEDIA',titlePrefix:'Μετατρέπουμε',titleHighlight1:'Επισκέπτες',titleConnector:'σε',titleHighlight2:'Πελάτες',subtitle:'Οι πιο αποτελεσματικές λύσεις marketing για τοπικές επιχειρήσεις και ελεύθερους επαγγελματίες. Ανεβείτε στην κορυφή των αποτελεσμάτων χωρίς ρίσκο.',ctaPrimary:'ΥΠΗΡΕΣΙΕΣ',ctaSecondary:'ΠΟΡΤΦΟΛΙΟ'},
+    stats:[{num:"2+",label:"ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ"},{num:"50+",label:"ΙΚΑΝΟΠΟΙΗΜΕΝΟΙ ΠΕΛΑΤΕΣ"},{num:"100%",label:"ΕΠΙΤΥΧΙΑ"},{num:"30+",label:"5-STAR REVIEWS"}],
+    sectionTitles:{
+      services:'Υπηρεσίες',servicesMain:'Λύσεις που Αποδίδουν',noCommitment:'Χωρίς δεσμεύσεις - Cancel Anytime',
+      portfolio:'Πορτφόλιο',portfolioMain:'Δείτε μερικές από τις Δουλειές μας',
+      reviews:'Αξιολογήσεις',reviewsMain:'Τι λένε οι πελάτες μας',viewAllReviews:'Δείτε Όλες τις Αξιολογήσεις',
+      faq:'Συχνές Ερωτήσεις',
+      contact:'Επικοινωνία',contactMain:'Ας Συνεργαστούμε',contactSub:'Στείλτε μας email με το τηλέφωνό σας για να συζητήσουμε τι ακριβώς χρειάζεστε.',
+      contactBook:'Κλείστε Ραντεβού',contactBookSub:'Online Calendar',
+      viewSite:'Προβολή Ιστοσελίδας'
+    },
+    footer:{rights:'Με επιφύλαξη παντός δικαιώματος.'}
+  },
+  en:{
+    title:'Advon Media | Digital Marketing Solutions',
+    nav:{services:'Services',portfolio:'Portfolio',reviews:'Reviews',faq:'FAQ',contact:'Contact',lang:'EL'},
+    hero:{badge:'ADVON MEDIA',titlePrefix:'We Turn',titleHighlight1:'Visitors',titleConnector:'into',titleHighlight2:'Customers',subtitle:'The most effective marketing solutions for local businesses and freelancers. Rise to the top of the results without risk.',ctaPrimary:'SERVICES',ctaSecondary:'PORTFOLIO'},
+    stats:[{num:"2+",label:"YEARS OF EXPERIENCE"},{num:"50+",label:"SATISFIED CLIENTS"},{num:"100%",label:"SUCCESS"},{num:"30+",label:"5-STAR REVIEWS"}],
+    sectionTitles:{
+      services:'Services',servicesMain:'Solutions That Deliver',noCommitment:'No commitment - Cancel Anytime',
+      portfolio:'Portfolio',portfolioMain:'See Some of Our Work',
+      reviews:'Reviews',reviewsMain:'What Our Clients Say',viewAllReviews:'See All Reviews',
+      faq:'Frequently Asked Questions',
+      contact:'Contact',contactMain:"Let's Collaborate",contactSub:'Send us an email with your phone number to discuss exactly what you need.',
+      contactBook:'Book Appointment',contactBookSub:'Online Calendar',
+      viewSite:'Visit Website'
+    },
+    footer:{rights:'All rights reserved.'}
+  }
+};
 
 const services={el:[{id:'WEBSITE',icon:'globe',price:'ΔΩΡΕΑΝ',priceNote:'(μόνο 10.83€/μήνα hosting)',title:'Κατασκευή Ιστοσελίδας',shortDesc:'Επαγγελματική ιστοσελίδα που κατακτά υψηλές θέσεις στη Google.',features:['Επαγγελματικός σχεδιασμός','SEO βελτιστοποίηση','Mobile responsive','Παράδοση σε 5-10 ημέρες'],cta:'Δωρεάν Κατασκευή',more:'Περισσότερες πληροφορίες',modal:{title:'Δωρεάν Κατασκευή Ιστοσελίδας',body:['Δεν είναι κάποιο μάρκετινγκ τρικ, όντως η κατασκευή που κοστίζει κανονικά 700-2000€+, είναι εντελώς δωρεάν.','Το μόνο κόστος για εσάς που δεν μπορούμε να καλύψουμε έιναι η φιλοξενία της ιστοσελίδας σε σέρβερ στο διαδίκτυο (γνωστό και ως hosting) και το domain name (το www.παράδειγμα.gr). Τα αναλαμβάνουμε και τα 2 σαν διαδικασίες εμείς!','Το κάνουμε αυτό γιατί θέλουμε να προσθέσουμε όσες περισσότερες ιστοσελίδες γίνεται στο πορτφόλιο μας για να μπορούμε στο μέλλον και εμείς να έχουμε υψηλές τιμές και κέρδη.','Συνολικά είναι μόνο 10.83€/μήνα (που θα πληρώνατε όπως και να έχει, όπου και αν κατασκευάζατε μια ιστοσελίδα, όπως πληρώνουν και όλοι που ήδη έχουν).','Aναβαθμίστε την επαγγελματική σας παρουσία στο διαδίκτυο και μετατρέψτε τους επισκέπτες της ιστοσελίδας σας σε αφοσιωμένους πελάτες!','Το 2025, η κατοχή μιας επαγγελματικής ιστοσελίδας δεν είναι απλώς ένα επιπλέον εργαλείο — είναι μια αναγκαιότητα για κάθε ελεύθερο επαγγελματία και επιχείρηση που θέλει να ξεχωρίσει στον ψηφιακό κόσμο.','Μια καλά σχεδιασμένη ιστοσελίδα σας βοηθά να κατακτήσετε υψηλότερες θέσεις στις μηχανές αναζήτησης, καθώς η Google αξιολογεί τις ιστοσελίδες ως πιο αξιόπιστες και με πιο ολοκληρωμένο προφίλ.','Η ιστοσελίδα σας λειτουργεί ως η ψηφιακή σας βιτρίνα, ενισχύοντας την επαγγελματική σας εικόνα και προβάλλοντας την επιχείρησή σας ως σοβαρή και αξιόπιστη στους επισκέπτες. Επιπλέον, προσφέρει στους χρήστες εύκολη πρόσβαση σε όλες τις απαραίτητες πληροφορίες, καθιστώντας την εμπειρία τους πιο άνετη και άμεση.']}},{id:'NFC',icon:'star',price:'25€',priceNote:'εφάπαξ',title:'Ανέπαφη Βάση Αξιολογήσεων',shortDesc:'50+ νέες αξιολογήσεις κάθε μήνα. Ανεβείτε στην κορυφή της Google σε 3 μήνες.',features:['Αύξηση κριτικών Google','Βελτίωση τοπικού SEO','Εύκολη χρήση (NFC)','Χωρίς μηνιαία συνδρομή'],cta:'Αγορά Τώρα',more:'Περισσότερες πληροφορίες',modal:{title:'Ανέπαφη Βάση Αξιολογήσεων',image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif',body:['Ανεβείτε στη κορυφή της Google και αποκτήστε 150 νέες αξιολογήσεις σε λιγότερο απο 3 μήνες.','Το πρώτο που κάνει κάποιος όταν αναζητεί μια επιχείρηση είναι να δει τις κριτικές της.','Αν έχετε ελάχιστες είναι πολύ πιθανό να χάσετε πελάτες από τον ανταγωνισμό.','Αλλά δεν είναι μόνο οι πελάτες που επηρεάζονται!','Η Google, ως μηχανή αναζήτησης, θέλει να παρέχει τα πιο στοχευμένα αλλά και έγκυρα αποτελέσματα δίνοντας έτσι κύρια σημασία στις αξιολογήσεις.','Όταν το ζητάτε από τους πελάτες σας συνήθως το ξεχνάνε ή δεν επενδύουν τον χρόνο να ψάξουν.','Με την ανέπαφη βάση αξιολογήσεων μας μπορείτε να αποκτάτε τούλαχιστον 50 νέες κριτικές κάθε μήνα έυκολα και γρήγορα!','Υπολογίστε και μόνοι σας (πχ 8 πελάτες ανά ημέρα, 20 εργάσιμες = 160 πελάτες τον μήνα. Αν λιγότεροι από τους μισόυς, οι 50, σας αφήσουν μια αξιολόγηση, έχετε 150 νέες σε 3 μήνες).']}},{id:'SOCIAL',icon:'instagram',price:'87€/μήνα',title:'Διαχείριση Social Media',shortDesc:'Επαγγελματικά posts, hashtag research, copywriting. 7 ημέρες δωρεάν δοκιμή.',features:['3 posts/εβδομάδα','Hashtag research','Copywriting','Μηνιαία αναφορά'],cta:'Δωρεάν Δοκιμή',more:'Περισσότερες πληροφορίες',modal:{title:'ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΔΙΑΧΕΙΡΙΣΗ SOCIAL MEDIA',body:['• Επαγγελματικά Επεξεργασμένα Posts ανά ημέρα : Δημοσιεύουμε αναρτήσεις που τραβούν την προσοχή των πελατών σας, χρησιμοποιώντας προγράμματα επεξεργασίας συνδυαστικής αξίας 300+ευρώ τον μήνα, όπως Adscreative.io, Photoroom, Photoshop, Adobe Premium, Canvas Pro, Picsart Pro και άλλα.','• Έρευνα Hashtags: Χρησιμοποιούμε τα καλύτερα hashtags ανάλογα με την επιχείρηση, τις υπηρεσίες, το κοινό και την τοποθεσία για να ενισχύσουμε την απήχησή σας και να σας φέρουμε μπροστά σε νέο κοινό.','• Επαγγελματική Κειμενογραφία για κάθε ανάρτηση που οδηγούν τον αναγνώστη σε μια επιθυμητή ενέργεια (πχ να κλείσει ραντεβού κλπ)','• Επεξεργασία - Δημιουργία επαγγελματικού βιογραφικού για το προφιλ σας','• Αναφορές Προόδου: Παρέχουμε μηνιαία ανάλυση της ανάπτυξης των ακολούθων και της αλληλεπίδρασης με τις δημοσιεύσεις σας.','• Ευκολία & Άνεση: Το μόνο που χρειάζεται να κάνετε είναι να μας στείλετε φωτογραφίες της επιχείρησής σας μέσω WeTransfer, και εμείς θα αναλάβουμε τα υπόλοιπα. Αν δεν έχετε μπορούμε να δημιουργούμε εμείς δικά μας designs, χωρίς καμία επένδυση χρόνου από εσάς!','Δωρεάν Δοκιμή','No contracts - cancel anytime','----','Γιατί να Μας Επιλέξετε:','Οικονομικό πακέτο & Χωρίς Ρίσκο: Με μόνο 87 ευρώ τον μήνα και εγγύηση επιστροφής χρημάτων, αφαιρούμε κάθε ρίσκο από την απόφασή σας. Αν δεν είστε απόλυτα ικανοποιημένοι, σας επιστρέφουμε τα χρήματά σας – χωρίς ερωτήσεις.','Προσωποποιημένη Υπηρεσία: Προσαρμόζουμε το περιεχόμενο σύμφωνα με τις ανάγκες της επιχείρησής σας, ώστε να αντανακλά την ταυτότητα και το στυλ σας.','Άμεση Έναρξη: Κλείστε τη θέση σας τώρα – διαθέτουμε μόνο λίγες θέσεις για νέους πελάτες κάθε μήνα, ώστε να διατηρήσουμε την ποιότητα της υπηρεσίας μας.','Καμία Δέσμευση: Μπορείτε να σταματήσετε οποιαδήποτε στιγμή χωρίς μακροχρόνια συμβόλαια.','Αποτέλεσμα: Περισσότεροι Πελάτες & Επαγγελματική Παρουσία','Με τη σωστή διαχείριση του Instagram, θα δείτε αυξημένη αλληλεπίδραση, μεγαλύτερη βάση πελατών, και ένα προφίλ που προσελκύει την προσοχή και δημιουργεί εμπιστοσύνη.','Εγγραφείτε σήμερα και εξασφαλίστε την ειδική τιμή των 87€ μήνα.','Στείλτε μας email στο angelos@advonmedia.com για περαιτέρω επικοινωνία. (το ελέγχουμε καθημερινά)']}}],en:[{id:'WEBSITE',icon:'globe',price:'FREE',priceNote:'(only 10.83€/mo hosting)',title:'Website Creation',shortDesc:'Professional website that ranks high on Google.',features:['Pro Design','SEO Optimized','Mobile Responsive','5-10 Days Delivery'],cta:'Get Started Free',more:'Learn More',modal:{title:'Free Website Creation',body:["It's not a marketing trick, the creation that normally costs 700-2000€+, is completely free.","The only cost we can't cover is the hosting and domain name (e.g. www.example.com). We handle the process for you!","We do this to build our portfolio so we can charge higher rates in the future.","It's only 10.83€/month total (which you'd pay anywhere else anyway, just like everyone who has a website).","Upgrade your online presence and turn visitors into loyal clients!","In 2025, having a professional website is not just an extra tool - it's a necessity for every freelancer and business that wants to stand out in the digital world.","A well-designed website helps you achieve higher positions in search engines, as Google evaluates websites as more reliable and with a more complete profile.","Your website acts as your digital storefront, enhancing your professional image and promoting your business as serious and reliable to visitors. Furthermore, it offers users easy access to all necessary information, making their experience more comfortable and immediate."]}},{id:'NFC',icon:'star',price:'25€',priceNote:'one-time',title:'Contactless Review Stand',shortDesc:'50+ new reviews monthly. Reach the top of Google in 3 months.',features:['Increase Google Reviews','Improve Local SEO','Easy to use (NFC)','No monthly fee'],cta:'Buy Now',more:'Learn More',modal:{title:'Contactless Review Stand',image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif',body:['Reach the top of Google and get 150 new reviews in less than 3 months.','The first thing people do when searching for a business is check its reviews.','If you have very few, it is very likely you will lose customers to the competition.','But it is not only customers who are affected!','Google, as a search engine, wants to provide the most targeted and valid results, thus giving primary importance to reviews.','When you ask your customers, they usually forget or do not invest the time to search.','With our contactless review base, you can get at least 50 new reviews every month easily and quickly!','Calculate for yourself (e.g., 8 customers per day, 20 working days = 160 customers a month. If fewer than half, 50, leave a review, you have 150 new ones in 3 months).']}},{id:'SOCIAL',icon:'instagram',price:'87€/mo',title:'Social Media Management',shortDesc:'Professional posts, hashtag research, copywriting. 7-day free trial.',features:['3 posts/week','Hashtag research','Copywriting','Monthly Report'],cta:'Free Trial',more:'Learn More',modal:{title:'PROFESSIONAL SOCIAL MEDIA MANAGEMENT',body:['• Professionally Edited Posts per day: We publish posts that catch your customers\' attention, using editing programs with a combined value of 300+ euros per month, such as Adscreative.io, Photoroom, Photoshop, Adobe Premium, Canvas Pro, Picsart Pro, and more.','• Hashtag Research: We use the best hashtags depending on the business, services, audience, and location to boost your reach and get you in front of new audiences.','• Professional Copywriting for every post that leads the reader to a desired action (e.g., booking an appointment, etc.)','• Editing - Creation of a professional bio for your profile','• Progress Reports: We provide a monthly analysis of follower growth and interaction with your posts.','• Ease & Comfort: All you need to do is send us photos of your business via WeTransfer, and we will take care of the rest. If you don\'t have any, we can create our own designs, without any time investment from you!','Free Trial','No contracts - cancel anytime','----','Why Choose Us:','Economical Package & Risk-Free: For only 87 euros per month and a money-back guarantee, we remove all risk from your decision. If you are not completely satisfied, we return your money - no questions asked.','Personalized Service: We tailor the content according to the needs of your business, so it reflects your identity and style.','Immediate Start: Book your spot now - we only have a few spots for new clients each month to maintain the quality of our service.','No Commitment: You can stop at any time without long-term contracts.','Result: More Customers & Professional Presence','With proper Instagram management, you will see increased interaction, a larger customer base, and a profile that attracts attention and builds trust.','Sign up today and secure the special price of 87€/month.','Send us an email at angelos@advonmedia.com for further communication. (we check it daily)']}}]};
 
@@ -493,7 +525,6 @@ const faqs={el:[{question:'Τι είναι η Advon Media;',answer:'Είμαστ
 
 // PORTFOLIO — with ALL new items added
 const portfolioItems=[
-// ── FIRST PAGE (new items at top) ──
 {image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/polymerop.jpg?token=B5JP7MB4W6DY2CTY2PMHZKLJYWFBK',url:'https://polymeropoulou-psychologos.gr',name:'Λαμπρινή Πολυμεροπούλου (MSc), Ψυχολόγος',nameEn:'Lamprini Polymeropoulou (MSc), Psychologist'},
 {image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/gerou.jpg?token=B5JP7MHNUXZ4TH5QYF4ITPTJYWFJ6',url:'https://mairagerou-psychologist.gr',name:'Μάιρα Γέρου, Ψυχολόγος',nameEn:'Maira Gerou, Psychologist'},
 {image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/sorokina.jpg?token=B5JP7MD4LDPKE2PS6XRWRATJYWFBK',url:'https://sorokina-psychologist.gr',name:'ΜΑΡΙΝΑ ΣΟΡΟΚΙΝΑ Ψυχολόγος - Ψυχοθεραπεύτρια',nameEn:'Marina Sorokina Psychologist - Psychotherapist'},
@@ -515,7 +546,6 @@ const portfolioItems=[
 {image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/emirza.jpg?token=B5JP7MGYYRNEFMFZVP6UXH3JYWFJ6',url:'https://skepsyxi.gr',name:'Σαββίνα Εμιρζά (MSc) Ψυχολόγος και Οικογενειακή Ψυχοθεραπεύτρια',nameEn:'Savvina Emirza (MSc) Psychologist & Family Psychotherapist'},
 {image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45b3d5f853873a9c68.jpg',url:'https://angelikivrettou.gr',name:'Αγγελική Βρεττού ΣΥΣΤΗΜΙΚΗ ΨΥΧΟΘΕΡΑΠΕΥΤΡΙΑ MSC',nameEn:'Angeliki Vrettou Systemic Psychotherapist MSC'},
 {image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45b3d5f8cc953a9c69.jpg',url:'https://mitsi-psychologist.gr',name:'ERIOLA MITSI Ψυχολόγος & Γνωσιακή Συμπεριφορική Ψυχοθεραπεύτρια',nameEn:'Eriola Mitsi Psychologist & CBT Therapist'},
-// ── EXISTING + NEW RANDOM ITEMS ──
 {image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45905d4711e496f556.jpg',url:'https://mantzioroupsychologist.gr',name:'Χριστίνα Μαντζιώρου ΨΥΧΟΛΟΓΟΣ - ΨΥΧΟΘΕΡΑΠΕΥΤΡΙΑ',nameEn:'Christina Mantziorou Psychologist - Psychotherapist'},
 {image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45d614c9af3d3c0a07.jpg',url:'https://highsoulbody.gr',name:'ΔΑΝΑΗ ΑΛΕΞΑΝΔΡΙΔΟΥ Ολιστική Ψυχοθεραπεύτρια',nameEn:'Danai Alexandridou Holistic Psychotherapist'},
 {image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/marketi.jpg?token=B5JP7MDUFGTZRNWARSXXGYDJYWFKA',url:'https://konstantinamarketi-psychotherapist.gr',name:'Κωνσταντίνα Μαρκέτη (MSc), Κλινική Ψυχολόγος - Ψυχοθεραπεύτρια',nameEn:'Konstantina Marketi (MSc), Clinical Psychologist - Psychotherapist'},
@@ -705,18 +735,23 @@ document.getElementById('faq-header').innerHTML=`<div class="rv text-center"><h2
 const cf=faqs[currentLang];
 document.getElementById('faq-container').innerHTML=cf.map((f,i)=>`<div class="rv faq-row rounded-xl" style="transition-delay:${i*70}ms"><button onclick="togFaq(this)" class="faq-btn w-full flex items-center justify-between py-6 px-4 text-left font-display font-semibold text-white/70 hover:text-white transition-colors text-lg"><span class="italic">${f.question}</span><i data-lucide="plus" class="w-4 h-4 text-white/20 flex-shrink-0"></i></button><div class="faq-body px-4 text-white/35 leading-relaxed text-[15px] font-light"><div class="pb-6">${f.answer}</div></div></div>`).join('');
 
-// Contact — EMAIL UPDATED
+// Contact — ADDED TRAFFT BOOKING BUTTON HERE
 document.getElementById('contact-container').innerHTML=`
 <div class="rv"><div class="lux-label mb-6 inline-flex"><span class="pulse-dot"></span>${elUpper(t.sectionTitles.contact)}</div></div>
 <h2 class="rv text-5xl md:text-7xl font-display font-light mb-6 text-white/90 italic">${t.sectionTitles.contactMain}</h2>
 <p class="rv text-lg text-white/30 mb-16 font-light max-w-xl mx-auto">${t.sectionTitles.contactSub}</p>
-<div class="grid md:grid-cols-2 gap-5">
+<div class="grid md:grid-cols-3 gap-5">
   <a href="mailto:angelos@advonmedia.com" class="rv tilt-3d group lux-glass p-10 rounded-2xl transition-all hover:border-[var(--cyan)]/15">
     <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-6 text-[var(--cyan)] group-hover:text-[var(--void)] transition-all" style="background:var(--cyan-soft)"><div class="group-hover:hidden"><i data-lucide="mail" class="w-6 h-6"></i></div><div class="hidden group-hover:block bg-[var(--cyan)] rounded-xl p-3 -m-1"><i data-lucide="mail" class="w-6 h-6"></i></div></div>
     <h3 class="text-xl font-display font-semibold mb-2 text-white/90">Email</h3>
     <p class="text-[var(--cyan)]/60 flex items-center justify-center gap-2 font-mono text-sm">angelos@advonmedia.com <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></p>
   </a>
-  <a href="https://www.instagram.com/advon_media" target="_blank" rel="noopener noreferrer" class="rv tilt-3d group lux-glass p-10 rounded-2xl transition-all hover:border-[var(--cyan)]/15" style="transition-delay:100ms">
+  <button onclick="openBooking()" class="rv tilt-3d group lux-glass p-10 rounded-2xl transition-all hover:border-[var(--cyan)]/15" style="transition-delay:100ms">
+    <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-6 text-[var(--cyan)] group-hover:text-[var(--void)] transition-all" style="background:var(--cyan-soft)"><div class="group-hover:hidden"><i data-lucide="calendar" class="w-6 h-6"></i></div><div class="hidden group-hover:block bg-[var(--cyan)] rounded-xl p-3 -m-1"><i data-lucide="calendar" class="w-6 h-6"></i></div></div>
+    <h3 class="text-xl font-display font-semibold mb-2 text-white/90">${t.sectionTitles.contactBook}</h3>
+    <p class="text-[var(--cyan)]/60 flex items-center justify-center gap-2 font-mono text-sm">${t.sectionTitles.contactBookSub} <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></p>
+  </button>
+  <a href="https://www.instagram.com/advon_media" target="_blank" rel="noopener noreferrer" class="rv tilt-3d group lux-glass p-10 rounded-2xl transition-all hover:border-[var(--cyan)]/15" style="transition-delay:200ms">
     <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-6 text-[var(--cyan)] group-hover:text-[var(--void)] transition-all" style="background:var(--cyan-soft)"><div class="group-hover:hidden"><i data-lucide="instagram" class="w-6 h-6"></i></div><div class="hidden group-hover:block bg-[var(--cyan)] rounded-xl p-3 -m-1"><i data-lucide="instagram" class="w-6 h-6"></i></div></div>
     <h3 class="text-xl font-display font-semibold mb-2 text-white/90">Instagram</h3>
     <p class="text-[var(--cyan)]/60 flex items-center justify-center gap-2 font-mono text-sm">@advon_media <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></p>
@@ -766,12 +801,45 @@ lucide.createIcons();obsRv();init3D();
 window.togFaq=function(b){const c=b.nextElementSibling,o=b.classList.contains('open');document.querySelectorAll('.faq-btn').forEach(x=>{x.classList.remove('open');x.nextElementSibling.style.maxHeight='0';});if(!o){b.classList.add('open');c.style.maxHeight=c.scrollHeight+'px';}};
 
 // ═══════════════════════════════════════════════════════════════
-//  MODAL
+//  INFO MODAL
 // ═══════════════════════════════════════════════════════════════
 const mO=document.getElementById('modal-overlay'),mB=document.getElementById('modal-bg'),mC=document.getElementById('modal-box');
 window.openModal=function(id){const d=services[currentLang].find(s=>s.id===id);if(!d)return;document.getElementById('m-title').innerText=d.modal.title;const ic=document.getElementById('m-img');if(d.modal.image){ic.innerHTML=`<img src="${d.modal.image}" class="w-full h-auto rounded-xl border border-white/8" alt="${d.modal.title}">`;ic.classList.remove('hidden');}else{ic.classList.add('hidden');}document.getElementById('m-body').innerHTML=d.modal.body.map(p=>`<p class="${p.startsWith('•')?'pl-5 border-l border-[var(--gold)]/15 text-white/60':''} mb-1">${p}</p>`).join('');mO.classList.remove('hidden');mO.classList.add('flex');setTimeout(()=>{mB.classList.remove('opacity-0');mC.classList.remove('opacity-0','scale-95');mC.classList.add('opacity-100','scale-100');},10);document.body.classList.add('modal-open');};
 window.closeModal=function(){mB.classList.add('opacity-0');mC.classList.remove('opacity-100','scale-100');mC.classList.add('opacity-0','scale-95');setTimeout(()=>{mO.classList.add('hidden');mO.classList.remove('flex');document.body.classList.remove('modal-open');},500);};
 mB.addEventListener('click',closeModal);
+
+// ═══════════════════════════════════════════════════════════════
+//  BOOKING MODAL (TRAFFT INTEGRATION)
+// ═══════════════════════════════════════════════════════════════
+window.openBooking = function() {
+  const bkModal = document.getElementById('booking-modal');
+  const bkBg = document.getElementById('booking-modal-bg');
+  const bkBox = document.getElementById('booking-modal-box');
+  bkModal.classList.remove('hidden');
+  bkModal.classList.add('flex');
+  setTimeout(() => {
+    bkBg.classList.remove('opacity-0');
+    bkBox.classList.remove('opacity-0', 'scale-95');
+    bkBox.classList.add('opacity-100', 'scale-100');
+  }, 10);
+  document.body.classList.add('modal-open');
+};
+
+window.closeBooking = function() {
+  const bkModal = document.getElementById('booking-modal');
+  const bkBg = document.getElementById('booking-modal-bg');
+  const bkBox = document.getElementById('booking-modal-box');
+  bkBg.classList.add('opacity-0');
+  bkBox.classList.remove('opacity-100', 'scale-100');
+  bkBox.classList.add('opacity-0', 'scale-95');
+  setTimeout(() => {
+    bkModal.classList.add('hidden');
+    bkModal.classList.remove('flex');
+    document.body.classList.remove('modal-open');
+  }, 500);
+};
+
+document.getElementById('booking-modal-bg').addEventListener('click', closeBooking);
 
 // ═══════════════════════════════════════════════════════════════
 //  INIT
