@@ -10,369 +10,134 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              display: ['Cormorant Garamond', 'serif'],
-              body: ['Outfit', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'],
-            },
-          }
-        }
-      }
-    </script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{display:['Cormorant Garamond','serif'],body:['Outfit','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Trafft Booking -->
+    <script type="text/javascript" src="https://advonmedia.trafft.com/embed.js" async></script>
     <style>
-      :root {
-        --cyan: #47c8f5;
-        --cyan-soft: rgba(71, 200, 245, 0.12);
-        --gold: #c9a84c;
-        --gold-soft: rgba(201, 168, 76, 0.15);
-        --void: #020405;
-        --deep: #060a0d;
-      }
+      :root{--cyan:#47c8f5;--cyan-soft:rgba(71,200,245,0.12);--gold:#c9a84c;--gold-soft:rgba(201,168,76,0.15);--void:#020405;--deep:#060a0d;}
+      *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+      ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--void)}::-webkit-scrollbar-thumb{background:rgba(71,200,245,0.2);border-radius:10px}
+      ::selection{background:rgba(71,200,245,0.2);color:#fff}
+      html{scroll-behavior:smooth}
+      body{background:var(--void);color:#e0e4e7;overflow-x:hidden;-webkit-font-smoothing:antialiased;font-family:'Outfit',sans-serif}
+      body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:10000;opacity:0.5}
 
-      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-      ::-webkit-scrollbar { width: 3px; }
-      ::-webkit-scrollbar-track { background: var(--void); }
-      ::-webkit-scrollbar-thumb { background: rgba(71,200,245,0.2); border-radius: 10px; }
-      ::-selection { background: rgba(71,200,245,0.2); color: #fff; }
+      #starlight-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 
-      html { scroll-behavior: smooth; }
-      body {
-        background: var(--void);
-        color: #e0e4e7;
-        overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
-        font-family: 'Outfit', sans-serif;
-      }
+      /* ═══ CENTRAL LASER BEAM ═══ */
+      .laser-central{position:fixed;left:50%;top:0;transform:translateX(-50%);width:3px;height:100vh;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent 0%,rgba(71,200,245,0.05) 5%,rgba(71,200,245,0.2) 20%,rgba(71,200,245,0.5) 50%,rgba(71,200,245,0.2) 80%,rgba(71,200,245,0.05) 95%,transparent 100%);animation:laser-pulse 4s ease-in-out infinite;box-shadow:0 0 20px rgba(71,200,245,0.15),0 0 60px rgba(71,200,245,0.08),0 0 120px rgba(71,200,245,0.03)}
+      .laser-central::before{content:'';position:absolute;left:-20px;top:0;width:43px;height:100%;background:linear-gradient(180deg,transparent,rgba(71,200,245,0.02) 30%,rgba(71,200,245,0.04) 50%,rgba(71,200,245,0.02) 70%,transparent);filter:blur(10px)}
+      .laser-central::after{content:'';position:absolute;left:-40px;top:0;width:83px;height:100%;background:linear-gradient(180deg,transparent,rgba(71,200,245,0.008) 30%,rgba(71,200,245,0.015) 50%,rgba(71,200,245,0.008) 70%,transparent);filter:blur(25px)}
+      @keyframes laser-pulse{0%,100%{opacity:.5}50%{opacity:1}}
 
-      /* ═══ NOISE GRAIN ═══ */
-      body::after {
-        content: '';
-        position: fixed; inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-        pointer-events: none; z-index: 10000; opacity: 0.5;
-      }
+      /* Side beams */
+      .laser-side{position:fixed;top:0;width:1px;height:100vh;z-index:1;pointer-events:none;opacity:0.25}
+      .laser-side:nth-child(2){left:25%;background:linear-gradient(180deg,transparent,rgba(71,200,245,0.1) 50%,transparent);animation:laser-pulse 6s ease-in-out infinite}
+      .laser-side:nth-child(3){left:75%;background:linear-gradient(180deg,transparent,rgba(71,200,245,0.1) 50%,transparent);animation:laser-pulse 8s ease-in-out infinite 2s}
 
-      /* ═══ ROLLS ROYCE STARLIGHT CANVAS ═══ */
-      #starlight-canvas {
-        position: fixed; inset: 0;
-        width: 100%; height: 100%;
-        z-index: 0; pointer-events: none;
-      }
+      /* Sweep */
+      .laser-sweep{position:fixed;width:100%;height:1px;left:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(71,200,245,0.2),rgba(71,200,245,0.5),rgba(71,200,245,0.2),transparent);animation:sweep-down 18s linear infinite;filter:blur(0.5px);box-shadow:0 0 20px rgba(71,200,245,0.1)}
+      @keyframes sweep-down{0%{top:-2%;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:102%;opacity:0}}
 
-      /* ═══ LASER BEAM SYSTEM ═══ */
-      .laser-container {
-        position: fixed; inset: 0;
-        pointer-events: none; z-index: 1;
-        overflow: hidden;
-      }
-      .laser-beam {
-        position: absolute;
-        width: 2px;
-        height: 100%;
-        top: 0;
-        background: linear-gradient(180deg,
-          transparent 0%,
-          rgba(71,200,245,0.03) 10%,
-          rgba(71,200,245,0.15) 30%,
-          rgba(71,200,245,0.4) 50%,
-          rgba(71,200,245,0.15) 70%,
-          rgba(71,200,245,0.03) 90%,
-          transparent 100%
-        );
-        animation: laser-drift 8s ease-in-out infinite;
-        opacity: 0.5;
-      }
-      .laser-beam::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        width: 30px;
-        left: -14px;
-        background: linear-gradient(180deg, transparent, rgba(71,200,245,0.04) 40%, rgba(71,200,245,0.08) 50%, rgba(71,200,245,0.04) 60%, transparent);
-        filter: blur(8px);
-      }
-      .laser-beam:nth-child(1) { left: 25%; animation-delay: 0s; animation-duration: 12s; }
-      .laser-beam:nth-child(2) { left: 50%; animation-delay: -3s; animation-duration: 10s; opacity: 0.7; }
-      .laser-beam:nth-child(3) { left: 75%; animation-delay: -6s; animation-duration: 14s; }
-      @keyframes laser-drift {
-        0%, 100% { opacity: 0.3; transform: scaleY(1); }
-        50% { opacity: 0.7; transform: scaleY(1.02); }
-      }
+      /* ═══ CURSOR ═══ */
+      .cur-d{position:fixed;width:10px;height:10px;border:1px solid var(--cyan);transform:translate(-50%,-50%) rotate(45deg);pointer-events:none;z-index:99999;transition:width .4s cubic-bezier(.22,1,.36,1),height .4s cubic-bezier(.22,1,.36,1),border-color .3s,background .3s}
+      .cur-d.hov{width:40px;height:40px;background:rgba(71,200,245,0.06);border-color:var(--gold)}
+      .cur-a{position:fixed;width:200px;height:200px;background:radial-gradient(circle,rgba(71,200,245,0.04) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:0}
+      @media(hover:none){.cur-d,.cur-a{display:none!important}}
 
-      /* ═══ HORIZONTAL LASER SWEEP ═══ */
-      .laser-sweep {
-        position: absolute;
-        width: 100%; height: 1px;
-        left: 0;
-        background: linear-gradient(90deg, transparent, rgba(71,200,245,0.3), rgba(71,200,245,0.6), rgba(71,200,245,0.3), transparent);
-        animation: sweep-down 15s linear infinite;
-        filter: blur(0.5px);
-        box-shadow: 0 0 15px rgba(71,200,245,0.15), 0 0 40px rgba(71,200,245,0.05);
-      }
-      @keyframes sweep-down {
-        0% { top: -5%; opacity: 0; }
-        5% { opacity: 1; }
-        95% { opacity: 1; }
-        100% { top: 105%; opacity: 0; }
-      }
+      /* ═══ REVEALS ═══ */
+      .rv{opacity:0;transform:translateY(50px);transition:opacity 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1)}
+      .rv.vis{opacity:1;transform:translateY(0)}
+      .rv-scale{opacity:0;transform:scale(0.9);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+      .rv-scale.vis{opacity:1;transform:scale(1)}
 
-      /* ═══ CUSTOM CURSOR ═══ */
-      .cursor-diamond {
-        position: fixed;
-        width: 10px; height: 10px;
-        border: 1px solid var(--cyan);
-        transform: translate(-50%, -50%) rotate(45deg);
-        pointer-events: none;
-        z-index: 99999;
-        transition: width 0.4s cubic-bezier(.22,1,.36,1), height 0.4s cubic-bezier(.22,1,.36,1), border-color 0.3s, background 0.3s;
-      }
-      .cursor-diamond.hovering {
-        width: 40px; height: 40px;
-        background: rgba(71,200,245,0.06);
-        border-color: var(--gold);
-      }
-      .cursor-trail {
-        position: fixed;
-        width: 3px; height: 3px;
-        background: var(--cyan);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 99998;
-        opacity: 0;
-        transition: opacity 0.3s;
-      }
-      .cursor-aura {
-        position: fixed;
-        width: 200px; height: 200px;
-        background: radial-gradient(circle, rgba(71,200,245,0.04) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none; z-index: 0;
-      }
-      @media (hover: none) { .cursor-diamond, .cursor-trail, .cursor-aura { display: none !important; } }
+      /* ═══ SHIMMER ═══ */
+      .lux-shimmer{background:linear-gradient(90deg,var(--cyan),#fff,var(--gold),var(--cyan));background-size:400% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:lux-shine 8s ease-in-out infinite}
+      @keyframes lux-shine{0%{background-position:100% 50%}50%{background-position:0% 50%}100%{background-position:100% 50%}}
 
-      /* ═══ REVEAL ANIMATIONS ═══ */
-      .rv {
-        opacity: 0;
-        transform: translateY(50px);
-        transition: opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1);
-      }
-      .rv.vis { opacity: 1; transform: translateY(0); }
+      .section-line{height:1px;background:linear-gradient(90deg,transparent,rgba(71,200,245,0.12),rgba(201,168,76,0.08),rgba(71,200,245,0.12),transparent)}
 
-      .rv-char {
-        display: inline-block;
-        opacity: 0;
-        transform: translateY(40px) rotateX(-40deg);
-        transition: opacity 0.6s cubic-bezier(.16,1,.3,1), transform 0.6s cubic-bezier(.16,1,.3,1);
-      }
-      .rv-char.vis { opacity: 1; transform: translateY(0) rotateX(0); }
-
-      .rv-scale {
-        opacity: 0; transform: scale(0.9);
-        transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
-      }
-      .rv-scale.vis { opacity: 1; transform: scale(1); }
-
-      .rv-line {
-        width: 0;
-        transition: width 1.2s cubic-bezier(.16,1,.3,1);
-      }
-      .rv-line.vis { width: 80px; }
-
-      /* ═══ LUXURY TEXT SHIMMER ═══ */
-      .lux-shimmer {
-        background: linear-gradient(90deg, var(--cyan), #fff, var(--gold), var(--cyan));
-        background-size: 400% 100%;
-        -webkit-background-clip: text; background-clip: text;
-        color: transparent;
-        animation: lux-shine 8s ease-in-out infinite;
-      }
-      @keyframes lux-shine {
-        0% { background-position: 100% 50%; }
-        50% { background-position: 0% 50%; }
-        100% { background-position: 100% 50%; }
-      }
-
-      /* ═══ SECTION TRANSITION LINES ═══ */
-      .section-line {
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(71,200,245,0.12), rgba(201,168,76,0.08), rgba(71,200,245,0.12), transparent);
-      }
-
-      /* ═══ GLASS CARDS ═══ */
-      .lux-glass {
-        background: rgba(6,10,13,0.7);
-        backdrop-filter: blur(24px) saturate(1.3);
-        -webkit-backdrop-filter: blur(24px) saturate(1.3);
-        border: 1px solid rgba(71,200,245,0.06);
-        transition: border-color 0.6s ease, box-shadow 0.6s ease, transform 0.6s cubic-bezier(.22,1,.36,1);
-      }
-      .lux-glass:hover {
-        border-color: rgba(71,200,245,0.15);
-        box-shadow: 0 0 60px rgba(71,200,245,0.04), inset 0 0 30px rgba(71,200,245,0.02);
-      }
+      /* ═══ GLASS ═══ */
+      .lux-glass{background:rgba(6,10,13,0.7);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(71,200,245,0.06);transition:border-color .6s,box-shadow .6s,transform .6s cubic-bezier(.22,1,.36,1)}
+      .lux-glass:hover{border-color:rgba(71,200,245,0.15);box-shadow:0 0 60px rgba(71,200,245,0.04),inset 0 0 30px rgba(71,200,245,0.02)}
 
       /* ═══ PORTFOLIO ═══ */
-      .port-card {
-        position: relative; overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.03);
-        border-radius: 12px;
-        transition: border-color 0.6s, transform 0.6s cubic-bezier(.22,1,.36,1);
-        will-change: transform;
-      }
-      .port-card:hover { border-color: rgba(71,200,245,0.12); }
-      .port-card img {
-        transition: transform 1.4s cubic-bezier(.22,1,.36,1), filter 1s;
-        will-change: transform;
-      }
-      .port-card:hover img { transform: scale(1.06); filter: brightness(0.5); }
-      .port-card .port-overlay {
-        position: absolute; inset: 0;
-        background: linear-gradient(to top, rgba(2,4,5,0.97) 0%, rgba(2,4,5,0.5) 35%, transparent);
-        opacity: 0; transition: opacity 0.6s;
-        display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;
-      }
-      .port-card:hover .port-overlay { opacity: 1; }
-      .port-card .port-overlay > * {
-        transform: translateY(12px); opacity: 0;
-        transition: transform 0.5s cubic-bezier(.22,1,.36,1) 0.05s, opacity 0.4s 0.05s;
-      }
-      .port-card:hover .port-overlay > * { transform: translateY(0); opacity: 1; }
-      .port-card:hover .port-overlay > *:nth-child(2) { transition-delay: 0.1s; }
+      .port-card{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.03);border-radius:12px;transition:border-color .6s,transform .6s cubic-bezier(.22,1,.36,1);will-change:transform}
+      .port-card:hover{border-color:rgba(71,200,245,0.12)}
+      .port-card img{transition:transform 1.4s cubic-bezier(.22,1,.36,1),filter 1s;will-change:transform}
+      .port-card:hover img{transform:scale(1.06);filter:brightness(0.5)}
+      .port-card .port-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(2,4,5,0.97) 0%,rgba(2,4,5,0.5) 35%,transparent);opacity:0;transition:opacity .6s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px}
+      .port-card:hover .port-ov{opacity:1}
+      .port-card .port-ov>*{transform:translateY(12px);opacity:0;transition:transform .5s cubic-bezier(.22,1,.36,1) .05s,opacity .4s .05s}
+      .port-card:hover .port-ov>*{transform:translateY(0);opacity:1}
 
       /* ═══ REVIEW ═══ */
-      .rev-card { position: relative; }
-      .rev-card::before {
-        content: '"';
-        position: absolute; top: 12px; right: 20px;
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 100px; line-height: 1;
-        color: rgba(201,168,76,0.04);
-        pointer-events: none;
-      }
+      .rev-card{position:relative}.rev-card::before{content:'"';position:absolute;top:12px;right:20px;font-family:'Cormorant Garamond',serif;font-size:100px;line-height:1;color:rgba(201,168,76,0.04);pointer-events:none}
 
       /* ═══ FAQ ═══ */
-      .faq-row { border-bottom: 1px solid rgba(255,255,255,0.03); }
-      .faq-row:hover { background: rgba(71,200,245,0.015); }
-      .faq-btn svg { transition: transform 0.5s cubic-bezier(.22,1,.36,1); }
-      .faq-btn.open svg { transform: rotate(45deg); }
-      .faq-body { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(.22,1,.36,1); }
+      .faq-row{border-bottom:1px solid rgba(255,255,255,0.03)}.faq-row:hover{background:rgba(71,200,245,0.015)}
+      .faq-btn svg{transition:transform .5s cubic-bezier(.22,1,.36,1)}.faq-btn.open svg{transform:rotate(45deg)}
+      .faq-body{max-height:0;overflow:hidden;transition:max-height .6s cubic-bezier(.22,1,.36,1)}
 
-      /* ═══ HEADER ═══ */
-      .hdr-scroll {
-        background: rgba(2,4,5,0.9) !important;
-        border-bottom-color: rgba(71,200,245,0.06) !important;
-        box-shadow: 0 2px 40px rgba(0,0,0,0.6);
-      }
+      .hdr-scroll{background:rgba(2,4,5,0.9)!important;border-bottom-color:rgba(71,200,245,0.06)!important;box-shadow:0 2px 40px rgba(0,0,0,0.6)}
+      .nav-a{position:relative}.nav-a::after{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:1px;background:linear-gradient(90deg,var(--cyan),var(--gold));transform:scaleX(0);transform-origin:right;transition:transform .5s cubic-bezier(.22,1,.36,1)}.nav-a:hover::after{transform:scaleX(1);transform-origin:left}
+      .mag-btn{transition:transform .3s cubic-bezier(.22,1,.36,1)}
+      .cta-shine{position:relative;overflow:hidden}.cta-shine::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transition:left .7s ease}.cta-shine:hover::before{left:100%}
 
-      /* ═══ NAV LINK ═══ */
-      .nav-a { position: relative; }
-      .nav-a::after {
-        content: ''; position: absolute; bottom: -2px; left: 0;
-        width: 100%; height: 1px;
-        background: linear-gradient(90deg, var(--cyan), var(--gold));
-        transform: scaleX(0); transform-origin: right;
-        transition: transform 0.5s cubic-bezier(.22,1,.36,1);
-      }
-      .nav-a:hover::after { transform: scaleX(1); transform-origin: left; }
+      .lux-label{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);padding:6px 18px;border:1px solid rgba(201,168,76,0.2);border-radius:100px;background:rgba(201,168,76,0.04)}
+      .lux-label .pdot{width:5px;height:5px;background:var(--gold);border-radius:50%;animation:pdot 2.5s ease-in-out infinite}
+      @keyframes pdot{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
 
-      /* ═══ MAGNETIC BUTTON ═══ */
-      .mag-btn { transition: transform 0.3s cubic-bezier(.22,1,.36,1); }
+      .pg-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.1);transition:all .5s cubic-bezier(.22,1,.36,1)}
+      .pg-dot.active{width:28px;border-radius:3px;background:linear-gradient(90deg,var(--cyan),var(--gold));box-shadow:0 0 12px rgba(71,200,245,0.3)}
 
-      /* ═══ CTA SHINE ═══ */
-      .cta-shine { position: relative; overflow: hidden; }
-      .cta-shine::before {
-        content: ''; position: absolute; top: 0; left: -100%;
-        width: 100%; height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-        transition: left 0.7s ease;
-      }
-      .cta-shine:hover::before { left: 100%; }
+      .tilt-3d{will-change:transform;transform-style:preserve-3d}
+      .hero-in{opacity:0;transform:translateY(25px);animation:h-enter 1.2s cubic-bezier(.16,1,.3,1) forwards}
+      .hero-in:nth-child(1){animation-delay:.2s}.hero-in:nth-child(2){animation-delay:.45s}.hero-in:nth-child(3){animation-delay:.7s}.hero-in:nth-child(4){animation-delay:.95s}.hero-in:nth-child(5){animation-delay:1.15s}
+      @keyframes h-enter{to{opacity:1;transform:translateY(0)}}
+      .mob-panel{max-height:0;overflow:hidden;transition:max-height .6s cubic-bezier(.22,1,.36,1)}.mob-panel.open{max-height:400px}
+      main{transition:opacity .5s cubic-bezier(.4,0,.2,1)}.modal-open{overflow:hidden}
 
-      /* ═══ LABEL BADGE ═══ */
-      .lux-label {
-        display: inline-flex; align-items: center; gap: 10px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px; letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--gold);
-        padding: 6px 18px;
-        border: 1px solid rgba(201,168,76,0.2);
-        border-radius: 100px;
-        background: rgba(201,168,76,0.04);
-      }
-      .lux-label .pulse-dot {
-        width: 5px; height: 5px;
-        background: var(--gold);
-        border-radius: 50%;
-        animation: pdot 2.5s ease-in-out infinite;
-      }
-      @keyframes pdot { 0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.4)} }
+      /* ═══ STATS ENHANCED ═══ */
+      .stat-card{position:relative;text-align:center;padding:28px 20px;border-radius:16px;background:rgba(71,200,245,0.02);border:1px solid rgba(71,200,245,0.04);transition:all .5s cubic-bezier(.22,1,.36,1);overflow:hidden}
+      .stat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(71,200,245,0.06),transparent 70%);opacity:0;transition:opacity .5s}
+      .stat-card:hover{border-color:rgba(71,200,245,0.12);transform:translateY(-4px)}.stat-card:hover::before{opacity:1}
+      .stat-num{font-size:clamp(2.5rem,5vw,3.5rem);font-family:'Cormorant Garamond',serif;font-weight:600;background:linear-gradient(135deg,var(--cyan),#fff,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:6px}
+      .stat-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,168,76,0.5)}
 
-      /* ═══ PAGINATION ═══ */
-      .pg-dot {
-        width: 6px; height: 6px; border-radius: 50%;
-        background: rgba(255,255,255,0.1);
-        transition: all 0.5s cubic-bezier(.22,1,.36,1);
-      }
-      .pg-dot.active {
-        width: 28px; border-radius: 3px;
-        background: linear-gradient(90deg, var(--cyan), var(--gold));
-        box-shadow: 0 0 12px rgba(71,200,245,0.3);
-      }
+      /* ═══ FORM ═══ */
+      .form-input{width:100%;padding:14px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;transition:border-color .3s,box-shadow .3s;outline:none}
+      .form-input:focus{border-color:rgba(71,200,245,0.3);box-shadow:0 0 20px rgba(71,200,245,0.05)}
+      .form-input::placeholder{color:rgba(255,255,255,0.2)}
+      textarea.form-input{min-height:120px;resize:vertical}
 
-      /* ═══ 3D TILT ═══ */
-      .tilt-3d { will-change: transform; transform-style: preserve-3d; }
+      /* ═══ BOOKING MODAL ═══ */
+      .booking-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+      .booking-overlay.open{display:flex}
+      .booking-bg{position:absolute;inset:0;background:rgba(2,4,5,0.92);backdrop-filter:blur(12px)}
+      .booking-box{position:relative;width:100%;max-width:800px;height:85vh;border-radius:16px;overflow:hidden;border:1px solid rgba(71,200,245,0.1);background:var(--deep)}
 
-      /* ═══ HERO ENTRANCE ═══ */
-      .hero-in {
-        opacity: 0; transform: translateY(25px);
-        animation: h-enter 1.2s cubic-bezier(.16,1,.3,1) forwards;
-      }
-      .hero-in:nth-child(1) { animation-delay: 0.2s; }
-      .hero-in:nth-child(2) { animation-delay: 0.45s; }
-      .hero-in:nth-child(3) { animation-delay: 0.7s; }
-      .hero-in:nth-child(4) { animation-delay: 0.95s; }
-      @keyframes h-enter { to { opacity: 1; transform: translateY(0); } }
-
-      /* ═══ MOBILE MENU ═══ */
-      .mob-panel { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(.22,1,.36,1); }
-      .mob-panel.open { max-height: 400px; }
-
-      main { transition: opacity 0.5s cubic-bezier(.4,0,.2,1); }
-      .modal-open { overflow: hidden; }
-
-      /* ═══ STAT DIVIDER ═══ */
-      .stat-div { width: 1px; height: 40px; background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.15), transparent); }
-
-      /* ═══ GOLD LINE ACCENT ═══ */
-      .gold-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent); }
+      /* ═══ IG ICON INLINE ═══ */
+      .ig-icon{display:inline-block;width:1em;height:1em;vertical-align:middle}
     </style>
 </head>
 <body class="antialiased">
 
-<div class="cursor-diamond" id="cur-d"></div>
-<div class="cursor-trail" id="cur-t"></div>
-<div class="cursor-aura" id="cur-a"></div>
-
+<div class="cur-d" id="cur-d"></div>
+<div class="cur-a" id="cur-a"></div>
 <canvas id="starlight-canvas"></canvas>
 
-<div class="laser-container">
-  <div class="laser-beam"></div>
-  <div class="laser-beam"></div>
-  <div class="laser-beam"></div>
-  <div class="laser-sweep"></div>
-</div>
+<!-- Laser System -->
+<div class="laser-central"></div>
+<div class="laser-side"></div>
+<div class="laser-side"></div>
+<div class="laser-sweep"></div>
 
+<!-- Header -->
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-all duration-500" id="main-header">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
-    <a href="#" class="flex items-center gap-3 group relative z-10">
-      <img src="https://assets.cdn.filesafe.space/NkFUgZER3rrdnofCwAIl/media/648dd017a1f733fa5b51e5e9.png" alt="Advon Media" class="h-9 w-auto opacity-80 group-hover:opacity-100 transition-opacity" style="filter:drop-shadow(0 0 12px rgba(71,200,245,0.3))">
-    </a>
+    <a href="#" class="flex items-center gap-3 group"><img src="https://assets.cdn.filesafe.space/NkFUgZER3rrdnofCwAIl/media/648dd017a1f733fa5b51e5e9.png" alt="Advon Media" class="h-9 w-auto opacity-80 group-hover:opacity-100 transition-opacity" style="filter:drop-shadow(0 0 12px rgba(71,200,245,0.3))"></a>
     <nav id="desktop-nav" class="hidden md:flex items-center gap-9 text-[13px] font-medium tracking-wide"></nav>
     <div class="flex items-center gap-3">
       <button onclick="triggerLanguageSwitch()" id="mobile-lang-btn" class="md:hidden flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/8 bg-white/3 text-[11px] font-bold text-white/50 hover:border-cyan-400/30 hover:text-cyan-400 transition-all cursor-pointer"></button>
@@ -387,16 +152,23 @@
 
 <main class="relative z-10" id="main-content">
 
+  <!-- HERO -->
   <section class="relative min-h-screen flex items-center justify-center pt-20 pb-24 overflow-hidden">
     <div class="absolute inset-0 z-0">
-      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full" style="background:radial-gradient(circle,rgba(71,200,245,0.025) 0%,rgba(201,168,76,0.01) 40%,transparent 70%)"></div>
+      <!-- Enhanced Cyan Shadows -->
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full" style="background:radial-gradient(circle,rgba(71,200,245,0.04) 0%,rgba(71,200,245,0.015) 30%,transparent 60%)"></div>
+      <div class="absolute top-1/3 left-1/3 w-[400px] h-[400px] rounded-full" style="background:radial-gradient(circle,rgba(71,200,245,0.03),transparent 70%)"></div>
+      <div class="absolute top-1/3 right-1/4 w-[300px] h-[300px] rounded-full" style="background:radial-gradient(circle,rgba(71,200,245,0.025),transparent 70%)"></div>
+      <div class="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[200px] rounded-full" style="background:radial-gradient(ellipse,rgba(71,200,245,0.02),transparent 70%)"></div>
       <div class="absolute bottom-0 left-0 right-0 section-line"></div>
     </div>
     <div class="container max-w-6xl mx-auto px-6 lg:px-8 text-center relative z-10" id="hero-content"></div>
   </section>
 
-  <section class="py-16 relative z-10"><div class="max-w-5xl mx-auto px-6 lg:px-8" id="stats-grid"></div></section>
+  <!-- STATS -->
+  <section class="py-20 relative z-10"><div class="max-w-5xl mx-auto px-6 lg:px-8" id="stats-grid"></div></section>
 
+  <!-- SERVICES -->
   <section id="services" class="py-32 relative">
     <div class="section-line"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pt-16">
@@ -406,9 +178,9 @@
     </div>
   </section>
 
+  <!-- PORTFOLIO -->
   <section id="portfolio" class="py-32 relative">
     <div class="section-line"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full pointer-events-none" style="background:radial-gradient(ellipse,rgba(71,200,245,0.015),transparent 60%)"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pt-16">
       <div id="portfolio-header" class="mb-20"></div>
       <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-12 min-h-[400px]"></div>
@@ -420,6 +192,7 @@
     </div>
   </section>
 
+  <!-- REVIEWS -->
   <section id="reviews" class="py-32 relative overflow-hidden">
     <div class="section-line"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pt-16">
@@ -429,6 +202,7 @@
     </div>
   </section>
 
+  <!-- FAQ -->
   <section id="faq" class="py-24 relative">
     <div class="section-line"></div>
     <div class="max-w-3xl mx-auto px-6 lg:px-8 relative z-10 pt-16">
@@ -437,10 +211,11 @@
     </div>
   </section>
 
+  <!-- CONTACT -->
   <section id="contact" class="py-32 relative">
     <div class="section-line"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(201,168,76,0.02),transparent 60%)"></div>
-    <div class="max-w-5xl mx-auto px-6 lg:px-8 text-center relative z-10 pt-16" id="contact-container"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(71,200,245,0.02),transparent 60%)"></div>
+    <div class="max-w-5xl mx-auto px-6 lg:px-8 relative z-10 pt-16" id="contact-container"></div>
   </section>
 </main>
 
@@ -448,6 +223,7 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6" id="footer-content"></div>
 </footer>
 
+<!-- Modal -->
 <div id="modal-overlay" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
   <div class="absolute inset-0 bg-[#020405]/92 backdrop-blur-xl transition-opacity duration-500 opacity-0" id="modal-bg"></div>
   <div id="modal-box" class="relative bg-[#060a0d]/95 backdrop-blur-2xl border border-white/8 w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl shadow-2xl transform scale-95 opacity-0 transition-all duration-500">
@@ -462,242 +238,189 @@
   </div>
 </div>
 
-<div id="booking-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4">
-  <div class="absolute inset-0 bg-[#020405]/92 backdrop-blur-xl transition-opacity duration-500 opacity-0" id="booking-modal-bg"></div>
-  <div id="booking-modal-box" class="relative bg-[#060a0d] border border-white/8 w-full max-w-4xl h-[85vh] overflow-hidden rounded-2xl shadow-2xl transform scale-95 opacity-0 transition-all duration-500">
-    <div class="absolute top-4 right-4 z-50">
-      <button onclick="closeBooking()" class="p-2 rounded-full bg-[#020405]/50 hover:bg-white/8 text-white/60 hover:text-white transition-all border border-white/10 backdrop-blur-md"><i data-lucide="x" class="w-5 h-5"></i></button>
-    </div>
-    <div class="w-full h-full overflow-y-auto" style="-webkit-overflow-scrolling: touch;">
-      <div class="embedded-booking" data-url="https://advonmedia.trafft.com" data-query="&t=s&uuid=1003c403-d56e-439b-876a-c563b3127470" data-employee="aggelos-metrides" data-lang="en" data-autoresize="0" data-showsidebar="1" data-showservices="0" style="min-width: 320px; height: 100%; min-height: 768px;"></div>
-      <script type="text/javascript" src="https://advonmedia.trafft.com/embed.js" async></script>
-      </div>
+<!-- Booking Overlay -->
+<div class="booking-overlay" id="booking-overlay">
+  <div class="booking-bg" onclick="closeBooking()"></div>
+  <div class="booking-box">
+    <button onclick="closeBooking()" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-cyan-400 transition-all border border-white/10"><i data-lucide="x" class="w-5 h-5"></i></button>
+    <div class="embedded-booking" data-url="https://advonmedia.trafft.com" data-query="&t=s&uuid=1003c403-d56e-439b-876a-c563b3127470" data-employee="aggelos-metrides" data-lang="en" data-autoresize="0" data-showsidebar="1" data-showservices="0" style="min-width:320px;height:100%"></div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-//  ALL DATA — COMPLETELY PRESERVED
-// ═══════════════════════════════════════════════════════════════
-let currentLang = 'el';
-const DA = 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=';
-
+let currentLang='el';
+const DA='https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=';
 function elUpper(s){if(typeof s!=='string')return s;return s.toUpperCase().replace(/Ά/g,'Α').replace(/Έ/g,'Ε').replace(/Ή/g,'Η').replace(/Ί/g,'Ι').replace(/Ό/g,'Ο').replace(/Ύ/g,'Υ').replace(/Ώ/g,'Ω').replace(/Ϊ/g,'Ι').replace(/Ϋ/g,'Υ');}
 
-const translations={
-  el:{
-    title:'Advon Media | Ψηφιακές Λύσεις Marketing',
-    nav:{services:'Υπηρεσίες',portfolio:'Πορτφόλιο',reviews:'Αξιολογήσεις',faq:'FAQ',contact:'Επικοινωνία',lang:'EN'},
-    hero:{badge:'ADVON MEDIA',titlePrefix:'Μετατρέπουμε',titleHighlight1:'Επισκέπτες',titleConnector:'σε',titleHighlight2:'Πελάτες',subtitle:'Οι πιο αποτελεσματικές λύσεις marketing για τοπικές επιχειρήσεις και ελεύθερους επαγγελματίες. Ανεβείτε στην κορυφή των αποτελεσμάτων χωρίς ρίσκο.',ctaPrimary:'ΥΠΗΡΕΣΙΕΣ',ctaSecondary:'ΠΟΡΤΦΟΛΙΟ'},
-    stats:[{num:"2+",label:"ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ"},{num:"50+",label:"ΙΚΑΝΟΠΟΙΗΜΕΝΟΙ ΠΕΛΑΤΕΣ"},{num:"100%",label:"ΕΠΙΤΥΧΙΑ"},{num:"30+",label:"5-STAR REVIEWS"}],
-    sectionTitles:{
-      services:'Υπηρεσίες',servicesMain:'Λύσεις που Αποδίδουν',noCommitment:'Χωρίς δεσμεύσεις - Cancel Anytime',
-      portfolio:'Πορτφόλιο',portfolioMain:'Δείτε μερικές από τις Δουλειές μας',
-      reviews:'Αξιολογήσεις',reviewsMain:'Τι λένε οι πελάτες μας',viewAllReviews:'Δείτε Όλες τις Αξιολογήσεις',
-      faq:'Συχνές Ερωτήσεις',
-      contact:'Επικοινωνία',contactMain:'Ας Συνεργαστούμε',contactSub:'Στείλτε μας email με το τηλέφωνό σας για να συζητήσουμε τι ακριβώς χρειάζεστε.',
-      contactBook:'Κλείστε Ραντεβού',contactBookSub:'Online Calendar',
-      viewSite:'Προβολή Ιστοσελίδας'
-    },
-    footer:{rights:'Με επιφύλαξη παντός δικαιώματος.'}
-  },
-  en:{
-    title:'Advon Media | Digital Marketing Solutions',
-    nav:{services:'Services',portfolio:'Portfolio',reviews:'Reviews',faq:'FAQ',contact:'Contact',lang:'EL'},
-    hero:{badge:'ADVON MEDIA',titlePrefix:'We Turn',titleHighlight1:'Visitors',titleConnector:'into',titleHighlight2:'Customers',subtitle:'The most effective marketing solutions for local businesses and freelancers. Rise to the top of the results without risk.',ctaPrimary:'SERVICES',ctaSecondary:'PORTFOLIO'},
-    stats:[{num:"2+",label:"YEARS OF EXPERIENCE"},{num:"50+",label:"SATISFIED CLIENTS"},{num:"100%",label:"SUCCESS"},{num:"30+",label:"5-STAR REVIEWS"}],
-    sectionTitles:{
-      services:'Services',servicesMain:'Solutions That Deliver',noCommitment:'No commitment - Cancel Anytime',
-      portfolio:'Portfolio',portfolioMain:'See Some of Our Work',
-      reviews:'Reviews',reviewsMain:'What Our Clients Say',viewAllReviews:'See All Reviews',
-      faq:'Frequently Asked Questions',
-      contact:'Contact',contactMain:"Let's Collaborate",contactSub:'Send us an email with your phone number to discuss exactly what you need.',
-      contactBook:'Book Appointment',contactBookSub:'Online Calendar',
-      viewSite:'Visit Website'
-    },
-    footer:{rights:'All rights reserved.'}
-  }
-};
+// Inline SVG for Instagram icon (lucide sometimes fails to load it)
+const IG_SVG='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>';
 
-const services={el:[{id:'WEBSITE',icon:'globe',price:'ΔΩΡΕΑΝ',priceNote:'(μόνο 10.83€/μήνα hosting)',title:'Κατασκευή Ιστοσελίδας',shortDesc:'Επαγγελματική ιστοσελίδα που κατακτά υψηλές θέσεις στη Google.',features:['Επαγγελματικός σχεδιασμός','SEO βελτιστοποίηση','Mobile responsive','Παράδοση σε 5-10 ημέρες'],cta:'Δωρεάν Κατασκευή',more:'Περισσότερες πληροφορίες',modal:{title:'Δωρεάν Κατασκευή Ιστοσελίδας',body:['Δεν είναι κάποιο μάρκετινγκ τρικ, όντως η κατασκευή που κοστίζει κανονικά 700-2000€+, είναι εντελώς δωρεάν.','Το μόνο κόστος για εσάς που δεν μπορούμε να καλύψουμε έιναι η φιλοξενία της ιστοσελίδας σε σέρβερ στο διαδίκτυο (γνωστό και ως hosting) και το domain name (το www.παράδειγμα.gr). Τα αναλαμβάνουμε και τα 2 σαν διαδικασίες εμείς!','Το κάνουμε αυτό γιατί θέλουμε να προσθέσουμε όσες περισσότερες ιστοσελίδες γίνεται στο πορτφόλιο μας για να μπορούμε στο μέλλον και εμείς να έχουμε υψηλές τιμές και κέρδη.','Συνολικά είναι μόνο 10.83€/μήνα (που θα πληρώνατε όπως και να έχει, όπου και αν κατασκευάζατε μια ιστοσελίδα, όπως πληρώνουν και όλοι που ήδη έχουν).','Aναβαθμίστε την επαγγελματική σας παρουσία στο διαδίκτυο και μετατρέψτε τους επισκέπτες της ιστοσελίδας σας σε αφοσιωμένους πελάτες!','Το 2025, η κατοχή μιας επαγγελματικής ιστοσελίδας δεν είναι απλώς ένα επιπλέον εργαλείο — είναι μια αναγκαιότητα για κάθε ελεύθερο επαγγελματία και επιχείρηση που θέλει να ξεχωρίσει στον ψηφιακό κόσμο.','Μια καλά σχεδιασμένη ιστοσελίδα σας βοηθά να κατακτήσετε υψηλότερες θέσεις στις μηχανές αναζήτησης, καθώς η Google αξιολογεί τις ιστοσελίδες ως πιο αξιόπιστες και με πιο ολοκληρωμένο προφίλ.','Η ιστοσελίδα σας λειτουργεί ως η ψηφιακή σας βιτρίνα, ενισχύοντας την επαγγελματική σας εικόνα και προβάλλοντας την επιχείρησή σας ως σοβαρή και αξιόπιστη στους επισκέπτες. Επιπλέον, προσφέρει στους χρήστες εύκολη πρόσβαση σε όλες τις απαραίτητες πληροφορίες, καθιστώντας την εμπειρία τους πιο άνετη και άμεση.']}},{id:'NFC',icon:'star',price:'25€',priceNote:'εφάπαξ',title:'Ανέπαφη Βάση Αξιολογήσεων',shortDesc:'50+ νέες αξιολογήσεις κάθε μήνα. Ανεβείτε στην κορυφή της Google σε 3 μήνες.',features:['Αύξηση κριτικών Google','Βελτίωση τοπικού SEO','Εύκολη χρήση (NFC)','Χωρίς μηνιαία συνδρομή'],cta:'Αγορά Τώρα',more:'Περισσότερες πληροφορίες',modal:{title:'Ανέπαφη Βάση Αξιολογήσεων',image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif',body:['Ανεβείτε στη κορυφή της Google και αποκτήστε 150 νέες αξιολογήσεις σε λιγότερο απο 3 μήνες.','Το πρώτο που κάνει κάποιος όταν αναζητεί μια επιχείρηση είναι να δει τις κριτικές της.','Αν έχετε ελάχιστες είναι πολύ πιθανό να χάσετε πελάτες από τον ανταγωνισμό.','Αλλά δεν είναι μόνο οι πελάτες που επηρεάζονται!','Η Google, ως μηχανή αναζήτησης, θέλει να παρέχει τα πιο στοχευμένα αλλά και έγκυρα αποτελέσματα δίνοντας έτσι κύρια σημασία στις αξιολογήσεις.','Όταν το ζητάτε από τους πελάτες σας συνήθως το ξεχνάνε ή δεν επενδύουν τον χρόνο να ψάξουν.','Με την ανέπαφη βάση αξιολογήσεων μας μπορείτε να αποκτάτε τούλαχιστον 50 νέες κριτικές κάθε μήνα έυκολα και γρήγορα!','Υπολογίστε και μόνοι σας (πχ 8 πελάτες ανά ημέρα, 20 εργάσιμες = 160 πελάτες τον μήνα. Αν λιγότεροι από τους μισόυς, οι 50, σας αφήσουν μια αξιολόγηση, έχετε 150 νέες σε 3 μήνες).']}},{id:'SOCIAL',icon:'instagram',price:'87€/μήνα',title:'Διαχείριση Social Media',shortDesc:'Επαγγελματικά posts, hashtag research, copywriting. 7 ημέρες δωρεάν δοκιμή.',features:['3 posts/εβδομάδα','Hashtag research','Copywriting','Μηνιαία αναφορά'],cta:'Δωρεάν Δοκιμή',more:'Περισσότερες πληροφορίες',modal:{title:'ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΔΙΑΧΕΙΡΙΣΗ SOCIAL MEDIA',body:['• Επαγγελματικά Επεξεργασμένα Posts ανά ημέρα : Δημοσιεύουμε αναρτήσεις που τραβούν την προσοχή των πελατών σας, χρησιμοποιώντας προγράμματα επεξεργασίας συνδυαστικής αξίας 300+ευρώ τον μήνα, όπως Adscreative.io, Photoroom, Photoshop, Adobe Premium, Canvas Pro, Picsart Pro και άλλα.','• Έρευνα Hashtags: Χρησιμοποιούμε τα καλύτερα hashtags ανάλογα με την επιχείρηση, τις υπηρεσίες, το κοινό και την τοποθεσία για να ενισχύσουμε την απήχησή σας και να σας φέρουμε μπροστά σε νέο κοινό.','• Επαγγελματική Κειμενογραφία για κάθε ανάρτηση που οδηγούν τον αναγνώστη σε μια επιθυμητή ενέργεια (πχ να κλείσει ραντεβού κλπ)','• Επεξεργασία - Δημιουργία επαγγελματικού βιογραφικού για το προφιλ σας','• Αναφορές Προόδου: Παρέχουμε μηνιαία ανάλυση της ανάπτυξης των ακολούθων και της αλληλεπίδρασης με τις δημοσιεύσεις σας.','• Ευκολία & Άνεση: Το μόνο που χρειάζεται να κάνετε είναι να μας στείλετε φωτογραφίες της επιχείρησής σας μέσω WeTransfer, και εμείς θα αναλάβουμε τα υπόλοιπα. Αν δεν έχετε μπορούμε να δημιουργούμε εμείς δικά μας designs, χωρίς καμία επένδυση χρόνου από εσάς!','Δωρεάν Δοκιμή','No contracts - cancel anytime','----','Γιατί να Μας Επιλέξετε:','Οικονομικό πακέτο & Χωρίς Ρίσκο: Με μόνο 87 ευρώ τον μήνα και εγγύηση επιστροφής χρημάτων, αφαιρούμε κάθε ρίσκο από την απόφασή σας. Αν δεν είστε απόλυτα ικανοποιημένοι, σας επιστρέφουμε τα χρήματά σας – χωρίς ερωτήσεις.','Προσωποποιημένη Υπηρεσία: Προσαρμόζουμε το περιεχόμενο σύμφωνα με τις ανάγκες της επιχείρησής σας, ώστε να αντανακλά την ταυτότητα και το στυλ σας.','Άμεση Έναρξη: Κλείστε τη θέση σας τώρα – διαθέτουμε μόνο λίγες θέσεις για νέους πελάτες κάθε μήνα, ώστε να διατηρήσουμε την ποιότητα της υπηρεσίας μας.','Καμία Δέσμευση: Μπορείτε να σταματήσετε οποιαδήποτε στιγμή χωρίς μακροχρόνια συμβόλαια.','Αποτέλεσμα: Περισσότεροι Πελάτες & Επαγγελματική Παρουσία','Με τη σωστή διαχείριση του Instagram, θα δείτε αυξημένη αλληλεπίδραση, μεγαλύτερη βάση πελατών, και ένα προφίλ που προσελκύει την προσοχή και δημιουργεί εμπιστοσύνη.','Εγγραφείτε σήμερα και εξασφαλίστε την ειδική τιμή των 87€ μήνα.','Στείλτε μας email στο angelos@advonmedia.com για περαιτέρω επικοινωνία. (το ελέγχουμε καθημερινά)']}}],en:[{id:'WEBSITE',icon:'globe',price:'FREE',priceNote:'(only 10.83€/mo hosting)',title:'Website Creation',shortDesc:'Professional website that ranks high on Google.',features:['Pro Design','SEO Optimized','Mobile Responsive','5-10 Days Delivery'],cta:'Get Started Free',more:'Learn More',modal:{title:'Free Website Creation',body:["It's not a marketing trick, the creation that normally costs 700-2000€+, is completely free.","The only cost we can't cover is the hosting and domain name (e.g. www.example.com). We handle the process for you!","We do this to build our portfolio so we can charge higher rates in the future.","It's only 10.83€/month total (which you'd pay anywhere else anyway, just like everyone who has a website).","Upgrade your online presence and turn visitors into loyal clients!","In 2025, having a professional website is not just an extra tool - it's a necessity for every freelancer and business that wants to stand out in the digital world.","A well-designed website helps you achieve higher positions in search engines, as Google evaluates websites as more reliable and with a more complete profile.","Your website acts as your digital storefront, enhancing your professional image and promoting your business as serious and reliable to visitors. Furthermore, it offers users easy access to all necessary information, making their experience more comfortable and immediate."]}},{id:'NFC',icon:'star',price:'25€',priceNote:'one-time',title:'Contactless Review Stand',shortDesc:'50+ new reviews monthly. Reach the top of Google in 3 months.',features:['Increase Google Reviews','Improve Local SEO','Easy to use (NFC)','No monthly fee'],cta:'Buy Now',more:'Learn More',modal:{title:'Contactless Review Stand',image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif',body:['Reach the top of Google and get 150 new reviews in less than 3 months.','The first thing people do when searching for a business is check its reviews.','If you have very few, it is very likely you will lose customers to the competition.','But it is not only customers who are affected!','Google, as a search engine, wants to provide the most targeted and valid results, thus giving primary importance to reviews.','When you ask your customers, they usually forget or do not invest the time to search.','With our contactless review base, you can get at least 50 new reviews every month easily and quickly!','Calculate for yourself (e.g., 8 customers per day, 20 working days = 160 customers a month. If fewer than half, 50, leave a review, you have 150 new ones in 3 months).']}},{id:'SOCIAL',icon:'instagram',price:'87€/mo',title:'Social Media Management',shortDesc:'Professional posts, hashtag research, copywriting. 7-day free trial.',features:['3 posts/week','Hashtag research','Copywriting','Monthly Report'],cta:'Free Trial',more:'Learn More',modal:{title:'PROFESSIONAL SOCIAL MEDIA MANAGEMENT',body:['• Professionally Edited Posts per day: We publish posts that catch your customers\' attention, using editing programs with a combined value of 300+ euros per month, such as Adscreative.io, Photoroom, Photoshop, Adobe Premium, Canvas Pro, Picsart Pro, and more.','• Hashtag Research: We use the best hashtags depending on the business, services, audience, and location to boost your reach and get you in front of new audiences.','• Professional Copywriting for every post that leads the reader to a desired action (e.g., booking an appointment, etc.)','• Editing - Creation of a professional bio for your profile','• Progress Reports: We provide a monthly analysis of follower growth and interaction with your posts.','• Ease & Comfort: All you need to do is send us photos of your business via WeTransfer, and we will take care of the rest. If you don\'t have any, we can create our own designs, without any time investment from you!','Free Trial','No contracts - cancel anytime','----','Why Choose Us:','Economical Package & Risk-Free: For only 87 euros per month and a money-back guarantee, we remove all risk from your decision. If you are not completely satisfied, we return your money - no questions asked.','Personalized Service: We tailor the content according to the needs of your business, so it reflects your identity and style.','Immediate Start: Book your spot now - we only have a few spots for new clients each month to maintain the quality of our service.','No Commitment: You can stop at any time without long-term contracts.','Result: More Customers & Professional Presence','With proper Instagram management, you will see increased interaction, a larger customer base, and a profile that attracts attention and builds trust.','Sign up today and secure the special price of 87€/month.','Send us an email at angelos@advonmedia.com for further communication. (we check it daily)']}}]};
+const translations={el:{title:'Advon Media | Ψηφιακές Λύσεις Marketing',nav:{services:'Υπηρεσίες',portfolio:'Πορτφόλιο',reviews:'Αξιολογήσεις',faq:'FAQ',contact:'Επικοινωνία'},hero:{badge:'ADVON MEDIA',titlePrefix:'Μετατρέπουμε',titleHighlight1:'Επισκέπτες',titleConnector:'σε',titleHighlight2:'Πελάτες',subtitle:'Οι πιο αποτελεσματικές λύσεις marketing για τοπικές επιχειρήσεις και ελεύθερους επαγγελματίες. Ανεβείτε στην κορυφή των αποτελεσμάτων χωρίς ρίσκο.',ctaPrimary:'ΥΠΗΡΕΣΙΕΣ',ctaSecondary:'ΠΟΡΤΦΟΛΙΟ',ctaBook:'ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ'},stats:[{num:"2+",label:"ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ"},{num:"50+",label:"ΙΚΑΝΟΠΟΙΗΜΕΝΟΙ ΠΕΛΑΤΕΣ"},{num:"100%",label:"ΕΠΙΤΥΧΙΑ"},{num:"30+",label:"5-STAR REVIEWS"}],sectionTitles:{services:'Υπηρεσίες',servicesMain:'Λύσεις που Αποδίδουν',noCommitment:'Χωρίς δεσμεύσεις - Cancel Anytime',portfolio:'Πορτφόλιο',portfolioMain:'Δείτε μερικές από τις Δουλειές μας',reviews:'Αξιολογήσεις',reviewsMain:'Τι λένε οι πελάτες μας',viewAllReviews:'Δείτε Όλες τις Αξιολογήσεις',faq:'Συχνές Ερωτήσεις',contact:'Επικοινωνία',contactMain:'Ας Συνεργαστούμε',contactSub:'Συμπληρώστε τη φόρμα ή στείλτε μας email για να συζητήσουμε τι ακριβώς χρειάζεστε.',viewSite:'Προβολή Ιστοσελίδας',bookCall:'Κλείστε Ραντεβού',formName:'Ονοματεπώνυμο',formEmail:'Email',formPhone:'Τηλέφωνο',formMsg:'Πείτε μας τι χρειάζεστε...',formSend:'ΑΠΟΣΤΟΛΗ',formSuccess:'Ευχαριστούμε! Θα επικοινωνήσουμε σύντομα.'},footer:{rights:'Με επιφύλαξη παντός δικαιώματος.'}},en:{title:'Advon Media | Digital Marketing Solutions',nav:{services:'Services',portfolio:'Portfolio',reviews:'Reviews',faq:'FAQ',contact:'Contact'},hero:{badge:'ADVON MEDIA',titlePrefix:'We Turn',titleHighlight1:'Visitors',titleConnector:'into',titleHighlight2:'Customers',subtitle:'The most effective marketing solutions for local businesses and freelancers. Rise to the top of the results without risk.',ctaPrimary:'SERVICES',ctaSecondary:'PORTFOLIO',ctaBook:'BOOK A CALL'},stats:[{num:"2+",label:"YEARS OF EXPERIENCE"},{num:"50+",label:"SATISFIED CLIENTS"},{num:"100%",label:"SUCCESS"},{num:"30+",label:"5-STAR REVIEWS"}],sectionTitles:{services:'Services',servicesMain:'Solutions That Deliver',noCommitment:'No commitment - Cancel Anytime',portfolio:'Portfolio',portfolioMain:'See Some of Our Work',reviews:'Reviews',reviewsMain:'What Our Clients Say',viewAllReviews:'See All Reviews',faq:'Frequently Asked Questions',contact:'Contact',contactMain:"Let's Collaborate",contactSub:'Fill out the form or send us an email to discuss exactly what you need.',viewSite:'Visit Website',bookCall:'Book a Call',formName:'Full Name',formEmail:'Email',formPhone:'Phone',formMsg:'Tell us what you need...',formSend:'SEND',formSuccess:'Thank you! We will be in touch soon.'},footer:{rights:'All rights reserved.'}}};
+
+const services={el:[{id:'WEBSITE',icon:'globe',price:'ΔΩΡΕΑΝ',priceNote:'(μόνο 10.83€/μήνα hosting)',title:'Κατασκευή Ιστοσελίδας',shortDesc:'Επαγγελματική ιστοσελίδα που κατακτά υψηλές θέσεις στη Google.',features:['Επαγγελματικός σχεδιασμός','SEO βελτιστοποίηση','Mobile responsive','Παράδοση σε 5-10 ημέρες'],cta:'Δωρεάν Κατασκευή',more:'Περισσότερες πληροφορίες',modal:{title:'Δωρεάν Κατασκευή Ιστοσελίδας',body:['Δεν είναι κάποιο μάρκετινγκ τρικ, όντως η κατασκευή που κοστίζει κανονικά 700-2000€+, είναι εντελώς δωρεάν.','Το μόνο κόστος για εσάς που δεν μπορούμε να καλύψουμε έιναι η φιλοξενία της ιστοσελίδας σε σέρβερ στο διαδίκτυο (γνωστό και ως hosting) και το domain name (το www.παράδειγμα.gr). Τα αναλαμβάνουμε και τα 2 σαν διαδικασίες εμείς!','Το κάνουμε αυτό γιατί θέλουμε να προσθέσουμε όσες περισσότερες ιστοσελίδες γίνεται στο πορτφόλιο μας.','Συνολικά είναι μόνο 10.83€/μήνα.','Aναβαθμίστε την επαγγελματική σας παρουσία στο διαδίκτυο!','Το 2025, η κατοχή μιας επαγγελματικής ιστοσελίδας δεν είναι απλώς ένα επιπλέον εργαλείο — είναι μια αναγκαιότητα.','Μια καλά σχεδιασμένη ιστοσελίδα σας βοηθά να κατακτήσετε υψηλότερες θέσεις στις μηχανές αναζήτησης.','Η ιστοσελίδα σας λειτουργεί ως η ψηφιακή σας βιτρίνα.']}},{id:'NFC',icon:'star',price:'25€',priceNote:'εφάπαξ',title:'Ανέπαφη Βάση Αξιολογήσεων',shortDesc:'50+ νέες αξιολογήσεις κάθε μήνα. Ανεβείτε στην κορυφή της Google σε 3 μήνες.',features:['Αύξηση κριτικών Google','Βελτίωση τοπικού SEO','Εύκολη χρήση (NFC)','Χωρίς μηνιαία συνδρομή'],cta:'Αγορά Τώρα',more:'Περισσότερες πληροφορίες',modal:{title:'Ανέπαφη Βάση Αξιολογήσεων',image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif',body:['Ανεβείτε στη κορυφή της Google και αποκτήστε 150 νέες αξιολογήσεις σε λιγότερο απο 3 μήνες.','Το πρώτο που κάνει κάποιος όταν αναζητεί μια επιχείρηση είναι να δει τις κριτικές της.','Αν έχετε ελάχιστες είναι πολύ πιθανό να χάσετε πελάτες από τον ανταγωνισμό.','Η Google δίνει κύρια σημασία στις αξιολογήσεις.','Με την ανέπαφη βάση αξιολογήσεων μας μπορείτε να αποκτάτε τούλαχιστον 50 νέες κριτικές κάθε μήνα!']}},{id:'SOCIAL',icon:'camera',price:'87€/μήνα',title:'Διαχείριση Social Media',shortDesc:'Επαγγελματικά posts, hashtag research, copywriting. 7 ημέρες δωρεάν δοκιμή.',features:['3 posts/εβδομάδα','Hashtag research','Copywriting','Μηνιαία αναφορά'],cta:'Δωρεάν Δοκιμή',more:'Περισσότερες πληροφορίες',modal:{title:'ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΔΙΑΧΕΙΡΙΣΗ SOCIAL MEDIA',body:['• Επαγγελματικά Επεξεργασμένα Posts ανά ημέρα.','• Έρευνα Hashtags.','• Επαγγελματική Κειμενογραφία.','• Αναφορές Προόδου.','• Ευκολία & Άνεση.','Δωρεάν Δοκιμή — No contracts — cancel anytime','Στείλτε μας email στο angelos@advonmedia.com']}}],en:[{id:'WEBSITE',icon:'globe',price:'FREE',priceNote:'(only 10.83€/mo hosting)',title:'Website Creation',shortDesc:'Professional website that ranks high on Google.',features:['Pro Design','SEO Optimized','Mobile Responsive','5-10 Days Delivery'],cta:'Get Started Free',more:'Learn More',modal:{title:'Free Website Creation',body:["It's not a marketing trick — completely free.","The only cost is hosting and domain.","We do this to build our portfolio.","It's only 10.83€/month total.","Upgrade your online presence!","A professional website is a necessity in 2025.","Higher search engine rankings.","Your digital storefront."]}},{id:'NFC',icon:'star',price:'25€',priceNote:'one-time',title:'Contactless Review Stand',shortDesc:'50+ new reviews monthly. Reach the top of Google in 3 months.',features:['Increase Google Reviews','Improve Local SEO','Easy to use (NFC)','No monthly fee'],cta:'Buy Now',more:'Learn More',modal:{title:'Contactless Review Stand',image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6724bf7a4eb48eb705a7b389.gif',body:['Reach the top of Google and get 150 new reviews in less than 3 months.','The first thing people do is check reviews.','Google gives primary importance to reviews.','Get at least 50 new reviews every month!']}},{id:'SOCIAL',icon:'camera',price:'87€/mo',title:'Social Media Management',shortDesc:'Professional posts, hashtag research, copywriting. 7-day free trial.',features:['3 posts/week','Hashtag research','Copywriting','Monthly Report'],cta:'Free Trial',more:'Learn More',modal:{title:'PROFESSIONAL SOCIAL MEDIA MANAGEMENT',body:['• Professionally Edited Posts.','• Hashtag Research.','• Professional Copywriting.','• Progress Reports.','• Ease & Comfort.','Free Trial — No contracts — cancel anytime','Email: angelos@advonmedia.com']}}]};
 
 const faqs={el:[{question:'Τι είναι η Advon Media;',answer:'Είμαστε ένα ψηφιακό marketing agency που ειδικεύεται σε στρατηγική, social media και περιεχόμενο.'},{question:'Ποιες υπηρεσίες προσφέρετε;',answer:'Κατασκευή ιστοσελίδων, δημιουργία περιεχομένου + διαχείριση social media και ανέπαφες (NFC) βάσεις αξιολογήσεων.'},{question:'Πόσο διαρκεί η παράδοση μιας ιστοσελίδας;',answer:'Από τη στιγμή που έχουμε λάβει όλο το υλικό, μπορούμε να ολοκληρώσουμε την κατασκευή σε 5-10 ημέρες.'},{question:'Πώς μπορώ να επικοινωνήσω;',answer:'Στείλτε μας email στο angelos@advonmedia.com και θα επικοινωνήσουμε άμεσα μαζί σας.'}],en:[{question:'What is Advon Media?',answer:'We are a digital marketing agency specializing in strategy, social media, and content creation.'},{question:'What services do you offer?',answer:'Website construction, content creation + social media management, and contactless (NFC) review stands.'},{question:'How long does website delivery take?',answer:'From the moment we receive all the material, we can complete the construction in 5-10 days.'},{question:'How can I contact you?',answer:'Send us an email at angelos@advonmedia.com and we will contact you immediately.'}]};
 
-// PORTFOLIO — with ALL new items added
+// PORTFOLIO — Fixed image URLs (using raw.githubusercontent.com/USER/REPO/main/FILE format)
+const G='https://raw.githubusercontent.com/agelmet/Advon-Media/main/';
+const A='https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/';
 const portfolioItems=[
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/polymerop.jpg?token=B5JP7MB4W6DY2CTY2PMHZKLJYWFBK',url:'https://polymeropoulou-psychologos.gr',name:'Λαμπρινή Πολυμεροπούλου (MSc), Ψυχολόγος',nameEn:'Lamprini Polymeropoulou (MSc), Psychologist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/gerou.jpg?token=B5JP7MHNUXZ4TH5QYF4ITPTJYWFJ6',url:'https://mairagerou-psychologist.gr',name:'Μάιρα Γέρου, Ψυχολόγος',nameEn:'Maira Gerou, Psychologist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/sorokina.jpg?token=B5JP7MD4LDPKE2PS6XRWRATJYWFBK',url:'https://sorokina-psychologist.gr',name:'ΜΑΡΙΝΑ ΣΟΡΟΚΙΝΑ Ψυχολόγος - Ψυχοθεραπεύτρια',nameEn:'Marina Sorokina Psychologist - Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/papazog.jpg?token=B5JP7MBPHLUM6I5RTF3DJVTJYWFKA',url:'https://papazoglou-psychologist.gr',name:'Σάκης Παπάζογλου, Ψυχολόγος - Ψυχοθεραπευτής',nameEn:'Sakis Papazoglou, Psychologist - Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/f14b544e63991675df4be9416ab95fe2d2af6113/demeroutis.jpg?token=B5JP7MCREZIDLA3RQ7W2M5DJYWFTO',url:'http://demeroutis-psychverse.gr',name:'Θοδωρής Δεμερούτης Ψυχολόγος και Ειδικευόμενος Συστημικός Ψυχοθεραπευτής',nameEn:'Thodoris Demeroutis Psychologist & Systemic Psychotherapist in Training'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/dilana.jpg?token=B5JP7MH7RKZ5Q66OM5MEPQ3JYWFJ6',url:'https://dilana-psychologos.gr',name:'Ελένη Δηλανά Ψυχολόγος - Ψυχοθεραπεύτρια',nameEn:'Eleni Dilana Psychologist - Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/keletseki.jpg?token=B5JP7MCARTQJCHSQHLJV2OLJYWFKA',url:'https://keletseki-psychotherapy.gr',name:'Κατερίνα Κελετσέκη Ψυχολόγος- Ψυχοθεραπεύτρια',nameEn:'Katerina Keletseki Psychologist - Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/mixalop.jpg?token=B5JP7MHNT6URSJRYOM3HA63JYWFKA',url:'https://michalopoulou-ioulia-psychotherapy.gr',name:'Ιουλία Μιχαλοπούλου (MSc) Ψυχολόγος – Ψυχοθεραπεύτρια',nameEn:'Ioulia Michalopoulou (MSc) Psychologist - Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/f14b544e63991675df4be9416ab95fe2d2af6113/alatsi.jpg?token=B5JP7MDWLXHGL2IP464N2M3JYWFTO',url:'https://christinaalatsi.gr',name:'Χριστίνα Αλάτση - Σύμβουλος ψυχικής υγείας, ψυχοθεραπεύτρια, υπνοθεραπεύτρια',nameEn:'Christina Alatsi - Mental Health Counselor, Psychotherapist, Hypnotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/mixa.jpg?token=B5JP7MEKUKJN3XPPZQYEO3TJYWFKA',url:'https://elenimicha-psychologist.gr',name:'Ελένη Μίχα - Ψυχολόγος - CBT Ψυχοθεραπεύτρια, MSc Κλινική Νευροψυχολογία',nameEn:'Eleni Micha - Psychologist - CBT Psychotherapist, MSc Clinical Neuropsychology'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/sarlaki.jpg?token=B5JP7MCPF6ARDUFVV2TGG73JYWFBK',url:'https://mairasarlaki.gr',name:'Μάιρα Σαρλάκη - Ψυχολόγος- ΜΑ Ψυχοθεραπεύτρια',nameEn:'Maira Sarlaki - Psychologist - MA Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/vetta.jpg?token=B5JP7MHBO27KMH23BFMAOY3JYWFBK',url:'https://marietavetta-psychotherapy.gr',name:'Μαριέτα Βέττα - Προσωποκεντρική Ψυχοθεραπεύτρια-Σύμβουλος ψυχικής υγείας και Τραυματοθεραπεύτρια DBR',nameEn:'Marieta Vetta - Person-Centered Psychotherapist, Mental Health Counselor & DBR Trauma Therapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/roumelioti.jpg?token=B5JP7MCT2HL63NH65HGPL7DJYWFBK',url:'https://mariannaroumelioti.gr',name:'Μαριάννα Ρουμελιώτη Ψυχολόγος και Συνθετική Ψυχοθεραπεύτρια',nameEn:'Marianna Roumelioti Psychologist & Integrative Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/ntinop.jpg?token=B5JP7ME254UNVRQX7TS66ATJYWFKA',url:'https://healyouwell.gr',name:'ΑΡΙΑΔΝΗ Α. ΝΤΙΝΟΠΟΥΛΟΥ - Ψυχολόγος & Συστημική Ψυχοθεραπεύτρια',nameEn:'Ariadni A. Ntinopoulou - Psychologist & Systemic Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/simitsi.jpg?token=B5JP7MEX4TRUFBGLAM4M3KLJYWFBK',url:'https://drsimitsi-psychologist.gr',name:'Χριστίνα Σιμιτσή Διδάκτωρ Κλινικής Δικαστικής Ψυχολογίας & Συστημική Ψυχοθεραπεύτρια',nameEn:'Christina Simitsi PhD in Clinical Forensic Psychology & Systemic Psychotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45905d47854e96f553.jpg',url:'https://parthenis-psychotherapy.gr',name:'Αλέξανδρος Παρθένης Ψυχολόγος',nameEn:'Alexandros Parthenis Psychologist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/labrinou.jpg?token=B5JP7MCDFCRWLDJ6KPSRLPTJYWFKA',url:'https://evalamprinou-psychologist.gr',name:'Mind Your Emotion - Εύα Λαμπρινού, Ψυχολόγος και Κλινική Σεξολόγος',nameEn:'Mind Your Emotion - Eva Lamprinou, Psychologist & Clinical Sexologist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/f14b544e63991675df4be9416ab95fe2d2af6113/boubaliki.jpg?token=B5JP7MAJ5BLHGWDMAYOA3BLJYWFTO',url:'https://boubaliki-psychologos.gr',name:'Ηλιάνα Μπουμπαλίκη - Ψυχολόγος',nameEn:'Iliana Boubaliki - Psychologist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/emirza.jpg?token=B5JP7MGYYRNEFMFZVP6UXH3JYWFJ6',url:'https://skepsyxi.gr',name:'Σαββίνα Εμιρζά (MSc) Ψυχολόγος και Οικογενειακή Ψυχοθεραπεύτρια',nameEn:'Savvina Emirza (MSc) Psychologist & Family Psychotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45b3d5f853873a9c68.jpg',url:'https://angelikivrettou.gr',name:'Αγγελική Βρεττού ΣΥΣΤΗΜΙΚΗ ΨΥΧΟΘΕΡΑΠΕΥΤΡΙΑ MSC',nameEn:'Angeliki Vrettou Systemic Psychotherapist MSC'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45b3d5f8cc953a9c69.jpg',url:'https://mitsi-psychologist.gr',name:'ERIOLA MITSI Ψυχολόγος & Γνωσιακή Συμπεριφορική Ψυχοθεραπεύτρια',nameEn:'Eriola Mitsi Psychologist & CBT Therapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45905d4711e496f556.jpg',url:'https://mantzioroupsychologist.gr',name:'Χριστίνα Μαντζιώρου ΨΥΧΟΛΟΓΟΣ - ΨΥΧΟΘΕΡΑΠΕΥΤΡΙΑ',nameEn:'Christina Mantziorou Psychologist - Psychotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45d614c9af3d3c0a07.jpg',url:'https://highsoulbody.gr',name:'ΔΑΝΑΗ ΑΛΕΞΑΝΔΡΙΔΟΥ Ολιστική Ψυχοθεραπεύτρια',nameEn:'Danai Alexandridou Holistic Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/marketi.jpg?token=B5JP7MDUFGTZRNWARSXXGYDJYWFKA',url:'https://konstantinamarketi-psychotherapist.gr',name:'Κωνσταντίνα Μαρκέτη (MSc), Κλινική Ψυχολόγος - Ψυχοθεραπεύτρια',nameEn:'Konstantina Marketi (MSc), Clinical Psychologist - Psychotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45905d4794ec96f555.jpg',url:'https://psychodev.gr',name:'Σπύρος Αναγνώστου ΨΥΧΟΛΟΓΟΣ',nameEn:'Spyros Anagnostou Psychologist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/f14b544e63991675df4be9416ab95fe2d2af6113/dalla.jpg?token=B5JP7MA5Z2Z4YIK4UUBIA7LJYWFTO',url:'https://dalla-psychologist.gr',name:'Δανάη Δάλλα Ψυχολόγος',nameEn:'Danai Dalla Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45d614c9ac5b3c0a02.jpg',url:'https://giannakopoulou-psychologist.gr',name:'ΜΑΡΙΑ ΓΙΑΝΝΑΚΟΠΟΥΛΟΥ Ψυχολόγος- Ψυχοθεραπεύτρια',nameEn:'Maria Giannakopoulou Psychologist - Psychotherapist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/f14b544e63991675df4be9416ab95fe2d2af6113/andrikou.jpg?token=B5JP7MACYRG6R7YAYAXV6ZLJYWFTO',url:'https://andrikou-systherapy.gr',name:'Αναστάσιος Ανδρίκου Συστημικός Οικογενειακός Ψυχοθεραπευτής και Σύμβουλος Ψυχικής Υγείας',nameEn:'Anastasios Andrikou Systemic Family Psychotherapist & Mental Health Counselor'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/toulgaridou.jpg?token=B5JP7MESCH3ZUJCCCC35QN3JYWFBK',url:'https://toulgaridou-psychologos.gr',name:'Κατερίνα Τουλγαρίδου, Ψυχολόγος και Συστημική Ψυχοθεραπεύτρια',nameEn:'Katerina Toulgaridou, Psychologist & Systemic Psychotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d97732b551c7381a45.jpg',url:'https://giouliskondra-therapy.gr/home',name:'Σκόνδρα Παναγιούλα – Ψυχολόγος',nameEn:'Skondra Panagioula - Psychologist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/de90f1cef54bf445d7134c78d472d9c3bcb6b4c5/matoula.jpg?token=B5JP7MDSQLUS65VURG4UN7DJYWFKA',url:'https://matoula-psychotherapy.gr',name:'Μαρία Ματούλα - Κλινική Ψυχολόγος και Ψυχοθεραπεύτρια',nameEn:'Maria Matoula - Clinical Psychologist & Psychotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d918c33528d435252f.jpg',url:'https://farantakis-psychotherapist.gr/home',name:'Φαραντάκης Γιάννης - Ψυχολόγος',nameEn:'Farantakis Giannis - Psychologist'},
-{image:'https://raw.githubusercontent.com/agelmet/Advon-Media/ebcd27921f4cec433ca62721c969586692cfb7b3/skandali.jpg?token=B5JP7MD42CZRELJAAH553UDJYWFBK',url:'https://skandali-therapist.gr',name:'Μαίρη Σκανδάλη Προσωποκεντρική Ψυχοθεραπεύτρια και Σύμβουλος Ψυχικής Υγείας',nameEn:'Mairi Skandali Person-Centered Psychotherapist & Mental Health Counselor'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d918c33576a4352530.jpg',url:'https://menetian-psychologist.gr',name:'Μενετιάν Λοράνς - Ψυχολόγος',nameEn:'Menetian Lorans - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d913fe2b4ebda2afef.jpg',url:'https://giotakarampetsou.gr',name:'Καραμπέτσου Παναγιώτα - Ψυχολόγος',nameEn:'Karampetsou Panagiota - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d926ea6442a7a91af5.jpg',url:'https://fatourou-ioulia-psychologos.gr',name:'Φατούρου Ιουλία - Ψυχολόγος',nameEn:'Fatourou Ioulia - Psychologist'},
-{image:'https://github.com/agelmet/Image-hosting-/blob/main/11.jpg?raw=true',url:'https://talamagka-psychologos.gr/home',name:'Ταλαμάγκα Ελπίδα - Ψυχολόγος',nameEn:'Talamagka Elpida - Psychologist'},
-{image:'https://github.com/agelmet/Image-hosting-/blob/main/22.jpg?raw=true',url:'https://roza-psychologist.gr',name:'Χαρουτιουνιάν Ρόζα - Ψυχολόγος',nameEn:'Haroutiounian Roza - Psychologist'},
-{image:'https://github.com/agelmet/Image-hosting-/blob/main/33.jpg?raw=true',url:'https://zampelis-psychology.gr',name:'Ζαμπέλης Στέφανος - Ψυχολόγος',nameEn:'Zampelis Stefanos - Psychologist'},
-{image:'https://github.com/agelmet/Image-hosting-/blob/main/44.jpg?raw=true',url:'https://nakou-psychologos.gr',name:'Νάκου Δήμητρα - Ψυχολόγος',nameEn:'Nakou Dimitra - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6720fff573cc5fde7d814b0c.png',url:'https://rhodesdentist.gr',name:'Γλυνός Γεώργιος - Οδοντίατρος',nameEn:'Glynos Georgios - Dentist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6720fff57002eeb8d74c581c.png',url:'https://apartmentsin-greece.gr',name:'Αθήνα + Κρήτη - Διαμερίσματα',nameEn:'Athens + Crete - Apartments'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6720fff5be2f992fd50c4409.png',url:'https://pediatrician-ioannisloukas.gr/en',name:'Λουκάς Ιωάννης - Παιδίατρος',nameEn:'Loukas Ioannis - Pediatrician'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69025bdb3e45df05181238c1.jpeg',url:'https://loulou-physiotherapy.gr',name:'Λουλού Χρυσάνθη - Φυσικοθεραπεύτρια',nameEn:'Loulou Chrysanthi - Physiotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69025bdb7e579816e94176ed.jpeg',url:'https://sofiavassiliadou-psyxiatros.gr',name:'Βασιλειάδου Σοφία - Ψυχίατρος',nameEn:'Vassiliadou Sofia - Psychiatrist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69025bdb5d191555856d1f45.jpeg',url:'https://pappa-psyxologos.gr',name:'Παππά Εμμανουέλα - Ψυχολόγος',nameEn:'Pappa Emmanuela - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69025bdb10e4602f322522a4.jpeg',url:'https://oikonomou-psyxologos.gr',name:'Οικονόμου Χρυσούλα - Ψυχολόγος',nameEn:'Oikonomou Chrysoula - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69025bdb5bfb334b18eec0a9.jpeg',url:'https://stylianidou-psyxologos.gr',name:'Στυλιανίδου Σοφία - Ψυχολόγος',nameEn:'Stylianidou Sofia - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69025bdbdf45434ecfb96d36.jpeg',url:'https://tsekourakis-physiotherapy.gr',name:'Τσεκουράκης Χρόνης - Φυσικοθεραπευτής',nameEn:'Tsekourakis Chronis - Physiotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69031419ad87b047b548b858.jpeg',url:'https://smaragdadimitra.gr',name:'Δημητρά Σμαράγδα - Ψυχολόγος',nameEn:'Dimitra Smaragda - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/690314195170a503ad1b3a49.jpeg',url:'https://antamian-physiotherapy.gr',name:'Ανταμιάν Ερμιόνη - Φυσικοθεραπεύτρια',nameEn:'Antamian Ermioni - Physiotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69031419ad87b0376a48b859.jpeg',url:'https://dorasizopoulou.gr',name:'Σιζοπούλου Θεοδώρα - Ψυχολόγος',nameEn:'Sizopoulou Theodora - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/690314195170a593181b3a4a.jpeg',url:'https://zoetherapy.gr',name:'Ανδρεαδάκη Ζωή - Ψυχολόγος',nameEn:'Andreadaki Zoe - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69031419762d2cf9e43378e1.jpeg',url:'https://memagiagkini-psyxologos.gr',name:'Γιαγκίνη Μέμα - Ψυχολόγος',nameEn:'Giagkini Mema - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/68d954cfa1d2dc78adcfe610.jpeg',url:'https://tsialiafa-dentalcare.gr',name:'Τσιαλιάφα Ελένη - Οδοντίατρος',nameEn:'Tsialiafa Eleni - Dentist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/68d954cfa1d2dc95f3cfe5fb.jpeg',url:'https://chatzistratis-paidiatros.gr',name:'Χατζηστρατής Στράτος - Παιδίατρος',nameEn:'Chatzistratis Stratos - Pediatrician'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/68d954cf4c35d613678773f5.jpeg',url:'https://occludent.gr',name:'Φασούλα Μαρία - Οδοντίατρος',nameEn:'Fasoula Maria - Dentist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/68d954cfa1d2dc0857cfe5fc.jpeg',url:'https://papathomas-vision.gr',name:'Θωμάς Παπαθωμάς - Οφθαλμίατρος',nameEn:'Thomas Papathomas - Ophthalmologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/68d954cf337bbf261a42bbc3.jpeg',url:'https://kk-dental.gr',name:'Κωνσταντινίδης Κωνσταντίνος - Οδοντίατρος',nameEn:'Konstantinidis Konstantinos - Dentist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/68d954cf4c35d6bcaf8773f6.jpeg',url:'https://mysmile-prosthodontics.gr',name:'Μορδοχάι Νικήτας - Οδοντίατρος',nameEn:'Mordochai Nikitas - Dentist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6720fff5e811867d962b0b12.png',url:'https://wonderfulspecs.gr',name:'WonderfulSpecs - Οπτικά',nameEn:'WonderfulSpecs - Optics'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6720fff57d6e345146f91a82.png',url:'https://astra-paidiatros.gr',name:'Αστρά Ελένη - Παιδίατρος',nameEn:'Astra Eleni - Pediatrician'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/672106acbe2f9908390c468b.png',url:'https://barampouti-ofthalmiatros.gr',name:'Μπαραμπούτη Φαίη - Οφθαλμίατρος',nameEn:'Barampouti Faye - Ophthalmologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/684c2972bc1bea3590d2fcd5.jpeg',url:'https://eye-orl.gr',name:'Οφθαλμίατρος + Ωτορινολαρυγγολόγος',nameEn:'Ophthalmologist + ENT'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/684c2972e3c40936dec8067b.jpeg',url:'https://davou-ofthalmiatros.gr',name:'Δάβου Σταυρούλα - Οφθαλμίατρος',nameEn:'Davou Stavroula - Ophthalmologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/684c29725cb3bb547ceacc82.jpeg',url:'https://vouza-ofthalmiatros.gr',name:'Βούζα Ασπασία - Οφθαλμίατρος',nameEn:'Vouza Aspasia - Ophthalmologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/684c297207bcd3c2755ce584.jpeg',url:'https://thetidasvilla.gr',name:'Κάρπαθος - Βίλα',nameEn:'Karpathos - Villa'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/684c297207bcd3a84a5ce586.jpeg',url:'https://panousopoulou-paidiatros.gr',name:'Πανουσοπούλου Χριστίνα - Παιδίατρος',nameEn:'Panousopoulou Christina - Pediatrician'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/684c2972fbe6f42e908208cb.jpeg',url:'https://giamouris-paidiatros.gr',name:'Γιαμούρης Μανόλης - Παιδίατρος',nameEn:'Giamouris Manolis - Pediatrician'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/684c29722809a9b32a06926f.jpeg',url:'https://theodosis-orila.gr',name:'Θεοδώσης Πέτρος - Ωτορινολαρυγγολόγος',nameEn:'Theodosis Petros - ENT Surgeon'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/684c297251e5e5089ade7e7e.jpeg',url:'https://zormpa-dentist.gr',name:'Ζορμπά Θωμαής - Οδοντίατρος',nameEn:'Zormpa Thomais - Dentist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45fa6b7b92a418f1cd.jpg',url:'https://yiota-kalliontzaki.gr',name:'Γιώτα Καλλιοντζάκη - Ψυχολόγος',nameEn:'Yiota Kalliontzaki - Psychologist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45b3d5f870383a9c67.jpg',url:'https://karouzioanna-psychologist.gr',name:'ΙΩΑΝΝΑ ΚΑΡΟΥΖΗ ΨΥΧΟΛΟΓΟΣ - ΨΥΧΟΘΕΡΑΠΕΥΤΡΙΑ',nameEn:'Ioanna Karouzi Psychologist - Psychotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45ee19cf418bb2e495.jpg',url:'https://asimakopoulou-psychologos.gr',name:'Ιωάννα Ασημακοπούλου Ψυχολόγος - Ψυχοθεραπεύτρια',nameEn:'Ioanna Asimakopoulou Psychologist - Psychotherapist'},
-{image:'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45905d47889396f554.jpg',url:'https://elenakovaiou-psychologist.gr',name:'Έλενα Κωβαίου Ψυχολόγος – Ψυχοθεραπεύτρια',nameEn:'Elena Kovaiou Psychologist - Psychotherapist'}
+// Page 1 new items
+{image:G+'polymerop.jpg',url:'https://polymeropoulou-psychologos.gr',name:'Λαμπρινή Πολυμεροπούλου (MSc), Ψυχολόγος',nameEn:'Lamprini Polymeropoulou (MSc), Psychologist'},
+{image:G+'gerou.jpg',url:'https://mairagerou-psychologist.gr',name:'Μάιρα Γέρου, Ψυχολόγος',nameEn:'Maira Gerou, Psychologist'},
+{image:G+'sorokina.jpg',url:'https://sorokina-psychologist.gr',name:'ΜΑΡΙΝΑ ΣΟΡΟΚΙΝΑ Ψυχολόγος - Ψυχοθεραπεύτρια',nameEn:'Marina Sorokina Psychologist - Psychotherapist'},
+{image:G+'papazog.jpg',url:'https://papazoglou-psychologist.gr',name:'Σάκης Παπάζογλου, Ψυχολόγος - Ψυχοθεραπευτής',nameEn:'Sakis Papazoglou, Psychologist - Psychotherapist'},
+{image:G+'demeroutis.jpg',url:'http://demeroutis-psychverse.gr',name:'Θοδωρής Δεμερούτης Ψυχολόγος',nameEn:'Thodoris Demeroutis Psychologist'},
+{image:G+'dilana.jpg',url:'https://dilana-psychologos.gr',name:'Ελένη Δηλανά Ψυχολόγος - Ψυχοθεραπεύτρια',nameEn:'Eleni Dilana Psychologist - Psychotherapist'},
+{image:G+'keletseki.jpg',url:'https://keletseki-psychotherapy.gr',name:'Κατερίνα Κελετσέκη Ψυχολόγος- Ψυχοθεραπεύτρια',nameEn:'Katerina Keletseki Psychologist - Psychotherapist'},
+{image:G+'mixalop.jpg',url:'https://michalopoulou-ioulia-psychotherapy.gr',name:'Ιουλία Μιχαλοπούλου (MSc) Ψυχολόγος – Ψυχοθεραπεύτρια',nameEn:'Ioulia Michalopoulou (MSc) Psychologist - Psychotherapist'},
+{image:G+'alatsi.jpg',url:'https://christinaalatsi.gr',name:'Χριστίνα Αλάτση - Σύμβουλος ψυχικής υγείας',nameEn:'Christina Alatsi - Mental Health Counselor'},
+{image:G+'mixa.jpg',url:'https://elenimicha-psychologist.gr',name:'Ελένη Μίχα - Ψυχολόγος - CBT Ψυχοθεραπεύτρια',nameEn:'Eleni Micha - Psychologist - CBT Psychotherapist'},
+{image:G+'sarlaki.jpg',url:'https://mairasarlaki.gr',name:'Μάιρα Σαρλάκη - Ψυχολόγος- ΜΑ Ψυχοθεραπεύτρια',nameEn:'Maira Sarlaki - Psychologist - MA Psychotherapist'},
+{image:G+'vetta.jpg',url:'https://marietavetta-psychotherapy.gr',name:'Μαριέτα Βέττα - Ψυχοθεραπεύτρια',nameEn:'Marieta Vetta - Psychotherapist'},
+{image:G+'roumelioti.jpg',url:'https://mariannaroumelioti.gr',name:'Μαριάννα Ρουμελιώτη Ψυχολόγος',nameEn:'Marianna Roumelioti Psychologist'},
+{image:G+'ntinop.jpg',url:'https://healyouwell.gr',name:'ΑΡΙΑΔΝΗ Α. ΝΤΙΝΟΠΟΥΛΟΥ - Ψυχολόγος',nameEn:'Ariadni A. Ntinopoulou - Psychologist'},
+{image:G+'simitsi.jpg',url:'https://drsimitsi-psychologist.gr',name:'Χριστίνα Σιμιτσή - Ψυχολόγος',nameEn:'Christina Simitsi - Psychologist'},
+{image:A+'69958e45905d47854e96f553.jpg',url:'https://parthenis-psychotherapy.gr',name:'Αλέξανδρος Παρθένης Ψυχολόγος',nameEn:'Alexandros Parthenis Psychologist'},
+{image:G+'labrinou.jpg',url:'https://evalamprinou-psychologist.gr',name:'Εύα Λαμπρινού, Ψυχολόγος',nameEn:'Eva Lamprinou, Psychologist'},
+{image:G+'boubaliki.jpg',url:'https://boubaliki-psychologos.gr',name:'Ηλιάνα Μπουμπαλίκη - Ψυχολόγος',nameEn:'Iliana Boubaliki - Psychologist'},
+{image:G+'emirza.jpg',url:'https://skepsyxi.gr',name:'Σαββίνα Εμιρζά (MSc) Ψυχολόγος',nameEn:'Savvina Emirza (MSc) Psychologist'},
+{image:A+'69958e45b3d5f853873a9c68.jpg',url:'https://angelikivrettou.gr',name:'Αγγελική Βρεττού ΣΥΣΤΗΜΙΚΗ ΨΥΧΟΘΕΡΑΠΕΥΤΡΙΑ MSC',nameEn:'Angeliki Vrettou Systemic Psychotherapist MSC'},
+{image:A+'69958e45b3d5f8cc953a9c69.jpg',url:'https://mitsi-psychologist.gr',name:'ERIOLA MITSI Ψυχολόγος & CBT',nameEn:'Eriola Mitsi Psychologist & CBT Therapist'},
+// Page 2+
+{image:A+'69958e45905d4711e496f556.jpg',url:'https://mantzioroupsychologist.gr',name:'Χριστίνα Μαντζιώρου',nameEn:'Christina Mantziorou'},
+{image:A+'69958e45d614c9af3d3c0a07.jpg',url:'https://highsoulbody.gr',name:'ΔΑΝΑΗ ΑΛΕΞΑΝΔΡΙΔΟΥ',nameEn:'Danai Alexandridou'},
+{image:G+'marketi.jpg',url:'https://konstantinamarketi-psychotherapist.gr',name:'Κωνσταντίνα Μαρκέτη (MSc)',nameEn:'Konstantina Marketi (MSc)'},
+{image:A+'69958e45905d4794ec96f555.jpg',url:'https://psychodev.gr',name:'Σπύρος Αναγνώστου',nameEn:'Spyros Anagnostou'},
+{image:G+'dalla.jpg',url:'https://dalla-psychologist.gr',name:'Δανάη Δάλλα Ψυχολόγος',nameEn:'Danai Dalla Psychologist'},
+{image:A+'69958e45d614c9ac5b3c0a02.jpg',url:'https://giannakopoulou-psychologist.gr',name:'ΜΑΡΙΑ ΓΙΑΝΝΑΚΟΠΟΥΛΟΥ',nameEn:'Maria Giannakopoulou'},
+{image:G+'andrikou.jpg',url:'https://andrikou-systherapy.gr',name:'Αναστάσιος Ανδρίκου',nameEn:'Anastasios Andrikou'},
+{image:G+'toulgaridou.jpg',url:'https://toulgaridou-psychologos.gr',name:'Κατερίνα Τουλγαρίδου',nameEn:'Katerina Toulgaridou'},
+{image:A+'6983a0d97732b551c7381a45.jpg',url:'https://giouliskondra-therapy.gr/home',name:'Σκόνδρα Παναγιούλα',nameEn:'Skondra Panagioula'},
+{image:G+'matoula.jpg',url:'https://matoula-psychotherapy.gr',name:'Μαρία Ματούλα',nameEn:'Maria Matoula'},
+{image:A+'6983a0d918c33528d435252f.jpg',url:'https://farantakis-psychotherapist.gr/home',name:'Φαραντάκης Γιάννης',nameEn:'Farantakis Giannis'},
+{image:G+'skandali.jpg',url:'https://skandali-therapist.gr',name:'Μαίρη Σκανδάλη',nameEn:'Mairi Skandali'},
+{image:A+'6983a0d918c33576a4352530.jpg',url:'https://menetian-psychologist.gr',name:'Μενετιάν Λοράνς',nameEn:'Menetian Lorans'},
+{image:A+'6983a0d913fe2b4ebda2afef.jpg',url:'https://giotakarampetsou.gr',name:'Καραμπέτσου Παναγιώτα',nameEn:'Karampetsou Panagiota'},
+{image:A+'6983a0d926ea6442a7a91af5.jpg',url:'https://fatourou-ioulia-psychologos.gr',name:'Φατούρου Ιουλία',nameEn:'Fatourou Ioulia'},
+{image:'https://github.com/agelmet/Image-hosting-/blob/main/11.jpg?raw=true',url:'https://talamagka-psychologos.gr/home',name:'Ταλαμάγκα Ελπίδα',nameEn:'Talamagka Elpida'},
+{image:'https://github.com/agelmet/Image-hosting-/blob/main/22.jpg?raw=true',url:'https://roza-psychologist.gr',name:'Χαρουτιουνιάν Ρόζα',nameEn:'Haroutiounian Roza'},
+{image:'https://github.com/agelmet/Image-hosting-/blob/main/33.jpg?raw=true',url:'https://zampelis-psychology.gr',name:'Ζαμπέλης Στέφανος',nameEn:'Zampelis Stefanos'},
+{image:'https://github.com/agelmet/Image-hosting-/blob/main/44.jpg?raw=true',url:'https://nakou-psychologos.gr',name:'Νάκου Δήμητρα',nameEn:'Nakou Dimitra'},
+{image:A+'6720fff573cc5fde7d814b0c.png',url:'https://rhodesdentist.gr',name:'Γλυνός Γεώργιος - Οδοντίατρος',nameEn:'Glynos Georgios - Dentist'},
+{image:A+'6720fff57002eeb8d74c581c.png',url:'https://apartmentsin-greece.gr',name:'Αθήνα + Κρήτη - Διαμερίσματα',nameEn:'Athens + Crete - Apartments'},
+{image:A+'6720fff5be2f992fd50c4409.png',url:'https://pediatrician-ioannisloukas.gr/en',name:'Λουκάς Ιωάννης - Παιδίατρος',nameEn:'Loukas Ioannis - Pediatrician'},
+{image:A+'69025bdb3e45df05181238c1.jpeg',url:'https://loulou-physiotherapy.gr',name:'Λουλού Χρυσάνθη',nameEn:'Loulou Chrysanthi'},
+{image:A+'69025bdb7e579816e94176ed.jpeg',url:'https://sofiavassiliadou-psyxiatros.gr',name:'Βασιλειάδου Σοφία',nameEn:'Vassiliadou Sofia'},
+{image:A+'69025bdb5d191555856d1f45.jpeg',url:'https://pappa-psyxologos.gr',name:'Παππά Εμμανουέλα',nameEn:'Pappa Emmanuela'},
+{image:A+'69025bdb10e4602f322522a4.jpeg',url:'https://oikonomou-psyxologos.gr',name:'Οικονόμου Χρυσούλα',nameEn:'Oikonomou Chrysoula'},
+{image:A+'69025bdb5bfb334b18eec0a9.jpeg',url:'https://stylianidou-psyxologos.gr',name:'Στυλιανίδου Σοφία',nameEn:'Stylianidou Sofia'},
+{image:A+'69025bdbdf45434ecfb96d36.jpeg',url:'https://tsekourakis-physiotherapy.gr',name:'Τσεκουράκης Χρόνης',nameEn:'Tsekourakis Chronis'},
+{image:A+'69031419ad87b047b548b858.jpeg',url:'https://smaragdadimitra.gr',name:'Δημητρά Σμαράγδα',nameEn:'Dimitra Smaragda'},
+{image:A+'690314195170a503ad1b3a49.jpeg',url:'https://antamian-physiotherapy.gr',name:'Ανταμιάν Ερμιόνη',nameEn:'Antamian Ermioni'},
+{image:A+'69031419ad87b0376a48b859.jpeg',url:'https://dorasizopoulou.gr',name:'Σιζοπούλου Θεοδώρα',nameEn:'Sizopoulou Theodora'},
+{image:A+'690314195170a593181b3a4a.jpeg',url:'https://zoetherapy.gr',name:'Ανδρεαδάκη Ζωή',nameEn:'Andreadaki Zoe'},
+{image:A+'69031419762d2cf9e43378e1.jpeg',url:'https://memagiagkini-psyxologos.gr',name:'Γιαγκίνη Μέμα',nameEn:'Giagkini Mema'},
+{image:A+'68d954cfa1d2dc78adcfe610.jpeg',url:'https://tsialiafa-dentalcare.gr',name:'Τσιαλιάφα Ελένη - Οδοντίατρος',nameEn:'Tsialiafa Eleni - Dentist'},
+{image:A+'68d954cfa1d2dc95f3cfe5fb.jpeg',url:'https://chatzistratis-paidiatros.gr',name:'Χατζηστρατής Στράτος',nameEn:'Chatzistratis Stratos'},
+{image:A+'68d954cf4c35d613678773f5.jpeg',url:'https://occludent.gr',name:'Φασούλα Μαρία - Οδοντίατρος',nameEn:'Fasoula Maria - Dentist'},
+{image:A+'68d954cfa1d2dc0857cfe5fc.jpeg',url:'https://papathomas-vision.gr',name:'Θωμάς Παπαθωμάς - Οφθαλμίατρος',nameEn:'Thomas Papathomas - Ophthalmologist'},
+{image:A+'68d954cf337bbf261a42bbc3.jpeg',url:'https://kk-dental.gr',name:'Κωνσταντινίδης Κωνσταντίνος',nameEn:'Konstantinidis Konstantinos'},
+{image:A+'68d954cf4c35d6bcaf8773f6.jpeg',url:'https://mysmile-prosthodontics.gr',name:'Μορδοχάι Νικήτας',nameEn:'Mordochai Nikitas'},
+{image:A+'6720fff5e811867d962b0b12.png',url:'https://wonderfulspecs.gr',name:'WonderfulSpecs - Οπτικά',nameEn:'WonderfulSpecs - Optics'},
+{image:A+'6720fff57d6e345146f91a82.png',url:'https://astra-paidiatros.gr',name:'Αστρά Ελένη - Παιδίατρος',nameEn:'Astra Eleni - Pediatrician'},
+{image:A+'672106acbe2f9908390c468b.png',url:'https://barampouti-ofthalmiatros.gr',name:'Μπαραμπούτη Φαίη',nameEn:'Barampouti Faye'},
+{image:A+'684c2972bc1bea3590d2fcd5.jpeg',url:'https://eye-orl.gr',name:'Οφθαλμίατρος + ΩΡΛ',nameEn:'Ophthalmologist + ENT'},
+{image:A+'684c2972e3c40936dec8067b.jpeg',url:'https://davou-ofthalmiatros.gr',name:'Δάβου Σταυρούλα',nameEn:'Davou Stavroula'},
+{image:A+'684c29725cb3bb547ceacc82.jpeg',url:'https://vouza-ofthalmiatros.gr',name:'Βούζα Ασπασία',nameEn:'Vouza Aspasia'},
+{image:A+'684c297207bcd3c2755ce584.jpeg',url:'https://thetidasvilla.gr',name:'Κάρπαθος - Βίλα',nameEn:'Karpathos - Villa'},
+{image:A+'684c297207bcd3a84a5ce586.jpeg',url:'https://panousopoulou-paidiatros.gr',name:'Πανουσοπούλου Χριστίνα',nameEn:'Panousopoulou Christina'},
+{image:A+'684c2972fbe6f42e908208cb.jpeg',url:'https://giamouris-paidiatros.gr',name:'Γιαμούρης Μανόλης',nameEn:'Giamouris Manolis'},
+{image:A+'684c29722809a9b32a06926f.jpeg',url:'https://theodosis-orila.gr',name:'Θεοδώσης Πέτρος',nameEn:'Theodosis Petros'},
+{image:A+'684c297251e5e5089ade7e7e.jpeg',url:'https://zormpa-dentist.gr',name:'Ζορμπά Θωμαής',nameEn:'Zormpa Thomais'},
+{image:A+'69958e45fa6b7b92a418f1cd.jpg',url:'https://yiota-kalliontzaki.gr',name:'Γιώτα Καλλιοντζάκη',nameEn:'Yiota Kalliontzaki'},
+{image:A+'69958e45b3d5f870383a9c67.jpg',url:'https://karouzioanna-psychologist.gr',name:'ΙΩΑΝΝΑ ΚΑΡΟΥΖΗ',nameEn:'Ioanna Karouzi'},
+{image:A+'69958e45ee19cf418bb2e495.jpg',url:'https://asimakopoulou-psychologos.gr',name:'Ιωάννα Ασημακοπούλου',nameEn:'Ioanna Asimakopoulou'},
+{image:A+'69958e45905d47889396f554.jpg',url:'https://elenakovaiou-psychologist.gr',name:'Έλενα Κωβαίου',nameEn:'Elena Kovaiou'}
 ];
 
+// REVIEWS — with new ones added
 const reviews=[
-{image:DA+'Ιουλία+Φατούρου',name:'Ιουλία Φατούρου',rating:5,text:'Εξαιρετικοί επαγγελματίες! Υπήρξε άμεση ανταπόκριση σε ότι χρειαζόμουν για την ιστοσελίδα μου. Τα παιδιά έκαναν φανταστική δουλειά και δημιούργησαν ένα αποτέλεσμα πολύ κοντά στην αισθητική μου. Συνεχίζω τη συνεργασία μου μαζί τους και τους συνιστώ ανεπιφύλακτα σε νέους επαγγελματίες, καθώς έμεινα και παραμένω, άκρως ικανοποιημένη!',textEn:'Excellent professionals! Immediate response to whatever I needed for my website. The guys did a fantastic job and created a result very close to my aesthetic. I continue my cooperation with them and highly recommend them to new professionals, as I was and remain extremely satisfied!'},
-{image:DA+'Δήμητρα+Νάκου',name:'Δήμητρα Νάκου',rating:5,text:'Η εμπειρία μου από την κατασκευή του site μου ήταν εξαιρετική!Από την πρώτη στιγμή υπήρξε άψογη επικοινωνία, επαγγελματισμός ,άμεση ανταπόκριση σε καθε ανάγκη και ακριβής τήρηση της χρονικής δέσμευσης. Το αποτέλεσμα ήταν παραπάνω από καθε προσδοκία. Πρόσεξαν κάθε λεπτομέρεια για ένα σύγχρονο, λειτουργικό, καλαίσθητα σχεδιασμένο και προσβάσιμο σε όλους site.Συστήνω την advon media ανεπιφύλακτα και ευχαριστώ πολύ τα παιδιά για την ευγένεια, τη μεθοδικότητα, τη δημιουργικότητα και την αξιοπιστία τους!',textEn:'My experience from the construction of my site was excellent! From the first moment there was impeccable communication, professionalism, immediate response to every need and strict adherence to the time commitment. The result was beyond every expectation. They paid attention to every detail for a modern, functional, beautifully designed and accessible to all site. I highly recommend advon media and thank the guys very much for their politeness, methodology, creativity and reliability!'},
-{image:'https://lh3.googleusercontent.com/a-/ALV-UjXyvVDSorQzQz3Z-zsqvl68SOOgYiq4C3UBH8punVUaFZrC7wDkug=w144-h144-p-rp-mo-br100',name:'Ελπίδα Ταλαμάγκα',rating:5,text:'Ειμαι ψυχολόγος και συνεργάστηκα με την Advon Media για τη δημιουργία του επαγγελματικού μου site. Τα παιδιά είναι εξαιρετικά!!! Άψογη δουλειά, 100% επαγγελματίες & πολύ συνεπείς. Πολύ ευγενικοί & διατεθειμένοι να συζητήσουν την όποια αλλαγή, ώστε το site μου να είναι ακριβώς όπως το είχα φανταστει!! Άγγελε σε ευχαριστώ!!',textEn:'I am a psychologist and collaborated with Advon Media for the creation of my professional site. The guys are excellent!!! Flawless work, 100% professionals & very consistent. Very polite & willing to discuss any change, so that my site is exactly as I imagined!! Angelos thank you!!'},
-{image:DA+'Ρόζα+Χαρουτιουνιάν',name:'Ρόζα Χαρουτιουνιάν',rating:5,text:'Η συνεργασία μου με την ομάδα της Advon Media και ιδιαίτερα με τον κύριο Άγγελο για τη δημιουργία του επαγγελματικού μου προφίλ ήταν εξαιρετική. Από την πρώτη στιγμή ήταν ευγενικός, προσιτός και πραγματικά πρόθυμος να ακούσει τις επιθυμίες μου. Έδειξε επαγγελματισμό, συνέπεια και ενδιαφέρον για το καλύτερο δυνατό αποτέλεσμα, δίνοντας προσοχή στη λεπτομέρεια και προτείνοντας πολύ καλές ιδέες. Τους συστήνω σε όποιον αναζητά ποιοτική δουλειά και άριστη συνεργασία. Ευχαριστώ πολύ! Ρόζα Χαρουτιουνιάν, Ψυχολόγος - Ψυχοθεραπεύτρια.',textEn:'My collaboration with the Advon Media team and especially with Mr. Angelos for the creation of my professional profile was excellent. From the first moment he was polite, accessible and really willing to listen to my wishes. He showed professionalism, consistency and interest in the best possible result, paying attention to detail and proposing very good ideas. I recommend them to anyone looking for quality work and excellent cooperation. Thank you very much! Roza Haroutiounian, Psychologist - Psychotherapist.'},
-{image:DA+'Χρύσα+Οικονόμου',name:'Χρύσα Οικονόμου',rating:5,text:'Εξαιρετική η ομάδα τους! Άψογη ολη η συνεργασία μας! Απο την πρώτη μας επικοινωνία, έγινε αντιληπτός ο επαγγελματισμός και η εμπειρία τους. Κατασκεύασαν με μεγάλη ταχύτητα, συνέπεια και αισθητική το website μου. Ήταν πάντα διαθέσιμοι να απαντήσουν στις απορίες μου, να προτείνουν λύσεις και να υλοποιήσουν άμεσα όποια τροποποίηση θέλησα να κάνω. Τους συστήνω ανεπιφύλακτα γιατι το τελικό αποτέλεσμα ξεπερασε τις προσδοκίες μου!',textEn:'Excellent team! Our entire collaboration was flawless! From our first communication, their professionalism and experience were evident. They constructed my website with great speed, consistency and aesthetics. They were always available to answer my questions, propose solutions and immediately implement any modification I wanted to make. I highly recommend them because the final result exceeded my expectations!'},
-{image:DA+'Ναταλία+Γρυλωνάκη',name:'Ναταλία Γρυλωνάκη',rating:5,text:'Εξαιρετικοί επαγγελματίες. Ευγενικοί και ιδιαίτερα πρόθυμοι εξαρχής να λύσουν όλες μου τις απορίες και να κάνουν όποια τροποποίηση επιθυμούσα. Συνεπείς και δημιουργικοί. Το τελικό αποτέλεμα σύγχρονο, λειτουργικό και καλαίσθητο με άφησε απόλυτα ικανοποιημένη. Τους συστήνω ανεπιφύλακτα.',textEn:'Excellent professionals. Polite and particularly willing from the start to solve all my questions and make any modification I desired. Consistent and creative. The final result modern, functional and elegant left me completely satisfied. I recommend them unreservedly.'},
-{image:'https://lh3.googleusercontent.com/a-/ALV-UjXwzVoH8tFi5PJF8D8skvbm3K_MVRDQOVJDpeCoiW7ldSBbVCM=w144-h144-p-rp-mo-br100',name:'Στυλιανίδου Σοφία',rating:5,text:'Εξαιρετικοί επαγγελματίες υπήρξε άμεση ανταπόκριση στη δημιουργία της ιστοσελίδας μου. Τέλος ήταν ανοιχτοί να μου εξηγήσουν την οποιαδήποτε απορία είχα και να αλλάξουν οτιδήποτε χρειάστηκε. Τους συστήνω ανεπιφύλακτα.',textEn:'Excellent professionals, there was an immediate response to the creation of my website. Finally, they were open to explain any question I had and to change anything needed. I recommend them unreservedly.'},
-{image:'https://lh3.googleusercontent.com/a-/ALV-UjUIFeV7kJ81o_SxrHrpj0c_WK6-zPwV-xoJGSduKwsBrps_nN8=w144-h144-p-rp-mo-br100',name:'Εμμανουέλα Παππά',rating:5,text:'Τα παιδιά ήταν εξαιρετικά επαγγελματίες, ευγενικοί και πρόθυμοι να βοηθήσουν σε κάθε στάδιο της δημιουργίας του site μου. Δούλεψαν με απίστευτη ταχύτητα, άκουσαν προσεκτικά τι ήθελα ! Το site βγήκε ακριβώς όπως το είχα φανταστει ,απλό , σύγχρονο, λειτουργικό και αισθητικά άψογο. Τους συστήνω ανεπιφύλακτα!',textEn:'The guys were extremely professional, polite and willing to help at every stage of creating my site. They worked with incredible speed, listened carefully to what I wanted! The site came out exactly as I had imagined, simple, modern, functional and aesthetically flawless. I recommend them unreservedly!'},
-{image:DA+'Μαρία+Φασούλα',name:'Μαρία Φασούλα',rating:5,text:'Άριστοι επαγγελματίες! Πολύ αξιόπιστοι και συνεπείς στα χρονοδιαγράμματα, με εξαιρετική επικοινωνία και επαγγελματική συμπεριφορά. Η ιστοσελίδα παραδόθηκε ακριβώς όπως τη φανταζόμουνα, λειτουργική και καλαίσθητη. Τους συνιστώ ανεπιφύλακτα για όποιον αναζητά ποιοτική και υπεύθυνη δουλειά!!!',textEn:'Excellent professionals! Very reliable and consistent in timelines, with excellent communication and professional behavior. The website was delivered exactly as I imagined, functional and elegant. I highly recommend them to anyone looking for quality and responsible work!!!'}
+{image:DA+'Σπύρος+Αναγνώστου',name:'Σπύρος Αναγνώστου',rating:5,text:'Σας ευχαριστω πολυ για τον χρονο σας! Ειμαι πολυ ευχαριστημενη! Ειναι μια ομαδα που ακουει ολα τα αιτηματα και προσπαθει για το καλυτερο! Μια ομαδα νεων επαγγελματιων που δουλευει πολυ και απανταει αμεσα! Τους συνιστω ανεπιφυλακτα!',textEn:'Thank you so much for your time! I am very satisfied! A team that listens to all requests and strives for the best! A team of young professionals who work hard and respond immediately! I recommend them unreservedly!'},
+{image:DA+'Ioanna+K',name:'Ioanna K',rating:5,text:'Excellent communication. They met my needs. High standards professionals',textEn:'Excellent communication. They met my needs. High standards professionals'},
+{image:DA+'Angeliki+Vrettou',name:'Angeliki Vrettou',rating:5,text:'Είμαι πολυ ευχαριστημένη με τ αποτέλεσμα! Υπήρξε άμεση ανταπόκριση σε ότι χρειαζόμουν για την ιστοσελίδα μου. Ο Άγγελος πολυ ευγενικός και διατεθειμένος να συζητήσει την όποια αλλαγή. Ευχαριστώ πολύ!',textEn:'I am very satisfied with the result! Immediate response to whatever I needed. Angelos was very polite and willing to discuss any change. Thank you!'},
+{image:DA+'Jo+Asimak',name:'Jo Asimak',rating:5,text:'Η συνεργασία μου με την Advon Media ήταν εξαιρετική!! Επαγγελματισμός, ταχύτητα, αποτελεσματικότητα! Η δουλειά τους ιδιαίτερα καλαίσθητη και άρτια! Φιλικοί, ευγενικοί και πάντα πρόθυμοι!',textEn:'My collaboration with Advon Media was excellent!! Professionalism, speed, effectiveness! Their work is particularly tasteful and thorough! Friendly, polite and always willing!'},
+{image:DA+'Alex+Parthenis',name:'Alex Parthenis',rating:5,text:'Πολύ καλή συνεργασία. Ευγένεια και άμεση ανταπόκριση.',textEn:'Very good collaboration. Politeness and immediate response.'},
+{image:DA+'Μαρία+Ματούλα',name:'Μαρία Ματούλα',rating:5,text:'Πολύ εξυπηρετικοί! Άψογη συνεργασία για την ιστοσελίδα μου ως Ψυχολόγος και είμαι πολύ ικανοποιημένος με το αποτέλεσμα!',textEn:'Very helpful! Flawless collaboration for my website as a Psychologist and I am very satisfied with the result!'},
+{image:DA+'Cristina+Alatsi',name:'Cristina Alatsi',rating:5,text:'Έμεινα πάρα πολύ ευχαριστημένη από την συνεργασία μας!',textEn:'I was extremely satisfied with our collaboration!'},
+{image:DA+'Ιουλία+Φατούρου',name:'Ιουλία Φατούρου',rating:5,text:'Εξαιρετικοί επαγγελματίες! Υπήρξε άμεση ανταπόκριση σε ότι χρειαζόμουν. Τα παιδιά έκαναν φανταστική δουλειά. Τους συνιστώ ανεπιφύλακτα!',textEn:'Excellent professionals! Immediate response. The guys did a fantastic job. I highly recommend them!'},
+{image:DA+'Δήμητρα+Νάκου',name:'Δήμητρα Νάκου',rating:5,text:'Η εμπειρία μου ήταν εξαιρετική! Άψογη επικοινωνία, επαγγελματισμός, άμεση ανταπόκριση. Το αποτέλεσμα ξεπέρασε κάθε προσδοκία. Τους συστήνω ανεπιφύλακτα!',textEn:'My experience was excellent! Impeccable communication, professionalism, immediate response. The result exceeded every expectation!'},
+{image:'https://lh3.googleusercontent.com/a-/ALV-UjXyvVDSorQzQz3Z-zsqvl68SOOgYiq4C3UBH8punVUaFZrC7wDkug=w144-h144-p-rp-mo-br100',name:'Ελπίδα Ταλαμάγκα',rating:5,text:'Τα παιδιά είναι εξαιρετικά!!! Άψογη δουλειά, 100% επαγγελματίες & πολύ συνεπείς. Άγγελε σε ευχαριστώ!!',textEn:'The guys are excellent!!! Flawless work, 100% professionals. Angelos thank you!!'},
+{image:DA+'Ρόζα+Χαρουτιουνιάν',name:'Ρόζα Χαρουτιουνιάν',rating:5,text:'Εξαιρετική συνεργασία. Επαγγελματισμός, συνέπεια και ενδιαφέρον για το καλύτερο δυνατό αποτέλεσμα. Τους συστήνω ανεπιφύλακτα!',textEn:'Excellent collaboration. Professionalism, consistency and interest in the best possible result. I recommend them!'},
+{image:DA+'Χρύσα+Οικονόμου',name:'Χρύσα Οικονόμου',rating:5,text:'Εξαιρετική ομάδα! Το τελικό αποτέλεσμα ξεπέρασε τις προσδοκίες μου!',textEn:'Excellent team! The final result exceeded my expectations!'},
+{image:DA+'Εμμανουέλα+Παππά',name:'Εμμανουέλα Παππά',rating:5,text:'Εξαιρετικά επαγγελματίες. Δούλεψαν με απίστευτη ταχύτητα. Τους συστήνω ανεπιφύλακτα!',textEn:'Extremely professional. Worked with incredible speed. I recommend them!'},
+{image:DA+'Μαρία+Φασούλα',name:'Μαρία Φασούλα',rating:5,text:'Άριστοι επαγγελματίες! Πολύ αξιόπιστοι και συνεπείς. Τους συνιστώ ανεπιφύλακτα!',textEn:'Excellent professionals! Very reliable and consistent!'},
+{image:DA+'Client',name:'Θέλω να εκφράσω...',rating:5,text:'Θέλω να εκφράσω την ευχαρίστηση μου στην ομάδα advon για την δημιουργία του web site μου. Με επαγγελματισμό και συνέπεια ανταποκρίθηκαν στις ανάγκες μου δίνοντας μου τη δυνατότητα να έχω ό,τι χρειάζομαι σε ένα web site.',textEn:'I want to express my satisfaction to the advon team for creating my website. With professionalism and consistency they met my needs.'}
 ];
 
-// ═══════════════════════════════════════════════════════════════
-//  ROLLS-ROYCE STARLIGHT CEILING
-// ═══════════════════════════════════════════════════════════════
-const slC=document.getElementById('starlight-canvas'),slX=slC.getContext('2d');
-let stars=[],shooters=[];
+// ═══ STARLIGHT ═══
+const slC=document.getElementById('starlight-canvas'),slX=slC.getContext('2d');let stars=[],shooters=[];
 function initStars(){slC.width=innerWidth;slC.height=innerHeight;stars=[];const c=Math.min(Math.floor(innerWidth*innerHeight/2500),500);for(let i=0;i<c;i++)stars.push({x:Math.random()*slC.width,y:Math.random()*slC.height,s:Math.random()*1.8+0.2,o:Math.random(),sp:Math.random()*0.015+0.003,d:1,c:Math.random()>0.85?'gold':'cyan'});}
-function drawStars(t){slX.clearRect(0,0,slC.width,slC.height);stars.forEach(s=>{s.o+=s.sp*s.d;if(s.o>1||s.o<0.15)s.d*=-1;const a=Math.abs(s.o)*0.7;const col=s.c==='gold'?`rgba(201,168,76,${a})`:`rgba(71,200,245,${a*0.5})`;slX.fillStyle=col;slX.beginPath();slX.arc(s.x,s.y,s.s,0,Math.PI*2);slX.fill();if(s.s>1.2){slX.fillStyle=s.c==='gold'?`rgba(201,168,76,${a*0.15})`:`rgba(71,200,245,${a*0.08})`;slX.beginPath();slX.arc(s.x,s.y,s.s*3,0,Math.PI*2);slX.fill();}});if(Math.random()<0.008)shooters.push({x:Math.random()*slC.width,y:Math.random()*slC.height/3,l:Math.random()*80+40,sp:Math.random()*15+12,a:Math.PI/4+(Math.random()-0.5)*0.3,o:1});for(let i=shooters.length-1;i>=0;i--){const s=shooters[i];s.x+=Math.cos(s.a)*s.sp;s.y+=Math.sin(s.a)*s.sp;s.o-=0.015;if(s.o<=0||s.x>slC.width||s.y>slC.height){shooters.splice(i,1);continue;}const g=slX.createLinearGradient(s.x,s.y,s.x-Math.cos(s.a)*s.l,s.y-Math.sin(s.a)*s.l);g.addColorStop(0,`rgba(201,168,76,${s.o})`);g.addColorStop(1,'rgba(201,168,76,0)');slX.strokeStyle=g;slX.lineWidth=1.5;slX.beginPath();slX.moveTo(s.x,s.y);slX.lineTo(s.x-Math.cos(s.a)*s.l,s.y-Math.sin(s.a)*s.l);slX.stroke();}requestAnimationFrame(drawStars);}
+function drawStars(t){slX.clearRect(0,0,slC.width,slC.height);stars.forEach(s=>{s.o+=s.sp*s.d;if(s.o>1||s.o<0.15)s.d*=-1;const a=Math.abs(s.o)*0.7;slX.fillStyle=s.c==='gold'?`rgba(201,168,76,${a})`:`rgba(71,200,245,${a*0.5})`;slX.beginPath();slX.arc(s.x,s.y,s.s,0,Math.PI*2);slX.fill();if(s.s>1.2){slX.fillStyle=s.c==='gold'?`rgba(201,168,76,${a*0.15})`:`rgba(71,200,245,${a*0.08})`;slX.beginPath();slX.arc(s.x,s.y,s.s*3,0,Math.PI*2);slX.fill();}});if(Math.random()<0.008)shooters.push({x:Math.random()*slC.width,y:Math.random()*slC.height/3,l:Math.random()*80+40,sp:Math.random()*15+12,a:Math.PI/4+(Math.random()-0.5)*0.3,o:1});for(let i=shooters.length-1;i>=0;i--){const s=shooters[i];s.x+=Math.cos(s.a)*s.sp;s.y+=Math.sin(s.a)*s.sp;s.o-=0.015;if(s.o<=0){shooters.splice(i,1);continue;}const g=slX.createLinearGradient(s.x,s.y,s.x-Math.cos(s.a)*s.l,s.y-Math.sin(s.a)*s.l);g.addColorStop(0,`rgba(201,168,76,${s.o})`);g.addColorStop(1,'rgba(201,168,76,0)');slX.strokeStyle=g;slX.lineWidth=1.5;slX.beginPath();slX.moveTo(s.x,s.y);slX.lineTo(s.x-Math.cos(s.a)*s.l,s.y-Math.sin(s.a)*s.l);slX.stroke();}requestAnimationFrame(drawStars);}
 addEventListener('resize',initStars);initStars();requestAnimationFrame(drawStars);
 
-// ═══════════════════════════════════════════════════════════════
-//  CUSTOM CURSOR
-// ═══════════════════════════════════════════════════════════════
-const cD=document.getElementById('cur-d'),cT=document.getElementById('cur-t'),cA=document.getElementById('cur-a');
-let mx=0,my=0,tx=0,ty=0,ax=0,ay=0;
+// ═══ CURSOR ═══
+const cD=document.getElementById('cur-d'),cA=document.getElementById('cur-a');let mx=0,my=0,ax=0,ay=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-function aniCur(){tx+=(mx-tx)*0.2;ty+=(my-ty)*0.2;ax+=(mx-ax)*0.06;ay+=(my-ay)*0.06;cD.style.transform=`translate(${mx-5}px,${my-5}px) rotate(45deg)`;cT.style.transform=`translate(${tx-1.5}px,${ty-1.5}px)`;cT.style.opacity=Math.sqrt((mx-tx)**2+(my-ty)**2)>2?'0.6':'0';cA.style.transform=`translate(${ax-100}px,${ay-100}px)`;requestAnimationFrame(aniCur);}aniCur();
-document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.mag-btn'))cD.classList.add('hovering');});
-document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.mag-btn'))cD.classList.remove('hovering');});
+function aniCur(){ax+=(mx-ax)*0.06;ay+=(my-ay)*0.06;cD.style.transform=`translate(${mx-5}px,${my-5}px) rotate(45deg)`;cA.style.transform=`translate(${ax-100}px,${ay-100}px)`;requestAnimationFrame(aniCur);}aniCur();
+document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.mag-btn'))cD.classList.add('hov');});
+document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.mag-btn'))cD.classList.remove('hov');});
 
-// ═══════════════════════════════════════════════════════════════
-//  MAGNETIC BUTTONS
-// ═══════════════════════════════════════════════════════════════
 function initMag(){document.querySelectorAll('.mag-btn').forEach(b=>{b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;b.style.transform=`translate(${x*0.15}px,${y*0.15}px)`;});b.addEventListener('mouseleave',()=>{b.style.transform='';});});}
-
-// ═══════════════════════════════════════════════════════════════
-//  3D TILT
-// ═══════════════════════════════════════════════════════════════
 function init3D(){document.querySelectorAll('.tilt-3d').forEach(c=>{c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-0.5,y=(e.clientY-r.top)/r.height-0.5;c.style.transform=`perspective(800px) rotateY(${x*7}deg) rotateX(${-y*7}deg) scale3d(1.01,1.01,1.01)`;});c.addEventListener('mouseleave',()=>{c.style.transform='';c.style.transition='transform 0.7s cubic-bezier(.22,1,.36,1)';});c.addEventListener('mouseenter',()=>{c.style.transition='none';});});}
+function obsRv(){const o=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.06,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.rv,.rv-scale').forEach(el=>o.observe(el));}
+const hdr=document.getElementById('main-header');addEventListener('scroll',()=>{hdr.classList.toggle('hdr-scroll',scrollY>50);});
 
-// ═══════════════════════════════════════════════════════════════
-//  SCROLL OBSERVER
-// ═══════════════════════════════════════════════════════════════
-function obsRv(){const o=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.06,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.rv,.rv-scale,.rv-line').forEach(el=>o.observe(el));}
+// ═══ BOOKING ═══
+function openBooking(){document.getElementById('booking-overlay').classList.add('open');document.body.classList.add('modal-open');lucide.createIcons();}
+function closeBooking(){document.getElementById('booking-overlay').classList.remove('open');document.body.classList.remove('modal-open');}
 
-// ═══════════════════════════════════════════════════════════════
-//  HEADER SCROLL
-// ═══════════════════════════════════════════════════════════════
-const hdr=document.getElementById('main-header');
-addEventListener('scroll',()=>{hdr.classList.toggle('hdr-scroll',scrollY>50);});
-
-// ═══════════════════════════════════════════════════════════════
-//  RENDER
-// ═══════════════════════════════════════════════════════════════
+// ═══ RENDER ═══
 function triggerLanguageSwitch(){const m=document.getElementById('main-content');m.style.opacity='0';setTimeout(()=>{currentLang=currentLang==='el'?'en':'el';document.documentElement.lang=currentLang;document.title=translations[currentLang].title;renderApp();m.style.opacity='1';},500);}
 
 function renderApp(){
 const t=translations[currentLang],isEn=currentLang==='en';
-
-// Nav
 document.getElementById('desktop-nav').innerHTML=['services','portfolio','reviews','faq','contact'].map(k=>`<a href="#${k}" class="nav-a text-white/40 hover:text-white transition-colors">${t.nav[k]}</a>`).join('');
 document.getElementById('mob-nav').innerHTML=['services','portfolio','reviews','faq','contact'].map(k=>`<a href="#${k}" class="text-white/50 hover:text-[var(--gold)] transition-colors" onclick="closeMob()">${t.nav[k]}</a>`).join('');
 const fl=isEn?'🇬🇷':'🇬🇧',lb=isEn?'EL':'EN';
 document.getElementById('lang-btn').innerHTML=`<span class="text-sm">${fl}</span> ${lb}`;
 document.getElementById('mobile-lang-btn').innerHTML=`<span class="text-sm">${fl}</span> ${lb}`;
 
-// Hero
+// Hero with Book CTA
 document.getElementById('hero-content').innerHTML=`
-<div class="hero-in"><div class="lux-label mb-10 inline-flex"><span class="pulse-dot"></span>${elUpper(t.hero.badge)}</div></div>
+<div class="hero-in"><div class="lux-label mb-10 inline-flex"><span class="pdot"></span>${elUpper(t.hero.badge)}</div></div>
 <h1 class="hero-in font-display font-light text-6xl md:text-8xl lg:text-[7rem] leading-[1] tracking-tight mb-10">
   <span class="text-white/70 italic">${t.hero.titlePrefix}</span><br>
-  <span class="text-white/25 font-light">${t.hero.titleHighlight1}</span>
+  <span class="text-white/25">${t.hero.titleHighlight1}</span>
   <span class="text-white/15 text-4xl md:text-6xl mx-3 italic">${t.hero.titleConnector}</span>
   <span class="lux-shimmer font-semibold">${t.hero.titleHighlight2}</span>
 </h1>
 <p class="hero-in text-lg md:text-xl text-white/30 max-w-2xl mx-auto mb-14 leading-relaxed font-light">${t.hero.subtitle}</p>
-<div class="hero-in flex flex-wrap items-center justify-center gap-5">
-  <a href="#services" class="mag-btn cta-shine group px-9 py-4 rounded-full font-semibold text-sm uppercase tracking-[0.15em] transition-all" style="background:linear-gradient(135deg,var(--cyan),#3ab8e0);color:var(--void);box-shadow:0 0 40px rgba(71,200,245,0.2)">
-    <span class="flex items-center gap-2">${elUpper(t.hero.ctaPrimary)} <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i></span>
-  </a>
-  <a href="#portfolio" class="mag-btn group px-9 py-4 rounded-full border border-white/10 text-white/50 font-semibold text-sm uppercase tracking-[0.15em] hover:border-[var(--gold)]/30 hover:text-[var(--gold)] transition-all backdrop-blur-sm">
-    <span class="flex items-center gap-2"><i data-lucide="play" class="w-4 h-4 fill-current"></i> ${elUpper(t.hero.ctaSecondary)}</span>
-  </a>
+<div class="hero-in flex flex-wrap items-center justify-center gap-4">
+  <a href="#services" class="mag-btn cta-shine group px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-[0.15em] transition-all" style="background:linear-gradient(135deg,var(--cyan),#3ab8e0);color:var(--void);box-shadow:0 0 40px rgba(71,200,245,0.25)"><span class="flex items-center gap-2">${elUpper(t.hero.ctaPrimary)} <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i></span></a>
+  <a href="#portfolio" class="mag-btn group px-8 py-4 rounded-full border border-white/10 text-white/50 font-semibold text-sm uppercase tracking-[0.15em] hover:border-[var(--gold)]/30 hover:text-[var(--gold)] transition-all"><span class="flex items-center gap-2"><i data-lucide="play" class="w-4 h-4 fill-current"></i> ${elUpper(t.hero.ctaSecondary)}</span></a>
+  <button onclick="openBooking()" class="mag-btn cta-shine group px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-[0.15em] transition-all border border-[var(--gold)]/30 text-[var(--gold)] hover:bg-[var(--gold)] hover:text-[var(--void)]" style="box-shadow:0 0 30px rgba(201,168,76,0.1)"><span class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4"></i> ${elUpper(t.hero.ctaBook)}</span></button>
 </div>`;
 
-// Stats
-document.getElementById('stats-grid').innerHTML=`<div class="rv flex flex-wrap items-center justify-center gap-0">${t.stats.map((s,i)=>`${i>0?'<div class="stat-div hidden md:block mx-8 lg:mx-14"></div>':''}<div class="text-center px-6 py-4" style="transition-delay:${i*100}ms"><div class="text-4xl md:text-5xl font-display font-semibold text-white/90 mb-1">${s.num}</div><div class="text-[9px] font-mono tracking-[0.3em] text-[var(--gold)]/50 uppercase">${elUpper(s.label)}</div></div>`).join('')}</div>`;
+// Stats — Enhanced
+document.getElementById('stats-grid').innerHTML=`<div class="rv grid grid-cols-2 md:grid-cols-4 gap-4">${t.stats.map((s,i)=>`<div class="stat-card tilt-3d" style="transition-delay:${i*100}ms"><div class="stat-num">${s.num}</div><div class="stat-label">${elUpper(s.label)}</div></div>`).join('')}</div>`;
 
-// Services
-document.getElementById('services-header').innerHTML=`<div class="rv text-center"><div class="lux-label mb-6 inline-flex"><span class="pulse-dot"></span>${elUpper(t.sectionTitles.services)}</div><h2 class="text-5xl md:text-7xl font-display font-light text-white/90 mt-4 italic">${t.sectionTitles.servicesMain}</h2><div class="rv-line h-px bg-gradient-to-r from-transparent via-[var(--gold)]/20 to-transparent mx-auto mt-6"></div></div>`;
-
+// Services — icon fixed to 'camera' for social media
 const cs=services[currentLang];
+document.getElementById('services-header').innerHTML=`<div class="rv text-center"><div class="lux-label mb-6 inline-flex"><span class="pdot"></span>${elUpper(t.sectionTitles.services)}</div><h2 class="text-5xl md:text-7xl font-display font-light text-white/90 mt-4 italic">${t.sectionTitles.servicesMain}</h2></div>`;
 document.getElementById('services-grid').innerHTML=cs.map((s,i)=>`
 <div class="rv tilt-3d lux-glass rounded-2xl p-8 flex flex-col h-full" style="transition-delay:${i*120}ms">
-  <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-8 text-[var(--cyan)]" style="background:var(--cyan-soft)"><i data-lucide="${s.icon}" class="w-5 h-5"></i></div>
+  <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-8 text-[var(--cyan)]" style="background:var(--cyan-soft)">${s.id==='SOCIAL'?'<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>':`<i data-lucide="${s.icon}" class="w-5 h-5"></i>`}</div>
   <div class="flex items-baseline gap-2 mb-5"><span class="text-3xl font-display font-semibold text-white">${s.price}</span>${s.priceNote?`<span class="text-[11px] text-white/20 font-mono">${s.priceNote}</span>`:''}</div>
   <h3 class="text-xl font-display font-semibold mb-3 text-white/90">${s.title}</h3>
   <p class="text-white/35 mb-8 leading-relaxed text-sm font-light">${s.shortDesc}</p>
@@ -707,56 +430,69 @@ document.getElementById('services-grid').innerHTML=cs.map((s,i)=>`
     <button onclick="openModal('${s.id}')" class="w-full py-2 text-[11px] text-white/20 hover:text-[var(--gold)] transition-colors font-medium tracking-wide">${s.more}</button>
   </div>
 </div>`).join('');
-
 document.getElementById('services-footer').innerHTML=`<div class="rv"><span class="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/6 bg-white/[0.02] text-[11px] font-mono text-white/30 tracking-wider"><i data-lucide="shield-check" class="w-4 h-4 text-[var(--gold)]"></i>${t.sectionTitles.noCommitment}</span></div>`;
 
 // Portfolio
-document.getElementById('portfolio-header').innerHTML=`<div class="rv text-center"><div class="lux-label mb-6 inline-flex"><span class="pulse-dot"></span>${elUpper(t.sectionTitles.portfolio)}</div><h2 class="text-5xl md:text-7xl font-display font-light text-white/90 mt-4 italic">${t.sectionTitles.portfolioMain}</h2><div class="rv-line h-px bg-gradient-to-r from-transparent via-[var(--gold)]/20 to-transparent mx-auto mt-6"></div></div>`;
+document.getElementById('portfolio-header').innerHTML=`<div class="rv text-center"><div class="lux-label mb-6 inline-flex"><span class="pdot"></span>${elUpper(t.sectionTitles.portfolio)}</div><h2 class="text-5xl md:text-7xl font-display font-light text-white/90 mt-4 italic">${t.sectionTitles.portfolioMain}</h2></div>`;
 renderPort();
 
 // Reviews
-document.getElementById('reviews-header').innerHTML=`<div class="rv text-center"><div class="lux-label mb-6 inline-flex"><span class="pulse-dot"></span>${elUpper(t.sectionTitles.reviews)}</div><h2 class="text-5xl md:text-7xl font-display font-light text-white/90 mt-4 italic">${t.sectionTitles.reviewsMain}</h2><div class="rv-line h-px bg-gradient-to-r from-transparent via-[var(--gold)]/20 to-transparent mx-auto mt-6"></div></div>`;
-
+document.getElementById('reviews-header').innerHTML=`<div class="rv text-center"><div class="lux-label mb-6 inline-flex"><span class="pdot"></span>${elUpper(t.sectionTitles.reviews)}</div><h2 class="text-5xl md:text-7xl font-display font-light text-white/90 mt-4 italic">${t.sectionTitles.reviewsMain}</h2></div>`;
 const cr=reviews.map(r=>({...r,text:(isEn&&r.textEn)?r.textEn:r.text}));
-document.getElementById('reviews-grid').innerHTML=cr.slice(0,9).map((r,i)=>`
-<div class="rv rev-card lux-glass tilt-3d rounded-2xl p-7" style="transition-delay:${i*70}ms">
-  <div class="flex gap-0.5 mb-6">${Array(5).fill(0).map((_,x)=>`<i data-lucide="star" class="w-3.5 h-3.5 ${x<r.rating?'fill-[var(--gold)] text-[var(--gold)]':'text-white/8'}"></i>`).join('')}</div>
-  <p class="text-white/40 mb-7 leading-relaxed min-h-[70px] text-[13px] italic font-light">"${r.text}"</p>
-  <div class="flex items-center gap-3 pt-5 border-t border-white/4">
-    <img src="${r.image}" alt="${r.name}" class="w-9 h-9 rounded-full object-cover border border-white/8">
-    <div><h4 class="font-semibold text-[13px] text-white/80">${r.name}</h4><span class="text-[9px] text-[var(--gold)]/50 font-mono uppercase tracking-[0.2em] flex items-center gap-1 mt-0.5"><i data-lucide="check-circle" class="w-2.5 h-2.5"></i>VERIFIED</span></div>
+document.getElementById('reviews-grid').innerHTML=cr.slice(0,12).map((r,i)=>`
+<div class="rv rev-card lux-glass tilt-3d rounded-2xl p-7" style="transition-delay:${i*60}ms">
+  <div class="flex gap-0.5 mb-5">${Array(5).fill(0).map((_,x)=>`<i data-lucide="star" class="w-3.5 h-3.5 ${x<r.rating?'fill-[var(--gold)] text-[var(--gold)]':'text-white/8'}"></i>`).join('')}</div>
+  <p class="text-white/40 mb-6 leading-relaxed min-h-[60px] text-[13px] italic font-light">"${r.text}"</p>
+  <div class="flex items-center gap-3 pt-4 border-t border-white/4">
+    <img src="${r.image}" alt="${r.name}" class="w-8 h-8 rounded-full object-cover border border-white/8">
+    <div><h4 class="font-semibold text-[12px] text-white/80">${r.name}</h4><span class="text-[8px] text-[var(--gold)]/50 font-mono uppercase tracking-[0.2em]">GOOGLE REVIEW</span></div>
   </div>
 </div>`).join('');
-
 document.getElementById('reviews-footer').innerHTML=`<div class="rv"><a href="https://share.google/zWUQyGTmywjaljaMW" target="_blank" rel="noopener noreferrer" class="mag-btn inline-flex items-center gap-3 px-8 py-4 border border-white/10 text-white/40 rounded-full hover:border-[var(--gold)]/30 hover:text-[var(--gold)] transition-all font-semibold text-sm uppercase tracking-[0.12em]"><span class="flex items-center gap-2">${elUpper(t.sectionTitles.viewAllReviews)} <i data-lucide="external-link" class="w-4 h-4"></i></span></a></div>`;
 
 // FAQ
 document.getElementById('faq-header').innerHTML=`<div class="rv text-center"><h2 class="text-4xl md:text-5xl font-display font-light text-white/90 italic">${t.sectionTitles.faq}</h2></div>`;
-const cf=faqs[currentLang];
-document.getElementById('faq-container').innerHTML=cf.map((f,i)=>`<div class="rv faq-row rounded-xl" style="transition-delay:${i*70}ms"><button onclick="togFaq(this)" class="faq-btn w-full flex items-center justify-between py-6 px-4 text-left font-display font-semibold text-white/70 hover:text-white transition-colors text-lg"><span class="italic">${f.question}</span><i data-lucide="plus" class="w-4 h-4 text-white/20 flex-shrink-0"></i></button><div class="faq-body px-4 text-white/35 leading-relaxed text-[15px] font-light"><div class="pb-6">${f.answer}</div></div></div>`).join('');
+document.getElementById('faq-container').innerHTML=faqs[currentLang].map((f,i)=>`<div class="rv faq-row rounded-xl" style="transition-delay:${i*70}ms"><button onclick="togFaq(this)" class="faq-btn w-full flex items-center justify-between py-6 px-4 text-left font-display font-semibold text-white/70 hover:text-white transition-colors text-lg"><span class="italic">${f.question}</span><i data-lucide="plus" class="w-4 h-4 text-white/20 flex-shrink-0"></i></button><div class="faq-body px-4 text-white/35 leading-relaxed text-[15px] font-light"><div class="pb-6">${f.answer}</div></div></div>`).join('');
 
-// Contact — ADDED TRAFFT BOOKING BUTTON HERE
+// Contact — Form + Email + Instagram + Book CTA
 document.getElementById('contact-container').innerHTML=`
-<div class="rv"><div class="lux-label mb-6 inline-flex"><span class="pulse-dot"></span>${elUpper(t.sectionTitles.contact)}</div></div>
-<h2 class="rv text-5xl md:text-7xl font-display font-light mb-6 text-white/90 italic">${t.sectionTitles.contactMain}</h2>
-<p class="rv text-lg text-white/30 mb-16 font-light max-w-xl mx-auto">${t.sectionTitles.contactSub}</p>
-<div class="grid md:grid-cols-3 gap-5">
-  <a href="mailto:angelos@advonmedia.com" class="rv tilt-3d group lux-glass p-10 rounded-2xl transition-all hover:border-[var(--cyan)]/15">
-    <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-6 text-[var(--cyan)] group-hover:text-[var(--void)] transition-all" style="background:var(--cyan-soft)"><div class="group-hover:hidden"><i data-lucide="mail" class="w-6 h-6"></i></div><div class="hidden group-hover:block bg-[var(--cyan)] rounded-xl p-3 -m-1"><i data-lucide="mail" class="w-6 h-6"></i></div></div>
-    <h3 class="text-xl font-display font-semibold mb-2 text-white/90">Email</h3>
-    <p class="text-[var(--cyan)]/60 flex items-center justify-center gap-2 font-mono text-sm">angelos@advonmedia.com <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></p>
-  </a>
-  <button onclick="openBooking()" class="rv tilt-3d group lux-glass p-10 rounded-2xl transition-all hover:border-[var(--cyan)]/15" style="transition-delay:100ms">
-    <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-6 text-[var(--cyan)] group-hover:text-[var(--void)] transition-all" style="background:var(--cyan-soft)"><div class="group-hover:hidden"><i data-lucide="calendar" class="w-6 h-6"></i></div><div class="hidden group-hover:block bg-[var(--cyan)] rounded-xl p-3 -m-1"><i data-lucide="calendar" class="w-6 h-6"></i></div></div>
-    <h3 class="text-xl font-display font-semibold mb-2 text-white/90">${t.sectionTitles.contactBook}</h3>
-    <p class="text-[var(--cyan)]/60 flex items-center justify-center gap-2 font-mono text-sm">${t.sectionTitles.contactBookSub} <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></p>
-  </button>
-  <a href="https://www.instagram.com/advon_media" target="_blank" rel="noopener noreferrer" class="rv tilt-3d group lux-glass p-10 rounded-2xl transition-all hover:border-[var(--cyan)]/15" style="transition-delay:200ms">
-    <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-6 text-[var(--cyan)] group-hover:text-[var(--void)] transition-all" style="background:var(--cyan-soft)"><div class="group-hover:hidden"><i data-lucide="instagram" class="w-6 h-6"></i></div><div class="hidden group-hover:block bg-[var(--cyan)] rounded-xl p-3 -m-1"><i data-lucide="instagram" class="w-6 h-6"></i></div></div>
-    <h3 class="text-xl font-display font-semibold mb-2 text-white/90">Instagram</h3>
-    <p class="text-[var(--cyan)]/60 flex items-center justify-center gap-2 font-mono text-sm">@advon_media <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></p>
-  </a>
+<div class="rv text-center"><div class="lux-label mb-6 inline-flex"><span class="pdot"></span>${elUpper(t.sectionTitles.contact)}</div></div>
+<h2 class="rv text-5xl md:text-7xl font-display font-light mb-6 text-white/90 italic text-center">${t.sectionTitles.contactMain}</h2>
+<p class="rv text-lg text-white/30 mb-12 font-light max-w-xl mx-auto text-center">${t.sectionTitles.contactSub}</p>
+
+<!-- Book CTA -->
+<div class="rv text-center mb-16">
+  <button onclick="openBooking()" class="mag-btn cta-shine inline-flex items-center gap-3 px-10 py-5 rounded-full font-semibold text-sm uppercase tracking-[0.15em] transition-all border border-[var(--gold)]/30 text-[var(--gold)] hover:bg-[var(--gold)] hover:text-[var(--void)]" style="box-shadow:0 0 40px rgba(201,168,76,0.1)"><span class="flex items-center gap-2"><i data-lucide="calendar" class="w-5 h-5"></i> ${elUpper(t.sectionTitles.bookCall)}</span></button>
+</div>
+
+<div class="grid md:grid-cols-2 gap-8">
+  <!-- Form -->
+  <div class="rv lux-glass rounded-2xl p-8">
+    <form action="https://formspree.io/f/xkopgoaj" method="POST" id="contact-form" class="space-y-4">
+      <input type="text" name="name" placeholder="${t.sectionTitles.formName}" required class="form-input">
+      <input type="email" name="email" placeholder="${t.sectionTitles.formEmail}" required class="form-input">
+      <input type="tel" name="phone" placeholder="${t.sectionTitles.formPhone}" class="form-input">
+      <textarea name="message" placeholder="${t.sectionTitles.formMsg}" required class="form-input"></textarea>
+      <button type="submit" class="mag-btn cta-shine w-full py-4 rounded-xl font-semibold text-sm uppercase tracking-[0.15em] transition-all" style="background:linear-gradient(135deg,var(--cyan),#3ab8e0);color:var(--void);box-shadow:0 0 30px rgba(71,200,245,0.2)"><span class="flex items-center justify-center gap-2">${elUpper(t.sectionTitles.formSend)} <i data-lucide="send" class="w-4 h-4"></i></span></button>
+      <p id="form-status" class="text-center text-sm text-[var(--gold)] hidden">${t.sectionTitles.formSuccess}</p>
+    </form>
+  </div>
+
+  <!-- Contact Cards -->
+  <div class="space-y-4">
+    <a href="mailto:angelos@advonmedia.com" class="rv tilt-3d group lux-glass p-8 rounded-2xl flex items-center gap-5 transition-all hover:border-[var(--cyan)]/15">
+      <div class="w-12 h-12 rounded-xl flex items-center justify-center text-[var(--cyan)] group-hover:bg-[var(--cyan)] group-hover:text-[var(--void)] transition-all" style="background:var(--cyan-soft)"><i data-lucide="mail" class="w-5 h-5"></i></div>
+      <div><h3 class="font-display font-semibold text-white/90 mb-1">Email</h3><p class="text-[var(--cyan)]/60 font-mono text-sm">angelos@advonmedia.com</p></div>
+    </a>
+    <a href="https://www.instagram.com/advon_media" target="_blank" rel="noopener noreferrer" class="rv tilt-3d group lux-glass p-8 rounded-2xl flex items-center gap-5 transition-all hover:border-[var(--cyan)]/15">
+      <div class="w-12 h-12 rounded-xl flex items-center justify-center text-[var(--cyan)] group-hover:bg-[var(--cyan)] group-hover:text-[var(--void)] transition-all" style="background:var(--cyan-soft)">${IG_SVG.replace('width="24"','width="20"').replace('height="24"','height="20"')}</div>
+      <div><h3 class="font-display font-semibold text-white/90 mb-1">Instagram</h3><p class="text-[var(--cyan)]/60 font-mono text-sm">@advon_media</p></div>
+    </a>
+  </div>
 </div>`;
+
+// Form handler
+setTimeout(()=>{const f=document.getElementById('contact-form');if(f)f.addEventListener('submit',async e=>{e.preventDefault();try{const r=await fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});if(r.ok){f.reset();document.getElementById('form-status').classList.remove('hidden');setTimeout(()=>document.getElementById('form-status').classList.add('hidden'),5000);}}catch(err){console.error(err);}});},100);
 
 // Footer
 document.getElementById('footer-content').innerHTML=`
@@ -766,84 +502,35 @@ document.getElementById('footer-content').innerHTML=`
 lucide.createIcons();obsRv();init3D();initMag();
 }
 
-// ═══════════════════════════════════════════════════════════════
-//  MOBILE MENU
-// ═══════════════════════════════════════════════════════════════
+// ═══ MOBILE ═══
 window.closeMob=()=>{document.getElementById('mob-menu').classList.remove('open');};
 document.getElementById('mob-btn').addEventListener('click',()=>{document.getElementById('mob-menu').classList.toggle('open');});
 
-// ═══════════════════════════════════════════════════════════════
-//  PORTFOLIO PAGINATION
-// ═══════════════════════════════════════════════════════════════
+// ═══ PORTFOLIO ═══
 let cPage=0;const ipp=21;
 function renderPort(){
 const t=translations[currentLang],tp=Math.ceil(portfolioItems.length/ipp),st=cPage*ipp,items=portfolioItems.slice(st,st+ipp);
-const g=document.getElementById('portfolio-grid');
-g.innerHTML=items.map((it,i)=>{const dn=(currentLang==='en'&&it.nameEn)?it.nameEn:it.name;return`
+document.getElementById('portfolio-grid').innerHTML=items.map((it,i)=>{const dn=(currentLang==='en'&&it.nameEn)?it.nameEn:it.name;return`
 <a href="${it.url}" target="_blank" rel="noopener noreferrer" class="rv port-card tilt-3d aspect-[4/3] block vis" style="transition-delay:${Math.min(i*25,250)}ms">
   <img src="${it.image}" alt="${dn}" class="w-full h-full object-cover" loading="lazy">
-  <div class="port-overlay">
-    <h3 class="text-[13px] font-display font-semibold text-white leading-snug mb-2">${dn}</h3>
-    <span class="inline-flex items-center gap-2 text-[9px] font-mono text-[var(--gold)] uppercase tracking-[0.2em]">${elUpper(t.sectionTitles.viewSite)} <i data-lucide="external-link" class="w-2.5 h-2.5"></i></span>
-  </div>
+  <div class="port-ov"><h3 class="text-[13px] font-display font-semibold text-white leading-snug mb-2">${dn}</h3><span class="inline-flex items-center gap-2 text-[9px] font-mono text-[var(--gold)] uppercase tracking-[0.2em]">${elUpper(t.sectionTitles.viewSite)} <i data-lucide="external-link" class="w-2.5 h-2.5"></i></span></div>
 </a>`;}).join('');
 const pb=document.getElementById('prev-btn'),nb=document.getElementById('next-btn');
 pb.disabled=cPage===0;nb.disabled=cPage===tp-1;
 pb.onclick=()=>{if(cPage>0){cPage--;renderPort();lucide.createIcons();obsRv();init3D();document.getElementById('portfolio').scrollIntoView({behavior:'smooth'});}};
 nb.onclick=()=>{if(cPage<tp-1){cPage++;renderPort();lucide.createIcons();obsRv();init3D();document.getElementById('portfolio').scrollIntoView({behavior:'smooth'});}};
 document.getElementById('pg-dots').innerHTML=Array.from({length:tp}).map((_,i)=>`<div class="pg-dot ${i===cPage?'active':''}"></div>`).join('');
-lucide.createIcons();obsRv();init3D();
-}
+lucide.createIcons();obsRv();init3D();}
 
-// ═══════════════════════════════════════════════════════════════
-//  FAQ
-// ═══════════════════════════════════════════════════════════════
+// ═══ FAQ ═══
 window.togFaq=function(b){const c=b.nextElementSibling,o=b.classList.contains('open');document.querySelectorAll('.faq-btn').forEach(x=>{x.classList.remove('open');x.nextElementSibling.style.maxHeight='0';});if(!o){b.classList.add('open');c.style.maxHeight=c.scrollHeight+'px';}};
 
-// ═══════════════════════════════════════════════════════════════
-//  INFO MODAL
-// ═══════════════════════════════════════════════════════════════
+// ═══ MODAL ═══
 const mO=document.getElementById('modal-overlay'),mB=document.getElementById('modal-bg'),mC=document.getElementById('modal-box');
-window.openModal=function(id){const d=services[currentLang].find(s=>s.id===id);if(!d)return;document.getElementById('m-title').innerText=d.modal.title;const ic=document.getElementById('m-img');if(d.modal.image){ic.innerHTML=`<img src="${d.modal.image}" class="w-full h-auto rounded-xl border border-white/8" alt="${d.modal.title}">`;ic.classList.remove('hidden');}else{ic.classList.add('hidden');}document.getElementById('m-body').innerHTML=d.modal.body.map(p=>`<p class="${p.startsWith('•')?'pl-5 border-l border-[var(--gold)]/15 text-white/60':''} mb-1">${p}</p>`).join('');mO.classList.remove('hidden');mO.classList.add('flex');setTimeout(()=>{mB.classList.remove('opacity-0');mC.classList.remove('opacity-0','scale-95');mC.classList.add('opacity-100','scale-100');},10);document.body.classList.add('modal-open');};
+window.openModal=function(id){const d=services[currentLang].find(s=>s.id===id);if(!d)return;document.getElementById('m-title').innerText=d.modal.title;const ic=document.getElementById('m-img');if(d.modal.image){ic.innerHTML=`<img src="${d.modal.image}" class="w-full h-auto rounded-xl border border-white/8" alt="">`;ic.classList.remove('hidden');}else ic.classList.add('hidden');document.getElementById('m-body').innerHTML=d.modal.body.map(p=>`<p class="${p.startsWith('•')?'pl-5 border-l border-[var(--gold)]/15 text-white/60':''}">${p}</p>`).join('');mO.classList.remove('hidden');mO.classList.add('flex');setTimeout(()=>{mB.classList.remove('opacity-0');mC.classList.remove('opacity-0','scale-95');mC.classList.add('opacity-100','scale-100');},10);document.body.classList.add('modal-open');};
 window.closeModal=function(){mB.classList.add('opacity-0');mC.classList.remove('opacity-100','scale-100');mC.classList.add('opacity-0','scale-95');setTimeout(()=>{mO.classList.add('hidden');mO.classList.remove('flex');document.body.classList.remove('modal-open');},500);};
 mB.addEventListener('click',closeModal);
 
-// ═══════════════════════════════════════════════════════════════
-//  BOOKING MODAL (TRAFFT INTEGRATION)
-// ═══════════════════════════════════════════════════════════════
-window.openBooking = function() {
-  const bkModal = document.getElementById('booking-modal');
-  const bkBg = document.getElementById('booking-modal-bg');
-  const bkBox = document.getElementById('booking-modal-box');
-  bkModal.classList.remove('hidden');
-  bkModal.classList.add('flex');
-  setTimeout(() => {
-    bkBg.classList.remove('opacity-0');
-    bkBox.classList.remove('opacity-0', 'scale-95');
-    bkBox.classList.add('opacity-100', 'scale-100');
-  }, 10);
-  document.body.classList.add('modal-open');
-};
-
-window.closeBooking = function() {
-  const bkModal = document.getElementById('booking-modal');
-  const bkBg = document.getElementById('booking-modal-bg');
-  const bkBox = document.getElementById('booking-modal-box');
-  bkBg.classList.add('opacity-0');
-  bkBox.classList.remove('opacity-100', 'scale-100');
-  bkBox.classList.add('opacity-0', 'scale-95');
-  setTimeout(() => {
-    bkModal.classList.add('hidden');
-    bkModal.classList.remove('flex');
-    document.body.classList.remove('modal-open');
-  }, 500);
-};
-
-document.getElementById('booking-modal-bg').addEventListener('click', closeBooking);
-
-// ═══════════════════════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════════════════════
 renderApp();
 </script>
 </body>
