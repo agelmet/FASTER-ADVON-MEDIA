@@ -687,7 +687,7 @@
             { image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69958e45905d47854e96f553.jpg', url: 'https://chanioti-psychotherapy.gr', name: 'ΑΝΝΑ ΧΑΝΙΩΤΗ ΨΥΧΟΘΕΡΑΠΕΙΑ & ΣΥΜΒΟΥΛΕΥΤΙΚΗ', nameEn: 'Anna Chanioti Psychotherapy & Counseling' },
 
             // Existing Items
-            { image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d97732b551c7381a45.jpg', url: 'https://giouliskondra-therapy.gr', name: 'Σκόνδρα Παναγιούλα – Ψυχολόγος', nameEn: 'Skondra Panagioula - Psychologist' },
+            { image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d97732b551c7381a45.jpg', url: 'https://giouliskondra-therapy.gr/', name: 'Σκόνδρα Παναγιούλα – Ψυχολόγος', nameEn: 'Skondra Panagioula - Psychologist' },
             { image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d918c33528d435252f.jpg', url: 'https://farantakis-psychotherapist.gr/home', name: 'Φαραντάκης Γιάννης - Ψυχολόγος', nameEn: 'Farantakis Giannis - Psychologist' },
             { image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d918c33576a4352530.jpg', url: 'https://menetian-psychologist.gr', name: 'Μενετιάν Λοράνς - Ψυχολόγος', nameEn: 'Menetian Lorans - Psychologist' },
             { image: 'https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/6983a0d913fe2b4ebda2afef.jpg', url: 'https://giotakarampetsou.gr', name: 'Καραμπέτσου Παναγιώτα - Ψυχολόγος', nameEn: 'Karampetsou Panagiota - Psychologist' },
@@ -1278,4 +1278,120 @@
 
             for (let i = shootingStars.length - 1; i >= 0; i--) {
                 const star = shootingStars[i];
-                star.x += Math.cos(star.angle) * star.speedI'm having a hard time fulfilling your request. Can I help you with something else instead?
+                star.x += Math.cos(star.angle) * star.speed;
+                star.y += Math.sin(star.angle) * star.speed;
+                star.opacity -= 0.02;
+
+                if (0 >= star.opacity || star.x > width || star.y > height) {
+                    shootingStars.splice(i, 1);
+                    continue;
+                }
+
+                const gradient = ctx.createLinearGradient(star.x, star.y, star.x - Math.cos(star.angle) * star.length, star.y - Math.sin(star.angle) * star.length);
+                gradient.addColorStop(0, `rgba(71, 200, 245, ${star.opacity})`);
+                gradient.addColorStop(1, `rgba(71, 200, 245, 0)`);
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(star.x, star.y);
+                ctx.lineTo(star.x - Math.cos(star.angle) * star.length, star.y - Math.sin(star.angle) * star.length);
+                ctx.stroke();
+            }
+            requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', initStars);
+        
+        // --- Ambient Cursor Logic ---
+        const cursorGlow = document.getElementById('cursor-glow');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let currentX = mouseX;
+        let currentY = mouseY;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Smooth cursor follow
+        function renderCursor() {
+            currentX += (mouseX - currentX) * 0.1;
+            currentY += (mouseY - currentY) * 0.1;
+            cursorGlow.style.transform = `translate(calc(${currentX}px - 50%), calc(${currentY}px - 50%))`;
+            requestAnimationFrame(renderCursor);
+        }
+
+        // Enhance cursor on clickable elements
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('a') || e.target.closest('button')) {
+                cursorGlow.style.width = '200px';
+                cursorGlow.style.height = '200px';
+                cursorGlow.style.background = 'radial-gradient(circle, rgba(71,200,245,0.3) 0%, transparent 70%)';
+            }
+        });
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest('a') || e.target.closest('button')) {
+                cursorGlow.style.width = '400px';
+                cursorGlow.style.height = '400px';
+                cursorGlow.style.background = 'radial-gradient(circle, rgba(71,200,245,0.15) 0%, transparent 70%)';
+            }
+        });
+
+        // Wait for deferred scripts like lucide to load
+        document.addEventListener('DOMContentLoaded', () => {
+            initStars();
+            animateStars();
+            renderCursor();
+            renderApp(); // Renders DOM, applies translations, fires logic
+        });
+
+        // --- Formspree Integration ---
+        document.addEventListener('submit', async function(event) {
+            if (event.target && event.target.id === 'my-form') {
+                event.preventDefault();
+                var form = event.target;
+                var status = document.getElementById("my-form-status");
+                var data = new FormData(form);
+                
+                var submitBtn = form.querySelector('button[type="submit"]');
+                var originalBtnText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = currentLang === 'el' ? 'Αποστολή...' : 'Sending...';
+
+                fetch(form.action, {
+                    method: form.method,
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    if (response.ok) {
+                        status.innerHTML = currentLang === 'el' ? "Ευχαριστούμε για το μήνυμά σας! Θα επικοινωνήσουμε σύντομα μαζί σας." : "Thanks for your submission! We will contact you soon.";
+                        status.className = "mt-4 text-green-400 font-bold text-center";
+                        form.reset();
+                    } else {
+                        response.json().then(data => {
+                            if (Object.hasOwn(data, 'errors')) {
+                                status.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                            } else {
+                                status.innerHTML = currentLang === 'el' ? "Ωχ! Υπήρξε ένα πρόβλημα κατά την αποστολή της φόρμας." : "Oops! There was a problem submitting your form.";
+                            }
+                            status.className = "mt-4 text-red-400 font-bold text-center";
+                        });
+                    }
+                }).catch(error => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    status.innerHTML = currentLang === 'el' ? "Ωχ! Υπήρξε ένα πρόβλημα κατά την αποστολή της φόρμας." : "Oops! There was a problem submitting your form.";
+                    status.className = "mt-4 text-red-400 font-bold text-center";
+                });
+            }
+        });
+
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
